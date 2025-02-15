@@ -1,0 +1,60 @@
+syntax = "proto3";
+package api;
+option go_package = "./app/api";
+
+import "google/protobuf/empty.proto";
+
+message Food {
+    enum Type {
+        UNSPECIFIED_TYPE = 0;
+        BREAKFAST = 1;
+        LUNCH = 2;
+        DINNER = 3;
+        SNACK = 4;
+        FRUIT = 5;
+        BREASTMILK = 6;
+        DRINK = 7;
+    }
+
+    enum IntakeStatus {
+        UNSPECIFIED_INTAKE_STATUS = 0;
+        NOT_EATEN = 1;
+        BARELY = 2;
+        HALF = 3;
+        MOSTLY = 4;
+        FULL = 5;
+    }
+
+    enum Feeder {
+        UNSPECIFIED_FEEDER = 0;
+        KAK_UPI = 1;
+        AQIS = 2;
+        OTHER_FOOD_FEEDER = 3;
+    }
+
+    enum Location {
+        UNSPECIFIED_LOCATION = 0;
+        HOME = 1;
+        RESTAURANT = 2;
+        SCHOOL = 3;
+        OTW = 4;
+        RELATIVES_HOME = 5;
+        OTHER_FOOD_LOCATION = 6;
+    }
+
+    string name = 2;
+    Type type = 3;
+    IntakeStatus intake_status = 4;
+    Feeder feeder = 5;
+    Location location = 6;
+    string remarks = 7;
+}
+
+message FoodList {
+    repeated Food food = 1;
+}
+
+service FoodService {
+    rpc Create(Food) returns (google.protobuf.Empty) {}
+    rpc List(google.protobuf.Empty) returns (FoodList) {}
+}
