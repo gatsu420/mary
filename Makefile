@@ -1,7 +1,11 @@
-.PHONY: migrate
-migrate:
-	dbmate --env POSTGRES_URL migrate
+.PHONY: migration-up
+migration-up:
+	dbmate --env POSTGRES_URL up
 
-.PHONY: rollback
-rollback:
-	dbmate --env POSTGRES_URL rollback
+.PHONY: migration-down
+migration-down:
+	dbmate --env POSTGRES_URL down
+
+.PHONY: migration-new
+migration-new:
+	dbmate --env POSTGRES_URL new $(NAME)

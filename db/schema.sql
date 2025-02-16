@@ -31,6 +31,38 @@ CREATE TABLE public.food (
 
 
 --
+-- Name: food_feeders; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.food_feeders (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: food_feeders_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.food_feeders_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    MINVALUE 0
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: food_feeders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.food_feeders_id_seq OWNED BY public.food_feeders.id;
+
+
+--
 -- Name: food_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -51,6 +83,102 @@ ALTER SEQUENCE public.food_id_seq OWNED BY public.food.id;
 
 
 --
+-- Name: food_intake_status; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.food_intake_status (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: food_intake_status_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.food_intake_status_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    MINVALUE 0
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: food_intake_status_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.food_intake_status_id_seq OWNED BY public.food_intake_status.id;
+
+
+--
+-- Name: food_locations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.food_locations (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: food_locations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.food_locations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    MINVALUE 0
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: food_locations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.food_locations_id_seq OWNED BY public.food_locations.id;
+
+
+--
+-- Name: food_types; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.food_types (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: food_types_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.food_types_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    MINVALUE 0
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: food_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.food_types_id_seq OWNED BY public.food_types.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -67,11 +195,71 @@ ALTER TABLE ONLY public.food ALTER COLUMN id SET DEFAULT nextval('public.food_id
 
 
 --
+-- Name: food_feeders id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.food_feeders ALTER COLUMN id SET DEFAULT nextval('public.food_feeders_id_seq'::regclass);
+
+
+--
+-- Name: food_intake_status id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.food_intake_status ALTER COLUMN id SET DEFAULT nextval('public.food_intake_status_id_seq'::regclass);
+
+
+--
+-- Name: food_locations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.food_locations ALTER COLUMN id SET DEFAULT nextval('public.food_locations_id_seq'::regclass);
+
+
+--
+-- Name: food_types id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.food_types ALTER COLUMN id SET DEFAULT nextval('public.food_types_id_seq'::regclass);
+
+
+--
+-- Name: food_feeders food_feeders_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.food_feeders
+    ADD CONSTRAINT food_feeders_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: food_intake_status food_intake_status_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.food_intake_status
+    ADD CONSTRAINT food_intake_status_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: food_locations food_locations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.food_locations
+    ADD CONSTRAINT food_locations_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: food food_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.food
     ADD CONSTRAINT food_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: food_types food_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.food_types
+    ADD CONSTRAINT food_types_pkey PRIMARY KEY (id);
 
 
 --
@@ -92,4 +280,16 @@ ALTER TABLE ONLY public.schema_migrations
 --
 
 INSERT INTO public.schema_migrations (version) VALUES
-    ('20250215111607');
+    ('20250215111607'),
+    ('20250215145739'),
+    ('20250216043246'),
+    ('20250216044531'),
+    ('20250216045406'),
+    ('20250216045859'),
+    ('20250216050007'),
+    ('20250216152018'),
+    ('20250216152320'),
+    ('20250216152530'),
+    ('20250216152742'),
+    ('20250216152931'),
+    ('20250216153056');
