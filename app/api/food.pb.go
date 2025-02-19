@@ -258,14 +258,13 @@ func (Food_Location) EnumDescriptor() ([]byte, []int) {
 }
 
 type Food struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// string id = 1;
-	Name          string            `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Type          Food_Type         `protobuf:"varint,3,opt,name=type,proto3,enum=api.Food_Type" json:"type,omitempty"`
-	IntakeStatus  Food_IntakeStatus `protobuf:"varint,4,opt,name=intake_status,json=intakeStatus,proto3,enum=api.Food_IntakeStatus" json:"intake_status,omitempty"`
-	Feeder        Food_Feeder       `protobuf:"varint,5,opt,name=feeder,proto3,enum=api.Food_Feeder" json:"feeder,omitempty"`
-	Location      Food_Location     `protobuf:"varint,6,opt,name=location,proto3,enum=api.Food_Location" json:"location,omitempty"`
-	Remarks       string            `protobuf:"bytes,7,opt,name=remarks,proto3" json:"remarks,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Type          Food_Type              `protobuf:"varint,3,opt,name=type,proto3,enum=api.Food_Type" json:"type,omitempty"`
+	IntakeStatus  Food_IntakeStatus      `protobuf:"varint,4,opt,name=intake_status,json=intakeStatus,proto3,enum=api.Food_IntakeStatus" json:"intake_status,omitempty"`
+	Feeder        Food_Feeder            `protobuf:"varint,5,opt,name=feeder,proto3,enum=api.Food_Feeder" json:"feeder,omitempty"`
+	Location      Food_Location          `protobuf:"varint,6,opt,name=location,proto3,enum=api.Food_Location" json:"location,omitempty"`
+	Remarks       string                 `protobuf:"bytes,7,opt,name=remarks,proto3" json:"remarks,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }

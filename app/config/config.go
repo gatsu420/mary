@@ -11,6 +11,8 @@ type Config struct {
 	PostgresURL      string
 
 	GRPCServerPort int
+
+	JWTSecret string
 }
 
 func LoadConfig() (*Config, error) {
@@ -29,5 +31,7 @@ func LoadConfig() (*Config, error) {
 		PostgresURL:      viper.GetString("POSTGRES_URL"),
 
 		GRPCServerPort: viper.GetInt("GRPC_SERVER_PORT"),
+
+		JWTSecret: viper.GetString("JWT_SECRET"),
 	}, nil
 }
