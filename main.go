@@ -24,10 +24,6 @@ func main() {
 	}
 
 	authSvc := auth.NewService(cfg.JWTSecret)
-	authInterceptor, err := interceptors.NewAuthInterceptor(authSvc)
-	if err != nil {
-		log.Fatal().Msgf("failed to initialize auth interceptor: %v", err)
-	}
 
 	dbpool, _ := pgxpool.New(context.Background(), cfg.PostgresURL)
 	defer dbpool.Close()
@@ -36,7 +32,10 @@ func main() {
 	foodUsecases := food.NewUsecases(dbQueries)
 
 	grpcServer := grpc.NewServer(
-		grpc.UnaryInterceptor(authInterceptor.ValidateTokenUnaryInterceptor),
+		grpc.ChainUnaryInterceptor(
+			interceptors.ValidateToken(authSvc),
+			interceptors.RecoverPanic(),
+		),
 	)
 	api.RegisterAuthServiceServer(grpcServer, &handlers.AuthServer{
 		Services: authSvc,
