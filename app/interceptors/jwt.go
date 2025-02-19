@@ -10,6 +10,10 @@ import (
 	"google.golang.org/grpc/status"
 )
 
+type ctxKey int
+
+const authTokenClaimCtx ctxKey = iota
+
 type Auth interface {
 	ValidateToken(signedToken string) (string, error)
 }
@@ -51,7 +55,7 @@ func (i *authInterceptor) ValidateTokenUnaryInterceptor(
 		return nil, status.Errorf(codes.Unauthenticated, "%v", err)
 	}
 
-	ctx = context.WithValue(ctx, "userID", userID)
+	ctx = context.WithValue(ctx, authTokenClaimCtx, userID)
 
 	return handler(ctx, req)
 }
