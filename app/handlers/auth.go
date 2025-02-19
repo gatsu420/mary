@@ -12,11 +12,11 @@ type AuthServer struct {
 	Services auth.Services
 }
 
-func (as *AuthServer) IssueToken(_ context.Context, userID *api.UserID) (*api.Token, error) {
-	signedToken, err := as.Services.IssueToken(userID.UserID)
+func (as *AuthServer) IssueToken(_ context.Context, user *api.User) (*api.Token, error) {
+	signedToken, err := as.Services.IssueToken(user.UserID)
 	if err != nil {
 		return nil, err
 	}
 
-	return &api.Token{Token: signedToken}, nil
+	return &api.Token{SignedToken: signedToken}, nil
 }

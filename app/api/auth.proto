@@ -2,14 +2,14 @@ syntax = "proto3";
 package api;
 option go_package = "./app/api";
 
-message UserID {
+message User {
     string userID = 1;
 }
 
 message Token {
-    string token = 1;
+    string signedToken = 1;
 }
 
 service AuthService {
-    rpc IssueToken(UserID) returns (Token) {}
+    rpc IssueToken(User) returns (Token) {}
 }
