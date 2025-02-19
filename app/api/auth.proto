@@ -1,0 +1,15 @@
+syntax = "proto3";
+package api;
+option go_package = "./app/api";
+
+message UserID {
+    string userID = 1;
+}
+
+message Token {
+    string token = 1;
+}
+
+service AuthService {
+    rpc IssueToken(UserID) returns (Token) {}
+}

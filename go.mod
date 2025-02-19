@@ -3,6 +3,7 @@ module github.com/gatsu420/mary
 go 1.22.4
 
 require (
+	github.com/golang-jwt/jwt/v4 v4.5.1
 	github.com/jackc/pgx/v5 v5.7.2
 	github.com/rs/zerolog v1.33.0
 	github.com/spf13/viper v1.19.0
