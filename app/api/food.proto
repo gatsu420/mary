@@ -42,12 +42,12 @@ message Food {
         OTHER_FOOD_LOCATION = 6;
     }
 
-    string name = 2;
-    Type type = 3;
-    IntakeStatus intake_status = 4;
-    Feeder feeder = 5;
-    Location location = 6;
-    string remarks = 7;
+    string name = 1;
+    Type type = 2;
+    IntakeStatus intake_status = 3;
+    Feeder feeder = 4;
+    Location location = 5;
+    string remarks = 6;
 }
 
 message FoodList {
