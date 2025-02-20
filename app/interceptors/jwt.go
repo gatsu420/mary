@@ -2,8 +2,8 @@ package interceptors
 
 import (
 	"context"
-	"fmt"
 
+	"github.com/gatsu420/mary/app/auth"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"
@@ -14,48 +14,32 @@ type ctxKey int
 
 const authTokenClaimCtx ctxKey = iota
 
-type Auth interface {
-	ValidateToken(signedToken string) (string, error)
-}
+func ValidateToken(authSvc auth.Services) grpc.UnaryServerInterceptor {
+	return func(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp any, err error) {
+		publicMethods := map[string]bool{
+			"/api.AuthService/IssueToken": true,
+		}
+		if publicMethods[info.FullMethod] {
+			return handler(ctx, req)
+		}
 
-type authInterceptor struct {
-	auth Auth
-}
+		md, ok := metadata.FromIncomingContext(ctx)
+		if !ok {
+			return nil, status.Error(codes.Unauthenticated, "metadata is not provided")
+		}
 
-func NewAuthInterceptor(auth Auth) (*authInterceptor, error) {
-	if auth == nil {
-		return nil, fmt.Errorf("cannot have nil auth")
-	}
+		signedToken := md["authorization"][0]
+		if len(signedToken) == 0 && !publicMethods[info.FullMethod] {
+			return nil, status.Error(codes.Unauthenticated, "token is not provided")
+		}
 
-	return &authInterceptor{auth}, nil
-}
+		userID, err := authSvc.ValidateToken(signedToken)
+		if err != nil {
+			return nil, status.Errorf(codes.Unauthenticated, "%v", err)
+		}
 
-func (i *authInterceptor) ValidateTokenUnaryInterceptor(
-	ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler,
-) (interface{}, error) {
-	publicMethods := map[string]bool{
-		"/api.AuthService/IssueToken": true,
-	}
-	if publicMethods[info.FullMethod] {
+		ctx = context.WithValue(ctx, authTokenClaimCtx, userID)
+
 		return handler(ctx, req)
 	}
-
-	md, ok := metadata.FromIncomingContext(ctx)
-	if !ok {
-		return nil, status.Error(codes.Unauthenticated, "metadata is not provided")
-	}
-
-	token := md["authorization"][0]
-	if len(token) == 0 && !publicMethods[info.FullMethod] {
-		return nil, status.Error(codes.Unauthenticated, "JWT is not provided")
-	}
-
-	userID, err := i.auth.ValidateToken(token)
-	if err != nil {
-		return nil, status.Errorf(codes.Unauthenticated, "%v", err)
-	}
-
-	ctx = context.WithValue(ctx, authTokenClaimCtx, userID)
-
-	return handler(ctx, req)
 }
