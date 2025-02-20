@@ -33,8 +33,9 @@ func main() {
 
 	grpcServer := grpc.NewServer(
 		grpc.ChainUnaryInterceptor(
-			interceptors.ValidateToken(authSvc),
+			// Should panic recoverer be put first or last?
 			interceptors.RecoverPanic(),
+			interceptors.ValidateToken(authSvc),
 		),
 	)
 	api.RegisterAuthServiceServer(grpcServer, &handlers.AuthServer{
