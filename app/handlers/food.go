@@ -26,12 +26,12 @@ type FoodServer struct {
 
 func (fs *FoodServer) Create(ctx context.Context, food *api.Food) (*emptypb.Empty, error) {
 	params := &dbgen.CreateFoodParams{
-		Name:         food.Name,
-		Type:         int32(food.Type),
-		IntakeStatus: int32(food.IntakeStatus),
-		Feeder:       int32(food.Feeder),
-		Location:     int32(food.Location),
-		Remarks:      pgtype.Text{String: food.Remarks, Valid: food.Remarks != ""},
+		Name:           food.Name,
+		TypeID:         int32(food.TypeId),
+		IntakeStatusID: int32(food.IntakeStatusId),
+		FeederID:       int32(food.FeederId),
+		LocationID:     int32(food.LocationId),
+		Remarks:        pgtype.Text{String: food.Remarks, Valid: food.Remarks != ""},
 	}
 	if err := fs.Usecases.CreateFood(ctx, params); err != nil {
 		return nil, err

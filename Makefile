@@ -9,3 +9,7 @@ migration-down:
 .PHONY: migration-new
 migration-new:
 	dbmate --env POSTGRES_URL new $(NAME)
+
+.PHONY: sqlc-gen
+sqlc-gen:
+	sqlc generate

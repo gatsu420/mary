@@ -43,10 +43,10 @@ message Food {
     }
 
     string name = 1;
-    Type type = 2;
-    IntakeStatus intake_status = 3;
-    Feeder feeder = 4;
-    Location location = 5;
+    Type type_id = 2;
+    IntakeStatus intake_status_id = 3;
+    Feeder feeder_id = 4;
+    Location location_id = 5;
     string remarks = 6;
 }
 
