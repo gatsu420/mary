@@ -20,10 +20,10 @@ SET default_table_access_method = heap;
 CREATE TABLE public.food (
     id integer NOT NULL,
     name character varying(255) NOT NULL,
-    type integer NOT NULL,
-    intake_status integer NOT NULL,
-    feeder integer NOT NULL,
-    location integer NOT NULL,
+    type_id integer NOT NULL,
+    intake_status_id integer NOT NULL,
+    feeder_id integer NOT NULL,
+    location_id integer NOT NULL,
     remarks character varying(255),
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
@@ -292,4 +292,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20250216152530'),
     ('20250216152742'),
     ('20250216152931'),
-    ('20250216153056');
+    ('20250216153056'),
+    ('20250220094518');
