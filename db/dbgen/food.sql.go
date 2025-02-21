@@ -39,3 +39,53 @@ func (q *Queries) CreateFood(ctx context.Context, arg *CreateFoodParams) error {
 	)
 	return err
 }
+
+const listFood = `-- name: ListFood :many
+select
+    id,
+    name,
+    type_id,
+    intake_status_id,
+    feeder_id,
+    location_id,
+    remarks,
+    created_at,
+    updated_at
+from food
+where created_at between $1 and $2
+`
+
+type ListFoodParams struct {
+	StartTimestamp pgtype.Timestamptz `db:"start_timestamp"`
+	EndTimestamp   pgtype.Timestamptz `db:"end_timestamp"`
+}
+
+func (q *Queries) ListFood(ctx context.Context, arg *ListFoodParams) ([]Food, error) {
+	rows, err := q.db.Query(ctx, listFood, arg.StartTimestamp, arg.EndTimestamp)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Food
+	for rows.Next() {
+		var i Food
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.TypeID,
+			&i.IntakeStatusID,
+			&i.FeederID,
+			&i.LocationID,
+			&i.Remarks,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}

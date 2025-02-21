@@ -10,6 +10,7 @@ import (
 
 type Querier interface {
 	CreateFood(ctx context.Context, arg *CreateFoodParams) error
+	ListFood(ctx context.Context, arg *ListFoodParams) ([]Food, error)
 }
 
 var _ Querier = (*Queries)(nil)
