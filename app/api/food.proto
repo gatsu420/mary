@@ -1,60 +1,74 @@
 syntax = "proto3";
 package api;
-option go_package = "./app/api";
 
 import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./app/api";
 
 message Food {
-    enum Type {
-        UNSPECIFIED_TYPE = 0;
-        BREAKFAST = 1;
-        LUNCH = 2;
-        DINNER = 3;
-        SNACK = 4;
-        FRUIT = 5;
-        BREASTMILK = 6;
-        DRINK = 7;
-    }
+  enum Type {
+    UNSPECIFIED_TYPE = 0;
+    BREAKFAST = 1;
+    LUNCH = 2;
+    DINNER = 3;
+    SNACK = 4;
+    FRUIT = 5;
+    BREASTMILK = 6;
+    DRINK = 7;
+  }
 
-    enum IntakeStatus {
-        UNSPECIFIED_INTAKE_STATUS = 0;
-        NOT_EATEN = 1;
-        BARELY = 2;
-        HALF = 3;
-        MOSTLY = 4;
-        FULL = 5;
-    }
+  enum IntakeStatus {
+    UNSPECIFIED_INTAKE_STATUS = 0;
+    NOT_EATEN = 1;
+    BARELY = 2;
+    HALF = 3;
+    MOSTLY = 4;
+    FULL = 5;
+  }
 
-    enum Feeder {
-        UNSPECIFIED_FEEDER = 0;
-        KAK_UPI = 1;
-        AQIS = 2;
-        OTHER_FOOD_FEEDER = 3;
-    }
+  enum Feeder {
+    UNSPECIFIED_FEEDER = 0;
+    KAK_UPI = 1;
+    AQIS = 2;
+    OTHER_FOOD_FEEDER = 3;
+  }
 
-    enum Location {
-        UNSPECIFIED_LOCATION = 0;
-        HOME = 1;
-        RESTAURANT = 2;
-        SCHOOL = 3;
-        OTW = 4;
-        RELATIVES_HOME = 5;
-        OTHER_FOOD_LOCATION = 6;
-    }
+  enum Location {
+    UNSPECIFIED_LOCATION = 0;
+    HOME = 1;
+    RESTAURANT = 2;
+    SCHOOL = 3;
+    OTW = 4;
+    RELATIVES_HOME = 5;
+    OTHER_FOOD_LOCATION = 6;
+  }
 
-    string name = 2;
-    Type type = 3;
-    IntakeStatus intake_status = 4;
-    Feeder feeder = 5;
-    Location location = 6;
-    string remarks = 7;
+  string name = 1;
+  Type type_id = 2;
+  IntakeStatus intake_status_id = 3;
+  Feeder feeder_id = 4;
+  Location location_id = 5;
+  string remarks = 6;
 }
 
-message FoodList {
-    repeated Food food = 1;
+message ListRequest {
+  google.protobuf.Timestamp start_timestamp = 1;
+  google.protobuf.Timestamp end_timestamp = 2;
+}
+
+message ListResponseRow {
+  int32 id = 1;
+  Food food = 2;
+  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp updated_at = 4;
+}
+
+message ListResponse {
+  repeated ListResponseRow food_list = 1;
 }
 
 service FoodService {
-    rpc Create(Food) returns (google.protobuf.Empty) {}
-    rpc List(google.protobuf.Empty) returns (FoodList) {}
+  rpc Create(Food) returns (google.protobuf.Empty) {}
+  rpc List(ListRequest) returns (ListResponse) {}
 }

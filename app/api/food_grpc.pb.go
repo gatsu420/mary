@@ -29,7 +29,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type FoodServiceClient interface {
 	Create(ctx context.Context, in *Food, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	List(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*FoodList, error)
+	List(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
 }
 
 type foodServiceClient struct {
@@ -50,9 +50,9 @@ func (c *foodServiceClient) Create(ctx context.Context, in *Food, opts ...grpc.C
 	return out, nil
 }
 
-func (c *foodServiceClient) List(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*FoodList, error) {
+func (c *foodServiceClient) List(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(FoodList)
+	out := new(ListResponse)
 	err := c.cc.Invoke(ctx, FoodService_List_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -65,7 +65,7 @@ func (c *foodServiceClient) List(ctx context.Context, in *emptypb.Empty, opts ..
 // for forward compatibility.
 type FoodServiceServer interface {
 	Create(context.Context, *Food) (*emptypb.Empty, error)
-	List(context.Context, *emptypb.Empty) (*FoodList, error)
+	List(context.Context, *ListRequest) (*ListResponse, error)
 	mustEmbedUnimplementedFoodServiceServer()
 }
 
@@ -79,7 +79,7 @@ type UnimplementedFoodServiceServer struct{}
 func (UnimplementedFoodServiceServer) Create(context.Context, *Food) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedFoodServiceServer) List(context.Context, *emptypb.Empty) (*FoodList, error) {
+func (UnimplementedFoodServiceServer) List(context.Context, *ListRequest) (*ListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
 }
 func (UnimplementedFoodServiceServer) mustEmbedUnimplementedFoodServiceServer() {}
@@ -122,7 +122,7 @@ func _FoodService_Create_Handler(srv interface{}, ctx context.Context, dec func(
 }
 
 func _FoodService_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(emptypb.Empty)
+	in := new(ListRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -134,7 +134,7 @@ func _FoodService_List_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: FoodService_List_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FoodServiceServer).List(ctx, req.(*emptypb.Empty))
+		return srv.(FoodServiceServer).List(ctx, req.(*ListRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

@@ -13,29 +13,79 @@ import (
 
 const createFood = `-- name: CreateFood :exec
 insert into food (
-    name, type, intake_status, feeder, location, remarks
+    name, type_id, intake_status_id, feeder_id, location_id, remarks
 ) values (
     $1, $2, $3, $4, $5, $6
 )
 `
 
 type CreateFoodParams struct {
-	Name         string      `db:"name"`
-	Type         int32       `db:"type"`
-	IntakeStatus int32       `db:"intake_status"`
-	Feeder       int32       `db:"feeder"`
-	Location     int32       `db:"location"`
-	Remarks      pgtype.Text `db:"remarks"`
+	Name           string      `db:"name"`
+	TypeID         int32       `db:"type_id"`
+	IntakeStatusID int32       `db:"intake_status_id"`
+	FeederID       int32       `db:"feeder_id"`
+	LocationID     int32       `db:"location_id"`
+	Remarks        pgtype.Text `db:"remarks"`
 }
 
 func (q *Queries) CreateFood(ctx context.Context, arg *CreateFoodParams) error {
 	_, err := q.db.Exec(ctx, createFood,
 		arg.Name,
-		arg.Type,
-		arg.IntakeStatus,
-		arg.Feeder,
-		arg.Location,
+		arg.TypeID,
+		arg.IntakeStatusID,
+		arg.FeederID,
+		arg.LocationID,
 		arg.Remarks,
 	)
 	return err
+}
+
+const listFood = `-- name: ListFood :many
+select
+    id,
+    name,
+    type_id,
+    intake_status_id,
+    feeder_id,
+    location_id,
+    remarks,
+    created_at,
+    updated_at
+from food
+where created_at between $1 and $2
+`
+
+type ListFoodParams struct {
+	StartTimestamp pgtype.Timestamptz `db:"start_timestamp"`
+	EndTimestamp   pgtype.Timestamptz `db:"end_timestamp"`
+}
+
+func (q *Queries) ListFood(ctx context.Context, arg *ListFoodParams) ([]Food, error) {
+	rows, err := q.db.Query(ctx, listFood, arg.StartTimestamp, arg.EndTimestamp)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Food
+	for rows.Next() {
+		var i Food
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.TypeID,
+			&i.IntakeStatusID,
+			&i.FeederID,
+			&i.LocationID,
+			&i.Remarks,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
