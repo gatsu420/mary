@@ -7,14 +7,18 @@ insert into food (
 
 -- name: ListFood :many
 select
-    id,
-    name,
-    type_id,
-    intake_status_id,
-    feeder_id,
-    location_id,
-    remarks,
-    created_at,
-    updated_at
-from food
-where created_at between sqlc.arg(start_timestamp) and sqlc.arg(end_timestamp);
+    f.id,
+    f.name,
+    ft.name as type,
+    fis.name as intake_status,
+    ff.name as feeder,
+    fl.name as location,
+    f.remarks,
+    f.created_at,
+    f.updated_at
+from food f
+left join food_types ft on f.type_id = ft.id
+left join food_intake_status fis on f.intake_status_id = fis.id
+left join food_feeders ff on f.feeder_id = ff.id
+left join food_locations fl on f.location_id = fl.id
+where f.created_at between sqlc.arg(start_timestamp) and sqlc.arg(end_timestamp);

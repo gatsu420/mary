@@ -42,17 +42,21 @@ func (q *Queries) CreateFood(ctx context.Context, arg *CreateFoodParams) error {
 
 const listFood = `-- name: ListFood :many
 select
-    id,
-    name,
-    type_id,
-    intake_status_id,
-    feeder_id,
-    location_id,
-    remarks,
-    created_at,
-    updated_at
-from food
-where created_at between $1 and $2
+    f.id,
+    f.name,
+    ft.name as type,
+    fis.name as intake_status,
+    ff.name as feeder,
+    fl.name as location,
+    f.remarks,
+    f.created_at,
+    f.updated_at
+from food f
+left join food_types ft on f.type_id = ft.id
+left join food_intake_status fis on f.intake_status_id = fis.id
+left join food_feeders ff on f.feeder_id = ff.id
+left join food_locations fl on f.location_id = fl.id
+where f.created_at between $1 and $2
 `
 
 type ListFoodParams struct {
@@ -60,22 +64,34 @@ type ListFoodParams struct {
 	EndTimestamp   pgtype.Timestamptz `db:"end_timestamp"`
 }
 
-func (q *Queries) ListFood(ctx context.Context, arg *ListFoodParams) ([]Food, error) {
+type ListFoodRow struct {
+	ID           int32              `db:"id"`
+	Name         string             `db:"name"`
+	Type         pgtype.Text        `db:"type"`
+	IntakeStatus pgtype.Text        `db:"intake_status"`
+	Feeder       pgtype.Text        `db:"feeder"`
+	Location     pgtype.Text        `db:"location"`
+	Remarks      pgtype.Text        `db:"remarks"`
+	CreatedAt    pgtype.Timestamptz `db:"created_at"`
+	UpdatedAt    pgtype.Timestamptz `db:"updated_at"`
+}
+
+func (q *Queries) ListFood(ctx context.Context, arg *ListFoodParams) ([]ListFoodRow, error) {
 	rows, err := q.db.Query(ctx, listFood, arg.StartTimestamp, arg.EndTimestamp)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Food
+	var items []ListFoodRow
 	for rows.Next() {
-		var i Food
+		var i ListFoodRow
 		if err := rows.Scan(
 			&i.ID,
 			&i.Name,
-			&i.TypeID,
-			&i.IntakeStatusID,
-			&i.FeederID,
-			&i.LocationID,
+			&i.Type,
+			&i.IntakeStatus,
+			&i.Feeder,
+			&i.Location,
 			&i.Remarks,
 			&i.CreatedAt,
 			&i.UpdatedAt,

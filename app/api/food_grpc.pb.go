@@ -11,7 +11,6 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -28,7 +27,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type FoodServiceClient interface {
-	Create(ctx context.Context, in *Food, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
 	List(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
 }
 
@@ -40,9 +39,9 @@ func NewFoodServiceClient(cc grpc.ClientConnInterface) FoodServiceClient {
 	return &foodServiceClient{cc}
 }
 
-func (c *foodServiceClient) Create(ctx context.Context, in *Food, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *foodServiceClient) Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(emptypb.Empty)
+	out := new(CreateResponse)
 	err := c.cc.Invoke(ctx, FoodService_Create_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -64,7 +63,7 @@ func (c *foodServiceClient) List(ctx context.Context, in *ListRequest, opts ...g
 // All implementations must embed UnimplementedFoodServiceServer
 // for forward compatibility.
 type FoodServiceServer interface {
-	Create(context.Context, *Food) (*emptypb.Empty, error)
+	Create(context.Context, *CreateRequest) (*CreateResponse, error)
 	List(context.Context, *ListRequest) (*ListResponse, error)
 	mustEmbedUnimplementedFoodServiceServer()
 }
@@ -76,7 +75,7 @@ type FoodServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedFoodServiceServer struct{}
 
-func (UnimplementedFoodServiceServer) Create(context.Context, *Food) (*emptypb.Empty, error) {
+func (UnimplementedFoodServiceServer) Create(context.Context, *CreateRequest) (*CreateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
 func (UnimplementedFoodServiceServer) List(context.Context, *ListRequest) (*ListResponse, error) {
@@ -104,7 +103,7 @@ func RegisterFoodServiceServer(s grpc.ServiceRegistrar, srv FoodServiceServer) {
 }
 
 func _FoodService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Food)
+	in := new(CreateRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -116,7 +115,7 @@ func _FoodService_Create_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: FoodService_Create_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FoodServiceServer).Create(ctx, req.(*Food))
+		return srv.(FoodServiceServer).Create(ctx, req.(*CreateRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
