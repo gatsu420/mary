@@ -5,15 +5,6 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "./app/api";
 
-message Food {
-  string name = 1;
-  int32 type_id = 2;
-  int32 intake_status_id = 3;
-  int32 feeder_id = 4;
-  int32 location_id = 5;
-  string remarks = 6;
-}
-
 message CreateRequest {
   string name = 1;
   int32 type_id = 2;
@@ -32,9 +23,14 @@ message ListRequest {
 
 message ListResponseRow {
   int32 id = 1;
-  Food food = 2;
-  google.protobuf.Timestamp created_at = 3;
-  google.protobuf.Timestamp updated_at = 4;
+  string name = 2;
+  string type = 3;
+  string intake_status = 4;
+  string feeder = 5;
+  string location = 6;
+  string remarks = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
 }
 
 message ListResponse {

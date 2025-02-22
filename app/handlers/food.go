@@ -50,17 +50,14 @@ func (fs *FoodServer) List(ctx context.Context, req *api.ListRequest) (resp *api
 	list := &api.ListResponse{}
 	for _, r := range dbRows {
 		list.FoodList = append(list.FoodList, &api.ListResponseRow{
-			Id: r.ID,
-			Food: &api.Food{
-				Name:           r.Name,
-				TypeId:         r.TypeID,
-				IntakeStatusId: r.IntakeStatusID,
-				FeederId:       r.FeederID,
-				LocationId:     r.LocationID,
-				Remarks:        r.Remarks.String,
-			},
-			CreatedAt: timestamppb.New(r.CreatedAt.Time),
-			UpdatedAt: timestamppb.New(r.UpdatedAt.Time),
+			Id:           r.ID,
+			Name:         r.Name,
+			Type:         r.Type.String,
+			IntakeStatus: r.IntakeStatus.String,
+			Feeder:       r.Feeder.String,
+			Location:     r.Location.String,
+			CreatedAt:    timestamppb.New(r.CreatedAt.Time),
+			UpdatedAt:    timestamppb.New(r.UpdatedAt.Time),
 		})
 	}
 
