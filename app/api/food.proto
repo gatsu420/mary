@@ -19,22 +19,23 @@ message CreateResponse {}
 message ListRequest {
   google.protobuf.Timestamp start_timestamp = 1;
   google.protobuf.Timestamp end_timestamp = 2;
-}
-
-message ListResponseRow {
-  int32 id = 1;
-  string name = 2;
   string type = 3;
-  string intake_status = 4;
-  string feeder = 5;
-  string location = 6;
-  string remarks = 7;
-  google.protobuf.Timestamp created_at = 8;
-  google.protobuf.Timestamp updated_at = 9;
 }
 
 message ListResponse {
-  repeated ListResponseRow food_list = 1;
+  message Row {
+    int32 id = 1;
+    string name = 2;
+    string type = 3;
+    string intake_status = 4;
+    string feeder = 5;
+    string location = 6;
+    string remarks = 7;
+    google.protobuf.Timestamp created_at = 8;
+    google.protobuf.Timestamp updated_at = 9;
+  }
+
+  repeated Row food = 1;
 }
 
 service FoodService {

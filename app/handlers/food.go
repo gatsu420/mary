@@ -41,6 +41,7 @@ func (fs *FoodServer) List(ctx context.Context, req *api.ListRequest) (resp *api
 			Time:  req.EndTimestamp.AsTime(),
 			Valid: true,
 		},
+		Type: req.Type,
 	}
 	dbRows, err := fs.Usecases.ListFood(ctx, params)
 	if err != nil {
@@ -49,7 +50,7 @@ func (fs *FoodServer) List(ctx context.Context, req *api.ListRequest) (resp *api
 
 	list := &api.ListResponse{}
 	for _, r := range dbRows {
-		list.FoodList = append(list.FoodList, &api.ListResponseRow{
+		list.Food = append(list.Food, &api.ListResponse_Row{
 			Id:           r.ID,
 			Name:         r.Name,
 			Type:         r.Type.String,

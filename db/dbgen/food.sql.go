@@ -57,11 +57,13 @@ left join food_intake_status fis on f.intake_status_id = fis.id
 left join food_feeders ff on f.feeder_id = ff.id
 left join food_locations fl on f.location_id = fl.id
 where f.created_at between $1 and $2
+and ($3::text is null or ft.name = $3)
 `
 
 type ListFoodParams struct {
 	StartTimestamp pgtype.Timestamptz `db:"start_timestamp"`
 	EndTimestamp   pgtype.Timestamptz `db:"end_timestamp"`
+	Type           string             `db:"type"`
 }
 
 type ListFoodRow struct {
@@ -77,7 +79,7 @@ type ListFoodRow struct {
 }
 
 func (q *Queries) ListFood(ctx context.Context, arg *ListFoodParams) ([]ListFoodRow, error) {
-	rows, err := q.db.Query(ctx, listFood, arg.StartTimestamp, arg.EndTimestamp)
+	rows, err := q.db.Query(ctx, listFood, arg.StartTimestamp, arg.EndTimestamp, arg.Type)
 	if err != nil {
 		return nil, err
 	}
