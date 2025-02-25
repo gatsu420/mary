@@ -2,6 +2,7 @@ syntax = "proto3";
 package api;
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 
 option go_package = "./app/api";
 
@@ -19,7 +20,7 @@ message CreateResponse {}
 message ListRequest {
   google.protobuf.Timestamp start_timestamp = 1;
   google.protobuf.Timestamp end_timestamp = 2;
-  string type = 3;
+  google.protobuf.StringValue type = 3;
 }
 
 message ListResponse {

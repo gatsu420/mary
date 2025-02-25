@@ -6,6 +6,7 @@ import (
 	"github.com/gatsu420/mary/app/api"
 	"github.com/gatsu420/mary/app/usecases/food"
 	"github.com/gatsu420/mary/db/dbgen"
+	"github.com/gatsu420/mary/utils"
 	"github.com/jackc/pgx/v5/pgtype"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -41,7 +42,7 @@ func (fs *FoodServer) List(ctx context.Context, req *api.ListRequest) (resp *api
 			Time:  req.EndTimestamp.AsTime(),
 			Valid: true,
 		},
-		Type: req.Type,
+		Type: utils.NullStringWrapperToPGText(req.Type),
 	}
 	dbRows, err := fs.Usecases.ListFood(ctx, params)
 	if err != nil {

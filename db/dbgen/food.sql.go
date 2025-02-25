@@ -63,7 +63,7 @@ and ($3::text is null or ft.name = $3)
 type ListFoodParams struct {
 	StartTimestamp pgtype.Timestamptz `db:"start_timestamp"`
 	EndTimestamp   pgtype.Timestamptz `db:"end_timestamp"`
-	Type           string             `db:"type"`
+	Type           pgtype.Text        `db:"type"`
 }
 
 type ListFoodRow struct {
