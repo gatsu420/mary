@@ -61,6 +61,7 @@ func (fs *FoodServer) List(ctx context.Context, req *api.ListRequest) (resp *api
 			IntakeStatus: r.IntakeStatus.String,
 			Feeder:       r.Feeder.String,
 			Location:     r.Location.String,
+			Remarks:      r.Remarks.String,
 			CreatedAt:    timestamppb.New(r.CreatedAt.Time),
 			UpdatedAt:    timestamppb.New(r.UpdatedAt.Time),
 		})
