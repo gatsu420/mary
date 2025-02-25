@@ -42,7 +42,10 @@ func (fs *FoodServer) List(ctx context.Context, req *api.ListRequest) (resp *api
 			Time:  req.EndTimestamp.AsTime(),
 			Valid: true,
 		},
-		Type: utils.NullStringWrapperToPGText(req.Type),
+		Type:         utils.NullStringWrapperToPGText(req.Type),
+		IntakeStatus: utils.NullStringWrapperToPGText(req.IntakeStatus),
+		Feeder:       utils.NullStringWrapperToPGText(req.Feeder),
+		Location:     utils.NullStringWrapperToPGText(req.Location),
 	}
 	dbRows, err := fs.Usecases.ListFood(ctx, params)
 	if err != nil {

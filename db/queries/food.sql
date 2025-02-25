@@ -21,5 +21,20 @@ left join food_types ft on f.type_id = ft.id
 left join food_intake_status fis on f.intake_status_id = fis.id
 left join food_feeders ff on f.feeder_id = ff.id
 left join food_locations fl on f.location_id = fl.id
-where f.created_at between @start_timestamp and @end_timestamp
-and (sqlc.narg(type)::text is null or ft.name = sqlc.narg(type));
+where f.created_at between sqlc.arg(start_timestamp) and sqlc.arg(end_timestamp)
+and (
+    sqlc.narg(type)::text is null
+    or ft.name = sqlc.narg(type)
+)
+and (
+    sqlc.narg(intake_status)::text is null
+    or fis.name = sqlc.narg(intake_status)
+)
+and (
+    sqlc.narg(feeder)::text is null
+    or ff.name = sqlc.narg(feeder)
+)
+and (
+    sqlc.narg(location)::text is null or
+    fl.name = sqlc.narg(location)
+);
