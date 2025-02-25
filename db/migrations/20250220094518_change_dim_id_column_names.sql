@@ -21,5 +21,5 @@ rename column intake_status_id to intake_status;
 alter table food
 rename column feeder_id to feeder;
 
-alter table food;
+alter table food
 rename column location_id to location;
