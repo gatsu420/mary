@@ -68,3 +68,24 @@ func (fs *FoodServer) List(ctx context.Context, req *api.ListRequest) (resp *api
 
 	return list, nil
 }
+
+func (fs *FoodServer) Get(ctx context.Context, req *api.GetRequest) (resp *api.GetResponse, err error) {
+	dbRow, err := fs.Usecases.GetFood(ctx, req.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	output := &api.GetResponse{
+		Id:           dbRow.ID,
+		Name:         dbRow.Name,
+		Type:         dbRow.Type.String,
+		IntakeStatus: dbRow.IntakeStatus.String,
+		Feeder:       dbRow.Feeder.String,
+		Location:     dbRow.Location.String,
+		Remarks:      dbRow.Remarks.String,
+		CreatedAt:    timestamppb.New(dbRow.CreatedAt.Time),
+		UpdatedAt:    timestamppb.New(dbRow.UpdatedAt.Time),
+	}
+
+	return output, nil
+}

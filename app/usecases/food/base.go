@@ -9,6 +9,7 @@ import (
 type Usecases interface {
 	CreateFood(ctx context.Context, arg *dbgen.CreateFoodParams) error
 	ListFood(ctx context.Context, arg *dbgen.ListFoodParams) ([]dbgen.ListFoodRow, error)
+	GetFood(ctx context.Context, id int32) (dbgen.GetFoodRow, error)
 }
 
 type usecase struct {

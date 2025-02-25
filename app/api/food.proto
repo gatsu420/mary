@@ -42,7 +42,24 @@ message ListResponse {
   repeated Row food = 1;
 }
 
+message GetRequest {
+  int32 id = 1;
+}
+
+message GetResponse {
+  int32 id = 1;
+  string name = 2;
+  string type = 3;
+  string intake_status = 4;
+  string feeder = 5;
+  string location = 6;
+  string remarks = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
+}
+
 service FoodService {
   rpc Create(CreateRequest) returns (CreateResponse) {}
   rpc List(ListRequest) returns (ListResponse) {}
+  rpc Get(GetRequest) returns (GetResponse) {}
 }
