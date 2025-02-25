@@ -40,6 +40,54 @@ func (q *Queries) CreateFood(ctx context.Context, arg *CreateFoodParams) error {
 	return err
 }
 
+const getFood = `-- name: GetFood :one
+select
+    f.id,
+    f.name,
+    ft.name as type,
+    fis.name as intake_status,
+    ff.name as feeder,
+    fl.name as location,
+    f.remarks,
+    f.created_at,
+    f.updated_at
+from food f
+left join food_types ft on f.type_id = ft.id
+left join food_intake_status fis on f.intake_status_id = fis.id
+left join food_feeders ff on f.feeder_id = ff.id
+left join food_locations fl on f.location_id = fl.id
+where f.id = $1
+`
+
+type GetFoodRow struct {
+	ID           int32              `db:"id"`
+	Name         string             `db:"name"`
+	Type         pgtype.Text        `db:"type"`
+	IntakeStatus pgtype.Text        `db:"intake_status"`
+	Feeder       pgtype.Text        `db:"feeder"`
+	Location     pgtype.Text        `db:"location"`
+	Remarks      pgtype.Text        `db:"remarks"`
+	CreatedAt    pgtype.Timestamptz `db:"created_at"`
+	UpdatedAt    pgtype.Timestamptz `db:"updated_at"`
+}
+
+func (q *Queries) GetFood(ctx context.Context, id int32) (GetFoodRow, error) {
+	row := q.db.QueryRow(ctx, getFood, id)
+	var i GetFoodRow
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Type,
+		&i.IntakeStatus,
+		&i.Feeder,
+		&i.Location,
+		&i.Remarks,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+	)
+	return i, err
+}
+
 const listFood = `-- name: ListFood :many
 select
     f.id,
