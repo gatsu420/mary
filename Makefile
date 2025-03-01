@@ -13,3 +13,8 @@ migration-new:
 .PHONY: sqlc-gen
 sqlc-gen:
 	sqlc generate
+
+.PHONY: buf-update-gen
+buf-update-gen:
+	buf dep update
+	buf generate
