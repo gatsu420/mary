@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             (unknown)
-// source: food.proto
+// source: food/v1/food.proto
 
-package api
+package v1
 
 import (
 	context "context"
@@ -19,9 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	FoodService_Create_FullMethodName = "/api.FoodService/Create"
-	FoodService_List_FullMethodName   = "/api.FoodService/List"
-	FoodService_Get_FullMethodName    = "/api.FoodService/Get"
+	FoodService_Create_FullMethodName = "/food.v1.FoodService/Create"
+	FoodService_List_FullMethodName   = "/food.v1.FoodService/List"
+	FoodService_Get_FullMethodName    = "/food.v1.FoodService/Get"
 )
 
 // FoodServiceClient is the client API for FoodService service.
@@ -176,7 +176,7 @@ func _FoodService_Get_Handler(srv interface{}, ctx context.Context, dec func(int
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var FoodService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "api.FoodService",
+	ServiceName: "food.v1.FoodService",
 	HandlerType: (*FoodServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -193,5 +193,5 @@ var FoodService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "food.proto",
+	Metadata: "food/v1/food.proto",
 }

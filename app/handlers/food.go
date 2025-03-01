@@ -3,7 +3,7 @@ package handlers
 import (
 	"context"
 
-	"github.com/gatsu420/mary/app/api"
+	apifoodv1 "github.com/gatsu420/mary/api/gen/go/food/v1"
 	"github.com/gatsu420/mary/app/usecases/food"
 	"github.com/gatsu420/mary/utils"
 	"github.com/jackc/pgx/v5/pgtype"
@@ -11,11 +11,11 @@ import (
 )
 
 type FoodServer struct {
-	api.UnimplementedFoodServiceServer
+	apifoodv1.UnimplementedFoodServiceServer
 	Usecases food.Usecases
 }
 
-func (fs *FoodServer) Create(ctx context.Context, req *api.CreateRequest) (*api.CreateResponse, error) {
+func (fs *FoodServer) Create(ctx context.Context, req *apifoodv1.CreateRequest) (*apifoodv1.CreateResponse, error) {
 	params := &food.CreateFoodParams{
 		Name:           req.Name,
 		TypeID:         req.TypeId,
@@ -29,10 +29,10 @@ func (fs *FoodServer) Create(ctx context.Context, req *api.CreateRequest) (*api.
 		return nil, err
 	}
 
-	return &api.CreateResponse{}, nil
+	return &apifoodv1.CreateResponse{}, nil
 }
 
-func (fs *FoodServer) List(ctx context.Context, req *api.ListRequest) (resp *api.ListResponse, err error) {
+func (fs *FoodServer) List(ctx context.Context, req *apifoodv1.ListRequest) (resp *apifoodv1.ListResponse, err error) {
 	params := &food.ListFoodParams{
 		StartTimestamp: pgtype.Timestamptz{
 			Time:  req.StartTimestamp.AsTime(),
@@ -52,9 +52,9 @@ func (fs *FoodServer) List(ctx context.Context, req *api.ListRequest) (resp *api
 		return nil, err
 	}
 
-	list := &api.ListResponse{}
+	list := &apifoodv1.ListResponse{}
 	for _, r := range dbRows {
-		list.Food = append(list.Food, &api.ListResponse_Row{
+		list.Food = append(list.Food, &apifoodv1.ListResponse_Row{
 			Id:           r.ID,
 			Name:         r.Name,
 			Type:         r.Type.String,
@@ -70,13 +70,13 @@ func (fs *FoodServer) List(ctx context.Context, req *api.ListRequest) (resp *api
 	return list, nil
 }
 
-func (fs *FoodServer) Get(ctx context.Context, req *api.GetRequest) (resp *api.GetResponse, err error) {
+func (fs *FoodServer) Get(ctx context.Context, req *apifoodv1.GetRequest) (resp *apifoodv1.GetResponse, err error) {
 	dbRow, err := fs.Usecases.GetFood(ctx, req.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	output := &api.GetResponse{
+	output := &apifoodv1.GetResponse{
 		Id:           dbRow.ID,
 		Name:         dbRow.Name,
 		Type:         dbRow.Type.String,

@@ -17,7 +17,7 @@ const authTokenClaimCtx ctxKey = iota
 func ValidateToken(authSvc auth.Services) grpc.UnaryServerInterceptor {
 	return func(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp any, err error) {
 		publicMethods := map[string]bool{
-			"/api.AuthService/IssueToken": true,
+			"/auth.v1.AuthService/IssueToken": true,
 		}
 		if publicMethods[info.FullMethod] {
 			return handler(ctx, req)

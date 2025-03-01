@@ -3,20 +3,20 @@ package handlers
 import (
 	"context"
 
-	"github.com/gatsu420/mary/app/api"
+	apiauthv1 "github.com/gatsu420/mary/api/gen/go/auth/v1"
 	"github.com/gatsu420/mary/app/auth"
 )
 
 type AuthServer struct {
-	api.UnimplementedAuthServiceServer
+	apiauthv1.UnimplementedAuthServiceServer
 	Services auth.Services
 }
 
-func (as *AuthServer) IssueToken(_ context.Context, user *api.User) (*api.Token, error) {
-	signedToken, err := as.Services.IssueToken(user.UserID)
+func (as *AuthServer) IssueToken(_ context.Context, user *apiauthv1.IssueTokenRequest) (*apiauthv1.IssueTokenResponse, error) {
+	signedToken, err := as.Services.IssueToken(user.UserId)
 	if err != nil {
 		return nil, err
 	}
 
-	return &api.Token{SignedToken: signedToken}, nil
+	return &apiauthv1.IssueTokenResponse{SignedToken: signedToken}, nil
 }
