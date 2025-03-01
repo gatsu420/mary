@@ -3,7 +3,7 @@ package food
 import (
 	"context"
 
-	"github.com/gatsu420/mary/db/dbgen"
+	"github.com/gatsu420/mary/db/repository"
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
@@ -17,7 +17,7 @@ type CreateFoodParams struct {
 }
 
 func (u *usecase) CreateFood(ctx context.Context, arg *CreateFoodParams) error {
-	params := &dbgen.CreateFoodParams{
+	params := &repository.CreateFoodParams{
 		Name:           arg.Name,
 		TypeID:         arg.TypeID,
 		IntakeStatusID: arg.IntakeStatusID,
@@ -38,8 +38,8 @@ type ListFoodParams struct {
 	Location       pgtype.Text
 }
 
-func (u *usecase) ListFood(ctx context.Context, arg *ListFoodParams) ([]dbgen.ListFoodRow, error) {
-	params := &dbgen.ListFoodParams{
+func (u *usecase) ListFood(ctx context.Context, arg *ListFoodParams) ([]repository.ListFoodRow, error) {
+	params := &repository.ListFoodParams{
 		StartTimestamp: arg.StartTimestamp,
 		EndTimestamp:   arg.EndTimestamp,
 		Type:           arg.Type,
@@ -51,6 +51,6 @@ func (u *usecase) ListFood(ctx context.Context, arg *ListFoodParams) ([]dbgen.Li
 	return u.q.ListFood(ctx, params)
 }
 
-func (u *usecase) GetFood(ctx context.Context, id int32) (dbgen.GetFoodRow, error) {
+func (u *usecase) GetFood(ctx context.Context, id int32) (repository.GetFoodRow, error) {
 	return u.q.GetFood(ctx, id)
 }

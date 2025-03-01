@@ -12,7 +12,7 @@ import (
 	"github.com/gatsu420/mary/app/handlers"
 	"github.com/gatsu420/mary/app/interceptors"
 	"github.com/gatsu420/mary/app/usecases/food"
-	"github.com/gatsu420/mary/db/dbgen"
+	"github.com/gatsu420/mary/db/repository"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
@@ -29,7 +29,7 @@ func main() {
 	dbpool, _ := pgxpool.New(context.Background(), cfg.PostgresURL)
 	defer dbpool.Close()
 
-	dbQueries := dbgen.New(dbpool)
+	dbQueries := repository.New(dbpool)
 	foodUsecases := food.NewUsecases(dbQueries)
 
 	grpcServer := grpc.NewServer(
