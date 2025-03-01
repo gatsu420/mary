@@ -3,20 +3,20 @@ package food
 import (
 	"context"
 
-	"github.com/gatsu420/mary/db/dbgen"
+	"github.com/gatsu420/mary/db/repository"
 )
 
 type Usecases interface {
 	CreateFood(ctx context.Context, arg *CreateFoodParams) error
-	ListFood(ctx context.Context, arg *ListFoodParams) ([]dbgen.ListFoodRow, error)
-	GetFood(ctx context.Context, id int32) (dbgen.GetFoodRow, error)
+	ListFood(ctx context.Context, arg *ListFoodParams) ([]repository.ListFoodRow, error)
+	GetFood(ctx context.Context, id int32) (repository.GetFoodRow, error)
 }
 
 type usecase struct {
-	q *dbgen.Queries
+	q *repository.Queries
 }
 
-func NewUsecases(q *dbgen.Queries) Usecases {
+func NewUsecases(q *repository.Queries) Usecases {
 	return &usecase{
 		q: q,
 	}

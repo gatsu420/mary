@@ -3,7 +3,7 @@
 //   sqlc v1.28.0
 // source: food.sql
 
-package dbgen
+package repository
 
 import (
 	"context"
