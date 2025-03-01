@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/gatsu420/mary/app/api"
+	apiauthv1 "github.com/gatsu420/mary/api/gen/go/auth/v1"
+	apifoodv1 "github.com/gatsu420/mary/api/gen/go/food/v1"
 	"github.com/gatsu420/mary/app/auth"
 	"github.com/gatsu420/mary/app/config"
 	"github.com/gatsu420/mary/app/handlers"
@@ -38,10 +39,10 @@ func main() {
 			interceptors.ValidateToken(authSvc),
 		),
 	)
-	api.RegisterAuthServiceServer(grpcServer, &handlers.AuthServer{
+	apiauthv1.RegisterAuthServiceServer(grpcServer, &handlers.AuthServer{
 		Services: authSvc,
 	})
-	api.RegisterFoodServiceServer(grpcServer, &handlers.FoodServer{
+	apifoodv1.RegisterFoodServiceServer(grpcServer, &handlers.FoodServer{
 		Usecases: foodUsecases,
 	})
 

@@ -1,0 +1,16 @@
+syntax = "proto3";
+package auth.v1;
+
+option go_package = "auth/v1";
+
+message IssueTokenRequest {
+  string user_id = 1;
+}
+
+message IssueTokenResponse {
+  string signed_token = 1;
+}
+
+service AuthService {
+  rpc IssueToken(IssueTokenRequest) returns (IssueTokenResponse) {}
+}

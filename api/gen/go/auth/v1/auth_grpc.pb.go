@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             (unknown)
-// source: auth.proto
+// source: auth/v1/auth.proto
 
-package api
+package v1
 
 import (
 	context "context"
@@ -19,14 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AuthService_IssueToken_FullMethodName = "/api.AuthService/IssueToken"
+	AuthService_IssueToken_FullMethodName = "/auth.v1.AuthService/IssueToken"
 )
 
 // AuthServiceClient is the client API for AuthService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuthServiceClient interface {
-	IssueToken(ctx context.Context, in *User, opts ...grpc.CallOption) (*Token, error)
+	IssueToken(ctx context.Context, in *IssueTokenRequest, opts ...grpc.CallOption) (*IssueTokenResponse, error)
 }
 
 type authServiceClient struct {
@@ -37,9 +37,9 @@ func NewAuthServiceClient(cc grpc.ClientConnInterface) AuthServiceClient {
 	return &authServiceClient{cc}
 }
 
-func (c *authServiceClient) IssueToken(ctx context.Context, in *User, opts ...grpc.CallOption) (*Token, error) {
+func (c *authServiceClient) IssueToken(ctx context.Context, in *IssueTokenRequest, opts ...grpc.CallOption) (*IssueTokenResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Token)
+	out := new(IssueTokenResponse)
 	err := c.cc.Invoke(ctx, AuthService_IssueToken_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -51,7 +51,7 @@ func (c *authServiceClient) IssueToken(ctx context.Context, in *User, opts ...gr
 // All implementations must embed UnimplementedAuthServiceServer
 // for forward compatibility.
 type AuthServiceServer interface {
-	IssueToken(context.Context, *User) (*Token, error)
+	IssueToken(context.Context, *IssueTokenRequest) (*IssueTokenResponse, error)
 	mustEmbedUnimplementedAuthServiceServer()
 }
 
@@ -62,7 +62,7 @@ type AuthServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedAuthServiceServer struct{}
 
-func (UnimplementedAuthServiceServer) IssueToken(context.Context, *User) (*Token, error) {
+func (UnimplementedAuthServiceServer) IssueToken(context.Context, *IssueTokenRequest) (*IssueTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IssueToken not implemented")
 }
 func (UnimplementedAuthServiceServer) mustEmbedUnimplementedAuthServiceServer() {}
@@ -87,7 +87,7 @@ func RegisterAuthServiceServer(s grpc.ServiceRegistrar, srv AuthServiceServer) {
 }
 
 func _AuthService_IssueToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(User)
+	in := new(IssueTokenRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -99,7 +99,7 @@ func _AuthService_IssueToken_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: AuthService_IssueToken_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServiceServer).IssueToken(ctx, req.(*User))
+		return srv.(AuthServiceServer).IssueToken(ctx, req.(*IssueTokenRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -108,7 +108,7 @@ func _AuthService_IssueToken_Handler(srv interface{}, ctx context.Context, dec f
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var AuthService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "api.AuthService",
+	ServiceName: "auth.v1.AuthService",
 	HandlerType: (*AuthServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -117,5 +117,5 @@ var AuthService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "auth.proto",
+	Metadata: "auth/v1/auth.proto",
 }
