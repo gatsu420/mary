@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: food/v1/food.proto
 
-package v1
+package apifoodv1
 
 import (
 	context "context"
