@@ -12,7 +12,7 @@ message CreateRequest {
   int32 intake_status_id = 3;
   int32 feeder_id = 4;
   int32 location_id = 5;
-  string remarks = 6;
+  google.protobuf.StringValue remarks = 6;
 }
 
 message CreateResponse {}

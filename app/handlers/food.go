@@ -22,10 +22,7 @@ func (fs *FoodServer) Create(ctx context.Context, req *api.CreateRequest) (*api.
 		IntakeStatusID: req.IntakeStatusId,
 		FeederID:       req.FeederId,
 		LocationID:     req.LocationId,
-		Remarks: pgtype.Text{
-			String: req.Remarks,
-			Valid:  req.Remarks != "",
-		},
+		Remarks:        utils.NullStringWrapperToPGText(req.Remarks),
 	}
 
 	if err := fs.Usecases.CreateFood(ctx, params); err != nil {
