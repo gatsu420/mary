@@ -99,6 +99,7 @@ func (fs *FoodServer) Update(ctx context.Context, req *apifoodv1.UpdateRequest) 
 		FeederID:       utils.NullInt32WrapperToPGInt4(req.FeederId),
 		LocationID:     utils.NullInt32WrapperToPGInt4(req.LocationId),
 		Remarks:        utils.NullStringWrapperToPGText(req.Remarks),
+		ID:             req.Id,
 	}
 
 	if err := fs.Usecases.UpdateFood(ctx, params); err != nil {
