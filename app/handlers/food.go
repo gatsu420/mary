@@ -90,3 +90,20 @@ func (fs *FoodServer) Get(ctx context.Context, req *apifoodv1.GetRequest) (resp 
 
 	return output, nil
 }
+
+func (fs *FoodServer) Update(ctx context.Context, req *apifoodv1.UpdateRequest) (*apifoodv1.UpdateResponse, error) {
+	params := &food.UpdateFoodParams{
+		Name:           utils.NullStringWrapperToPGText(req.Name),
+		TypeID:         utils.NullInt32WrapperToPGInt4(req.TypeId),
+		IntakeStatusID: utils.NullInt32WrapperToPGInt4(req.IntakeStatusId),
+		FeederID:       utils.NullInt32WrapperToPGInt4(req.FeederId),
+		LocationID:     utils.NullInt32WrapperToPGInt4(req.LocationId),
+		Remarks:        utils.NullStringWrapperToPGText(req.Remarks),
+	}
+
+	if err := fs.Usecases.UpdateFood(ctx, params); err != nil {
+		return nil, err
+	}
+
+	return &apifoodv1.UpdateResponse{}, nil
+}
