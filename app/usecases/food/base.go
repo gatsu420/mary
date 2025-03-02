@@ -11,6 +11,7 @@ type Usecases interface {
 	ListFood(ctx context.Context, arg *ListFoodParams) ([]repository.ListFoodRow, error)
 	GetFood(ctx context.Context, id int32) (repository.GetFoodRow, error)
 	UpdateFood(ctx context.Context, arg *UpdateFoodParams) error
+	DeleteFood(ctx context.Context, id int32) error
 }
 
 type usecase struct {

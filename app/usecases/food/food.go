@@ -78,3 +78,7 @@ func (u *usecase) UpdateFood(ctx context.Context, arg *UpdateFoodParams) error {
 
 	return u.q.UpdateFood(ctx, params)
 }
+
+func (u *usecase) DeleteFood(ctx context.Context, id int32) error {
+	return u.q.DeleteFood(ctx, id)
+}

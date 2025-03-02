@@ -40,6 +40,18 @@ func (q *Queries) CreateFood(ctx context.Context, arg *CreateFoodParams) error {
 	return err
 }
 
+const deleteFood = `-- name: DeleteFood :exec
+update food
+set
+    removed_at = current_timestamp
+where id = $1
+`
+
+func (q *Queries) DeleteFood(ctx context.Context, id int32) error {
+	_, err := q.db.Exec(ctx, deleteFood, id)
+	return err
+}
+
 const getFood = `-- name: GetFood :one
 select
     f.id,
