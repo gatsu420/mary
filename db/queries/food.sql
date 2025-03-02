@@ -56,3 +56,15 @@ left join food_intake_status fis on f.intake_status_id = fis.id
 left join food_feeders ff on f.feeder_id = ff.id
 left join food_locations fl on f.location_id = fl.id
 where f.id = sqlc.arg(id);
+
+-- name: UpdateFood :exec
+update food
+set
+    name = coalesce(sqlc.narg(name)::text, name),
+    type_id = coalesce(sqlc.narg(type_id)::integer, type_id),
+    intake_status_id = coalesce(sqlc.narg(intake_status_id)::integer, intake_status_id),
+    feeder_id = coalesce(sqlc.narg(feeder_id)::integer, feeder_id),
+    location_id = coalesce(sqlc.narg(location_id)::integer, location_id),
+    remarks = coalesce(sqlc.narg(remarks)::text, remarks),
+    updated_at = current_timestamp
+where id = sqlc.arg(id);

@@ -180,3 +180,39 @@ func (q *Queries) ListFood(ctx context.Context, arg *ListFoodParams) ([]ListFood
 	}
 	return items, nil
 }
+
+const updateFood = `-- name: UpdateFood :exec
+update food
+set
+    name = coalesce($1::text, name),
+    type_id = coalesce($2::integer, type_id),
+    intake_status_id = coalesce($3::integer, intake_status_id),
+    feeder_id = coalesce($4::integer, feeder_id),
+    location_id = coalesce($5::integer, location_id),
+    remarks = coalesce($6::text, remarks),
+    updated_at = current_timestamp
+where id = $7
+`
+
+type UpdateFoodParams struct {
+	Name           pgtype.Text `db:"name"`
+	TypeID         pgtype.Int4 `db:"type_id"`
+	IntakeStatusID pgtype.Int4 `db:"intake_status_id"`
+	FeederID       pgtype.Int4 `db:"feeder_id"`
+	LocationID     pgtype.Int4 `db:"location_id"`
+	Remarks        pgtype.Text `db:"remarks"`
+	ID             int32       `db:"id"`
+}
+
+func (q *Queries) UpdateFood(ctx context.Context, arg *UpdateFoodParams) error {
+	_, err := q.db.Exec(ctx, updateFood,
+		arg.Name,
+		arg.TypeID,
+		arg.IntakeStatusID,
+		arg.FeederID,
+		arg.LocationID,
+		arg.Remarks,
+		arg.ID,
+	)
+	return err
+}
