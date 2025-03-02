@@ -551,6 +551,86 @@ func (*UpdateResponse) Descriptor() ([]byte, []int) {
 	return file_food_v1_food_proto_rawDescGZIP(), []int{7}
 }
 
+type DeleteRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteRequest) Reset() {
+	*x = DeleteRequest{}
+	mi := &file_food_v1_food_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteRequest) ProtoMessage() {}
+
+func (x *DeleteRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_food_v1_food_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteRequest.ProtoReflect.Descriptor instead.
+func (*DeleteRequest) Descriptor() ([]byte, []int) {
+	return file_food_v1_food_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *DeleteRequest) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type DeleteResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteResponse) Reset() {
+	*x = DeleteResponse{}
+	mi := &file_food_v1_food_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteResponse) ProtoMessage() {}
+
+func (x *DeleteResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_food_v1_food_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteResponse.ProtoReflect.Descriptor instead.
+func (*DeleteResponse) Descriptor() ([]byte, []int) {
+	return file_food_v1_food_proto_rawDescGZIP(), []int{9}
+}
+
 type ListResponse_Row struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -568,7 +648,7 @@ type ListResponse_Row struct {
 
 func (x *ListResponse_Row) Reset() {
 	*x = ListResponse_Row{}
-	mi := &file_food_v1_food_proto_msgTypes[8]
+	mi := &file_food_v1_food_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -580,7 +660,7 @@ func (x *ListResponse_Row) String() string {
 func (*ListResponse_Row) ProtoMessage() {}
 
 func (x *ListResponse_Row) ProtoReflect() protoreflect.Message {
-	mi := &file_food_v1_food_proto_msgTypes[8]
+	mi := &file_food_v1_food_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -775,21 +855,28 @@ var file_food_v1_food_proto_rawDesc = string([]byte{
 	0x74, 0x72, 0x69, 0x6e, 0x67, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x52, 0x07, 0x72, 0x65, 0x6d, 0x61,
 	0x72, 0x6b, 0x73, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x07, 0x20, 0x01, 0x28, 0x05, 0x52,
 	0x02, 0x69, 0x64, 0x22, 0x10, 0x0a, 0x0e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x32, 0xf2, 0x01, 0x0a, 0x0b, 0x46, 0x6f, 0x6f, 0x64, 0x53, 0x65,
-	0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x3b, 0x0a, 0x06, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x12,
-	0x16, 0x2e, 0x66, 0x6f, 0x6f, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x17, 0x2e, 0x66, 0x6f, 0x6f, 0x64, 0x2e, 0x76,
-	0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x00, 0x12, 0x35, 0x0a, 0x04, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x14, 0x2e, 0x66, 0x6f, 0x6f,
-	0x64, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x1a, 0x15, 0x2e, 0x66, 0x6f, 0x6f, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x32, 0x0a, 0x03, 0x47, 0x65, 0x74,
-	0x12, 0x13, 0x2e, 0x66, 0x6f, 0x6f, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x14, 0x2e, 0x66, 0x6f, 0x6f, 0x64, 0x2e, 0x76, 0x31, 0x2e,
-	0x47, 0x65, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x3b, 0x0a,
-	0x06, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x12, 0x16, 0x2e, 0x66, 0x6f, 0x6f, 0x64, 0x2e, 0x76,
-	0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
-	0x17, 0x2e, 0x66, 0x6f, 0x6f, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1f, 0x0a, 0x0d, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x05, 0x52, 0x02, 0x69, 0x64, 0x22, 0x10, 0x0a, 0x0e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x32, 0xaf, 0x02, 0x0a, 0x0b, 0x46, 0x6f, 0x6f,
+	0x64, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x3b, 0x0a, 0x06, 0x43, 0x72, 0x65, 0x61,
+	0x74, 0x65, 0x12, 0x16, 0x2e, 0x66, 0x6f, 0x6f, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65,
+	0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x17, 0x2e, 0x66, 0x6f, 0x6f,
+	0x64, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x35, 0x0a, 0x04, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x14, 0x2e,
+	0x66, 0x6f, 0x6f, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x15, 0x2e, 0x66, 0x6f, 0x6f, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69,
+	0x73, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x32, 0x0a, 0x03,
+	0x47, 0x65, 0x74, 0x12, 0x13, 0x2e, 0x66, 0x6f, 0x6f, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65,
+	0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x14, 0x2e, 0x66, 0x6f, 0x6f, 0x64, 0x2e,
+	0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00,
+	0x12, 0x3b, 0x0a, 0x06, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x12, 0x16, 0x2e, 0x66, 0x6f, 0x6f,
+	0x64, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x17, 0x2e, 0x66, 0x6f, 0x6f, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64,
+	0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x3b, 0x0a,
+	0x06, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x12, 0x16, 0x2e, 0x66, 0x6f, 0x6f, 0x64, 0x2e, 0x76,
+	0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
+	0x17, 0x2e, 0x66, 0x6f, 0x6f, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65,
 	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x13, 0x5a, 0x11, 0x66, 0x6f,
 	0x6f, 0x64, 0x2f, 0x76, 0x31, 0x3b, 0x61, 0x70, 0x69, 0x66, 0x6f, 0x6f, 0x64, 0x76, 0x31, 0x62,
 	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
@@ -807,7 +894,7 @@ func file_food_v1_food_proto_rawDescGZIP() []byte {
 	return file_food_v1_food_proto_rawDescData
 }
 
-var file_food_v1_food_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_food_v1_food_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_food_v1_food_proto_goTypes = []any{
 	(*CreateRequest)(nil),          // 0: food.v1.CreateRequest
 	(*CreateResponse)(nil),         // 1: food.v1.CreateResponse
@@ -817,40 +904,44 @@ var file_food_v1_food_proto_goTypes = []any{
 	(*GetResponse)(nil),            // 5: food.v1.GetResponse
 	(*UpdateRequest)(nil),          // 6: food.v1.UpdateRequest
 	(*UpdateResponse)(nil),         // 7: food.v1.UpdateResponse
-	(*ListResponse_Row)(nil),       // 8: food.v1.ListResponse.Row
-	(*wrapperspb.StringValue)(nil), // 9: google.protobuf.StringValue
-	(*timestamppb.Timestamp)(nil),  // 10: google.protobuf.Timestamp
-	(*wrapperspb.Int32Value)(nil),  // 11: google.protobuf.Int32Value
+	(*DeleteRequest)(nil),          // 8: food.v1.DeleteRequest
+	(*DeleteResponse)(nil),         // 9: food.v1.DeleteResponse
+	(*ListResponse_Row)(nil),       // 10: food.v1.ListResponse.Row
+	(*wrapperspb.StringValue)(nil), // 11: google.protobuf.StringValue
+	(*timestamppb.Timestamp)(nil),  // 12: google.protobuf.Timestamp
+	(*wrapperspb.Int32Value)(nil),  // 13: google.protobuf.Int32Value
 }
 var file_food_v1_food_proto_depIdxs = []int32{
-	9,  // 0: food.v1.CreateRequest.remarks:type_name -> google.protobuf.StringValue
-	10, // 1: food.v1.ListRequest.start_timestamp:type_name -> google.protobuf.Timestamp
-	10, // 2: food.v1.ListRequest.end_timestamp:type_name -> google.protobuf.Timestamp
-	9,  // 3: food.v1.ListRequest.type:type_name -> google.protobuf.StringValue
-	9,  // 4: food.v1.ListRequest.intake_status:type_name -> google.protobuf.StringValue
-	9,  // 5: food.v1.ListRequest.feeder:type_name -> google.protobuf.StringValue
-	9,  // 6: food.v1.ListRequest.location:type_name -> google.protobuf.StringValue
-	8,  // 7: food.v1.ListResponse.food:type_name -> food.v1.ListResponse.Row
-	10, // 8: food.v1.GetResponse.created_at:type_name -> google.protobuf.Timestamp
-	10, // 9: food.v1.GetResponse.updated_at:type_name -> google.protobuf.Timestamp
-	9,  // 10: food.v1.UpdateRequest.name:type_name -> google.protobuf.StringValue
-	11, // 11: food.v1.UpdateRequest.type_id:type_name -> google.protobuf.Int32Value
-	11, // 12: food.v1.UpdateRequest.intake_status_id:type_name -> google.protobuf.Int32Value
-	11, // 13: food.v1.UpdateRequest.feeder_id:type_name -> google.protobuf.Int32Value
-	11, // 14: food.v1.UpdateRequest.location_id:type_name -> google.protobuf.Int32Value
-	9,  // 15: food.v1.UpdateRequest.remarks:type_name -> google.protobuf.StringValue
-	10, // 16: food.v1.ListResponse.Row.created_at:type_name -> google.protobuf.Timestamp
-	10, // 17: food.v1.ListResponse.Row.updated_at:type_name -> google.protobuf.Timestamp
+	11, // 0: food.v1.CreateRequest.remarks:type_name -> google.protobuf.StringValue
+	12, // 1: food.v1.ListRequest.start_timestamp:type_name -> google.protobuf.Timestamp
+	12, // 2: food.v1.ListRequest.end_timestamp:type_name -> google.protobuf.Timestamp
+	11, // 3: food.v1.ListRequest.type:type_name -> google.protobuf.StringValue
+	11, // 4: food.v1.ListRequest.intake_status:type_name -> google.protobuf.StringValue
+	11, // 5: food.v1.ListRequest.feeder:type_name -> google.protobuf.StringValue
+	11, // 6: food.v1.ListRequest.location:type_name -> google.protobuf.StringValue
+	10, // 7: food.v1.ListResponse.food:type_name -> food.v1.ListResponse.Row
+	12, // 8: food.v1.GetResponse.created_at:type_name -> google.protobuf.Timestamp
+	12, // 9: food.v1.GetResponse.updated_at:type_name -> google.protobuf.Timestamp
+	11, // 10: food.v1.UpdateRequest.name:type_name -> google.protobuf.StringValue
+	13, // 11: food.v1.UpdateRequest.type_id:type_name -> google.protobuf.Int32Value
+	13, // 12: food.v1.UpdateRequest.intake_status_id:type_name -> google.protobuf.Int32Value
+	13, // 13: food.v1.UpdateRequest.feeder_id:type_name -> google.protobuf.Int32Value
+	13, // 14: food.v1.UpdateRequest.location_id:type_name -> google.protobuf.Int32Value
+	11, // 15: food.v1.UpdateRequest.remarks:type_name -> google.protobuf.StringValue
+	12, // 16: food.v1.ListResponse.Row.created_at:type_name -> google.protobuf.Timestamp
+	12, // 17: food.v1.ListResponse.Row.updated_at:type_name -> google.protobuf.Timestamp
 	0,  // 18: food.v1.FoodService.Create:input_type -> food.v1.CreateRequest
 	2,  // 19: food.v1.FoodService.List:input_type -> food.v1.ListRequest
 	4,  // 20: food.v1.FoodService.Get:input_type -> food.v1.GetRequest
 	6,  // 21: food.v1.FoodService.Update:input_type -> food.v1.UpdateRequest
-	1,  // 22: food.v1.FoodService.Create:output_type -> food.v1.CreateResponse
-	3,  // 23: food.v1.FoodService.List:output_type -> food.v1.ListResponse
-	5,  // 24: food.v1.FoodService.Get:output_type -> food.v1.GetResponse
-	7,  // 25: food.v1.FoodService.Update:output_type -> food.v1.UpdateResponse
-	22, // [22:26] is the sub-list for method output_type
-	18, // [18:22] is the sub-list for method input_type
+	8,  // 22: food.v1.FoodService.Delete:input_type -> food.v1.DeleteRequest
+	1,  // 23: food.v1.FoodService.Create:output_type -> food.v1.CreateResponse
+	3,  // 24: food.v1.FoodService.List:output_type -> food.v1.ListResponse
+	5,  // 25: food.v1.FoodService.Get:output_type -> food.v1.GetResponse
+	7,  // 26: food.v1.FoodService.Update:output_type -> food.v1.UpdateResponse
+	9,  // 27: food.v1.FoodService.Delete:output_type -> food.v1.DeleteResponse
+	23, // [23:28] is the sub-list for method output_type
+	18, // [18:23] is the sub-list for method input_type
 	18, // [18:18] is the sub-list for extension type_name
 	18, // [18:18] is the sub-list for extension extendee
 	0,  // [0:18] is the sub-list for field type_name
@@ -867,7 +958,7 @@ func file_food_v1_food_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_food_v1_food_proto_rawDesc), len(file_food_v1_food_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   9,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

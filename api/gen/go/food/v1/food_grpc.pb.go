@@ -23,6 +23,7 @@ const (
 	FoodService_List_FullMethodName   = "/food.v1.FoodService/List"
 	FoodService_Get_FullMethodName    = "/food.v1.FoodService/Get"
 	FoodService_Update_FullMethodName = "/food.v1.FoodService/Update"
+	FoodService_Delete_FullMethodName = "/food.v1.FoodService/Delete"
 )
 
 // FoodServiceClient is the client API for FoodService service.
@@ -33,6 +34,7 @@ type FoodServiceClient interface {
 	List(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
 	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
 	Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error)
+	Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
 }
 
 type foodServiceClient struct {
@@ -83,6 +85,16 @@ func (c *foodServiceClient) Update(ctx context.Context, in *UpdateRequest, opts 
 	return out, nil
 }
 
+func (c *foodServiceClient) Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteResponse)
+	err := c.cc.Invoke(ctx, FoodService_Delete_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // FoodServiceServer is the server API for FoodService service.
 // All implementations must embed UnimplementedFoodServiceServer
 // for forward compatibility.
@@ -91,6 +103,7 @@ type FoodServiceServer interface {
 	List(context.Context, *ListRequest) (*ListResponse, error)
 	Get(context.Context, *GetRequest) (*GetResponse, error)
 	Update(context.Context, *UpdateRequest) (*UpdateResponse, error)
+	Delete(context.Context, *DeleteRequest) (*DeleteResponse, error)
 	mustEmbedUnimplementedFoodServiceServer()
 }
 
@@ -112,6 +125,9 @@ func (UnimplementedFoodServiceServer) Get(context.Context, *GetRequest) (*GetRes
 }
 func (UnimplementedFoodServiceServer) Update(context.Context, *UpdateRequest) (*UpdateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
+}
+func (UnimplementedFoodServiceServer) Delete(context.Context, *DeleteRequest) (*DeleteResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedFoodServiceServer) mustEmbedUnimplementedFoodServiceServer() {}
 func (UnimplementedFoodServiceServer) testEmbeddedByValue()                     {}
@@ -206,6 +222,24 @@ func _FoodService_Update_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _FoodService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FoodServiceServer).Delete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FoodService_Delete_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FoodServiceServer).Delete(ctx, req.(*DeleteRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // FoodService_ServiceDesc is the grpc.ServiceDesc for FoodService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -228,6 +262,10 @@ var FoodService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Update",
 			Handler:    _FoodService_Update_Handler,
+		},
+		{
+			MethodName: "Delete",
+			Handler:    _FoodService_Delete_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

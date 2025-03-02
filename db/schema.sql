@@ -26,7 +26,8 @@ CREATE TABLE public.food (
     location_id integer NOT NULL,
     remarks character varying(255),
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    removed_at timestamp with time zone
 );
 
 
@@ -294,4 +295,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20250216152931'),
     ('20250216153056'),
     ('20250220094518'),
-    ('20250225080322');
+    ('20250225080322'),
+    ('20250302145015');

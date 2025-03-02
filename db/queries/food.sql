@@ -68,3 +68,9 @@ set
     remarks = coalesce(sqlc.narg(remarks)::text, remarks),
     updated_at = current_timestamp
 where id = sqlc.arg(id);
+
+-- name: DeleteFood :exec
+update food
+set
+    removed_at = current_timestamp
+where id = sqlc.arg(id);

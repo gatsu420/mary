@@ -18,6 +18,7 @@ type Food struct {
 	Remarks        pgtype.Text        `db:"remarks"`
 	CreatedAt      pgtype.Timestamptz `db:"created_at"`
 	UpdatedAt      pgtype.Timestamptz `db:"updated_at"`
+	RemovedAt      pgtype.Timestamptz `db:"removed_at"`
 }
 
 type FoodFeeders struct {
