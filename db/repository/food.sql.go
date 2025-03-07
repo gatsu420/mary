@@ -11,6 +11,20 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+const checkFoodIsRemoved = `-- name: CheckFoodIsRemoved :one
+select
+    removed_at is not null::bool as is_removed
+from food
+where id = $1
+`
+
+func (q *Queries) CheckFoodIsRemoved(ctx context.Context, id int32) (bool, error) {
+	row := q.db.QueryRow(ctx, checkFoodIsRemoved, id)
+	var is_removed bool
+	err := row.Scan(&is_removed)
+	return is_removed, err
+}
+
 const createFood = `-- name: CreateFood :exec
 insert into food (
     name, type_id, intake_status_id, feeder_id, location_id, remarks

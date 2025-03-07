@@ -74,3 +74,9 @@ update food
 set
     removed_at = current_timestamp
 where id = sqlc.arg(id);
+
+-- name: CheckFoodIsRemoved :one
+select
+    removed_at is not null::bool as is_removed
+from food
+where id = sqlc.arg(id);
