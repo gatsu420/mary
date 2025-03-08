@@ -52,6 +52,10 @@ func (u *usecase) ListFood(ctx context.Context, arg *ListFoodParams) ([]reposito
 }
 
 func (u *usecase) GetFood(ctx context.Context, id int32) (repository.GetFoodRow, error) {
+	if err := u.CheckFoodIsRemoved(ctx, id); err != nil {
+		return repository.GetFoodRow{}, err
+	}
+
 	return u.q.GetFood(ctx, id)
 }
 
@@ -66,6 +70,10 @@ type UpdateFoodParams struct {
 }
 
 func (u *usecase) UpdateFood(ctx context.Context, arg *UpdateFoodParams) error {
+	if err := u.CheckFoodIsRemoved(ctx, arg.ID); err != nil {
+		return err
+	}
+
 	params := &repository.UpdateFoodParams{
 		Name:           arg.Name,
 		TypeID:         arg.TypeID,
@@ -77,4 +85,12 @@ func (u *usecase) UpdateFood(ctx context.Context, arg *UpdateFoodParams) error {
 	}
 
 	return u.q.UpdateFood(ctx, params)
+}
+
+func (u *usecase) DeleteFood(ctx context.Context, id int32) error {
+	if err := u.CheckFoodIsRemoved(ctx, id); err != nil {
+		return err
+	}
+
+	return u.q.DeleteFood(ctx, id)
 }

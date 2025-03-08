@@ -9,7 +9,9 @@ import (
 )
 
 type Querier interface {
+	CheckFoodIsRemoved(ctx context.Context, id int32) (bool, error)
 	CreateFood(ctx context.Context, arg *CreateFoodParams) error
+	DeleteFood(ctx context.Context, id int32) error
 	GetFood(ctx context.Context, id int32) (GetFoodRow, error)
 	ListFood(ctx context.Context, arg *ListFoodParams) ([]ListFoodRow, error)
 	UpdateFood(ctx context.Context, arg *UpdateFoodParams) error

@@ -108,3 +108,11 @@ func (fs *FoodServer) Update(ctx context.Context, req *apifoodv1.UpdateRequest) 
 
 	return &apifoodv1.UpdateResponse{}, nil
 }
+
+func (fs *FoodServer) Delete(ctx context.Context, req *apifoodv1.DeleteRequest) (*apifoodv1.DeleteResponse, error) {
+	if err := fs.Usecases.DeleteFood(ctx, req.Id); err != nil {
+		return nil, err
+	}
+
+	return &apifoodv1.DeleteResponse{}, nil
+}
