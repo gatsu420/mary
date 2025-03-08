@@ -226,7 +226,7 @@ ALTER SEQUENCE public.user_types_id_seq OWNED BY public.user_types.id;
 
 CREATE TABLE public.users (
     id integer NOT NULL,
-    name character varying(255) NOT NULL,
+    username character varying(255) NOT NULL,
     type_id integer NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,

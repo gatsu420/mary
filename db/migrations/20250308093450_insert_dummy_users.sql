@@ -1,9 +1,9 @@
 -- migrate:up
-insert into users (name, type_id) values
-    ('coco_DUMMY', 1),
-    ('cayo_DUMMY', 1),
-    ('ceyi_DUMMY', 2);
+insert into users (username, type_id) values
+    ('coco_dummy', 1),
+    ('cayo_dummy', 1),
+    ('ceyi_dummy', 2);
 
 -- migrate:down
 delete from users
-where name like '%_DUMMY'
+where username like '%_dummy'
