@@ -4,7 +4,7 @@ package auth.v1;
 option go_package = "auth/v1;apiauthv1";
 
 message IssueTokenRequest {
-  string user_id = 1;
+  string username = 1;
 }
 
 message IssueTokenResponse {
