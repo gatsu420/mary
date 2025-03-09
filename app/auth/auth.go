@@ -1,28 +1,37 @@
 package auth
 
 import (
+	"context"
 	"fmt"
 	"time"
 
+	"github.com/gatsu420/mary/db/repository"
 	"github.com/golang-jwt/jwt/v4"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type Services interface {
-	IssueToken(userID string) (string, error)
+	IssueToken(username string) (string, error)
 	ValidateToken(signedToken string) (string, error)
+	CheckUserIsExisting(ctx context.Context, username string) error
 }
 
 type service struct {
 	secret string
+	query  *repository.Queries
 }
 
-func NewService(secret string) Services {
-	return &service{secret}
+func NewService(secret string, query *repository.Queries) Services {
+	return &service{
+		secret: secret,
+		query:  query,
+	}
 }
 
-func (s *service) IssueToken(userID string) (string, error) {
+func (s *service) IssueToken(username string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub": userID,
+		"sub": username,
 		"iat": time.Now().Unix(),
 		"exp": time.Now().Add(15 * time.Minute).Unix(),
 	})
@@ -57,4 +66,16 @@ func (s *service) ValidateToken(signedToken string) (string, error) {
 	}
 
 	return "", fmt.Errorf("invalid token")
+}
+
+func (s *service) CheckUserIsExisting(ctx context.Context, username string) error {
+	isExisting, err := s.query.CheckUserIsExisting(ctx, username)
+	if err != nil {
+		return err
+	}
+	if !isExisting {
+		return status.Error(codes.NotFound, "user not found")
+	}
+
+	return nil
 }
