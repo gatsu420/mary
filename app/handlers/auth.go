@@ -12,8 +12,12 @@ type AuthServer struct {
 	Services auth.Services
 }
 
-func (as *AuthServer) IssueToken(_ context.Context, user *apiauthv1.IssueTokenRequest) (*apiauthv1.IssueTokenResponse, error) {
-	signedToken, err := as.Services.IssueToken(user.UserId)
+func (as *AuthServer) IssueToken(ctx context.Context, user *apiauthv1.IssueTokenRequest) (*apiauthv1.IssueTokenResponse, error) {
+	if err := as.Services.CheckUserIsExisting(ctx, user.Username); err != nil {
+		return nil, err
+	}
+
+	signedToken, err := as.Services.IssueToken(user.Username)
 	if err != nil {
 		return nil, err
 	}

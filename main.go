@@ -24,12 +24,11 @@ func main() {
 		log.Fatal().Msgf("failed to read config file: %v", err)
 	}
 
-	authSvc := auth.NewService(cfg.JWTSecret)
-
 	dbpool, _ := pgxpool.New(context.Background(), cfg.PostgresURL)
 	defer dbpool.Close()
 
 	dbQueries := repository.New(dbpool)
+	authSvc := auth.NewService(cfg.JWTSecret, dbQueries)
 	foodUsecases := food.NewUsecases(dbQueries)
 
 	grpcServer := grpc.NewServer(
