@@ -48,3 +48,19 @@ type FoodTypes struct {
 	CreatedAt pgtype.Timestamptz `db:"created_at"`
 	UpdatedAt pgtype.Timestamptz `db:"updated_at"`
 }
+
+type UserTypes struct {
+	ID        int32              `db:"id"`
+	Name      string             `db:"name"`
+	CreatedAt pgtype.Timestamptz `db:"created_at"`
+	UpdatedAt pgtype.Timestamptz `db:"updated_at"`
+}
+
+type Users struct {
+	ID        int32              `db:"id"`
+	Username  string             `db:"username"`
+	TypeID    int32              `db:"type_id"`
+	CreatedAt pgtype.Timestamptz `db:"created_at"`
+	UpdatedAt pgtype.Timestamptz `db:"updated_at"`
+	RemovedAt pgtype.Timestamptz `db:"removed_at"`
+}
