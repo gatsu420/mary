@@ -1,7 +1,8 @@
 module github.com/gatsu420/mary
 
-go 1.22.4
-toolchain go1.23.7
+go 1.23.0
+
+toolchain go1.24.1
 
 require (
 	github.com/golang-jwt/jwt/v4 v4.5.1
