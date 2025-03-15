@@ -3,6 +3,7 @@ package food
 import (
 	"context"
 
+	"github.com/gatsu420/mary/common/errors"
 	"github.com/gatsu420/mary/db/repository"
 	"github.com/jackc/pgx/v5/pgtype"
 )
@@ -16,7 +17,7 @@ type CreateFoodParams struct {
 	Remarks        pgtype.Text
 }
 
-func (u *usecase) CreateFood(ctx context.Context, arg *CreateFoodParams) error {
+func (u *usecase) CreateFood(ctx context.Context, arg *CreateFoodParams) *errors.Error {
 	params := &repository.CreateFoodParams{
 		Name:           arg.Name,
 		TypeID:         arg.TypeID,
@@ -26,7 +27,10 @@ func (u *usecase) CreateFood(ctx context.Context, arg *CreateFoodParams) error {
 		Remarks:        arg.Remarks,
 	}
 
-	return u.q.CreateFood(ctx, params)
+	if err := u.q.CreateFood(ctx, params); err != nil {
+		return errors.InternalServer("DB failed to create food")
+	}
+	return nil
 }
 
 type ListFoodParams struct {
@@ -38,7 +42,7 @@ type ListFoodParams struct {
 	Location       pgtype.Text
 }
 
-func (u *usecase) ListFood(ctx context.Context, arg *ListFoodParams) ([]repository.ListFoodRow, error) {
+func (u *usecase) ListFood(ctx context.Context, arg *ListFoodParams) ([]repository.ListFoodRow, *errors.Error) {
 	params := &repository.ListFoodParams{
 		StartTimestamp: arg.StartTimestamp,
 		EndTimestamp:   arg.EndTimestamp,
@@ -48,15 +52,23 @@ func (u *usecase) ListFood(ctx context.Context, arg *ListFoodParams) ([]reposito
 		Location:       arg.Location,
 	}
 
-	return u.q.ListFood(ctx, params)
+	foodList, err := u.q.ListFood(ctx, params)
+	if err != nil {
+		return nil, errors.InternalServer("DB failed to list food")
+	}
+	return foodList, nil
 }
 
-func (u *usecase) GetFood(ctx context.Context, id int32) (repository.GetFoodRow, error) {
+func (u *usecase) GetFood(ctx context.Context, id int32) (repository.GetFoodRow, *errors.Error) {
 	if err := u.CheckFoodIsRemoved(ctx, id); err != nil {
 		return repository.GetFoodRow{}, err
 	}
 
-	return u.q.GetFood(ctx, id)
+	food, err := u.q.GetFood(ctx, id)
+	if err != nil {
+		return repository.GetFoodRow{}, errors.InternalServer("DB failed to get food")
+	}
+	return food, nil
 }
 
 type UpdateFoodParams struct {
@@ -69,7 +81,7 @@ type UpdateFoodParams struct {
 	ID             int32
 }
 
-func (u *usecase) UpdateFood(ctx context.Context, arg *UpdateFoodParams) error {
+func (u *usecase) UpdateFood(ctx context.Context, arg *UpdateFoodParams) *errors.Error {
 	if err := u.CheckFoodIsRemoved(ctx, arg.ID); err != nil {
 		return err
 	}
@@ -84,13 +96,19 @@ func (u *usecase) UpdateFood(ctx context.Context, arg *UpdateFoodParams) error {
 		ID:             arg.ID,
 	}
 
-	return u.q.UpdateFood(ctx, params)
+	if err := u.q.UpdateFood(ctx, params); err != nil {
+		return errors.InternalServer("DB failed to update food")
+	}
+	return nil
 }
 
-func (u *usecase) DeleteFood(ctx context.Context, id int32) error {
+func (u *usecase) DeleteFood(ctx context.Context, id int32) *errors.Error {
 	if err := u.CheckFoodIsRemoved(ctx, id); err != nil {
 		return err
 	}
 
-	return u.q.DeleteFood(ctx, id)
+	if err := u.q.DeleteFood(ctx, id); err != nil {
+		return errors.InternalServer("DB failed to delete food")
+	}
+	return nil
 }
