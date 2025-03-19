@@ -10,7 +10,7 @@ import (
 )
 
 const checkUserIsExisting = `-- name: CheckUserIsExisting :one
-select exists (
+select exists(
     select 1 from users
     where username = $1
 )
