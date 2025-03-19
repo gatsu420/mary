@@ -5,7 +5,7 @@ import (
 
 	apifoodv1 "github.com/gatsu420/mary/api/gen/go/food/v1"
 	"github.com/gatsu420/mary/app/usecases/food"
-	"github.com/gatsu420/mary/utils"
+	"github.com/gatsu420/mary/common/utils"
 	"github.com/jackc/pgx/v5/pgtype"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
