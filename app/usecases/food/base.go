@@ -3,7 +3,7 @@ package food
 import (
 	"context"
 
-	"github.com/gatsu420/mary/app/usecases"
+	"github.com/gatsu420/mary/common/errors"
 	"github.com/gatsu420/mary/db/repository"
 )
 
@@ -29,10 +29,10 @@ func NewUsecases(q *repository.Queries) Usecases {
 func (u *usecase) CheckFoodIsRemoved(ctx context.Context, id int32) error {
 	isRemoved, err := u.q.CheckFoodIsRemoved(ctx, id)
 	if err != nil {
-		return usecases.ErrInternal()
+		return errors.New(errors.InternalServerError, "DB failed to check if food is removed")
 	}
 	if isRemoved {
-		return usecases.ErrRemovedRecord()
+		return errors.New(errors.NotFoundError, "food not found")
 	}
 
 	return nil

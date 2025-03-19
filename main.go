@@ -35,6 +35,7 @@ func main() {
 		grpc.ChainUnaryInterceptor(
 			// Should panic recoverer be put first or last?
 			interceptors.RecoverPanic(),
+			interceptors.ResponseError(),
 			interceptors.ValidateToken(authSvc),
 		),
 	)
