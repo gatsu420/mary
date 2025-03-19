@@ -10,15 +10,15 @@ import (
 )
 
 const checkUserIsExisting = `-- name: CheckUserIsExisting :one
-select
-    username is not null::bool as is_existing
-from users
-where username = $1
+select exists(
+    select 1 from users
+    where username = $1
+)
 `
 
 func (q *Queries) CheckUserIsExisting(ctx context.Context, username string) (bool, error) {
 	row := q.db.QueryRow(ctx, checkUserIsExisting, username)
-	var is_existing bool
-	err := row.Scan(&is_existing)
-	return is_existing, err
+	var exists bool
+	err := row.Scan(&exists)
+	return exists, err
 }
