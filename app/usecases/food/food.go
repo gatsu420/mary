@@ -5,6 +5,7 @@ import (
 
 	"github.com/gatsu420/mary/common/errors"
 	"github.com/gatsu420/mary/db/repository"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
@@ -65,10 +66,14 @@ func (u *usecase) GetFood(ctx context.Context, id int32) (repository.GetFoodRow,
 	}
 
 	food, err := u.q.GetFood(ctx, id)
-	if err != nil {
+	switch err {
+	case pgx.ErrNoRows:
+		return repository.GetFoodRow{}, errors.New(errors.NotFoundError, "food not found")
+	case nil:
+		return food, nil
+	default:
 		return repository.GetFoodRow{}, errors.New(errors.InternalServerError, "DB failed to get food")
 	}
-	return food, nil
 }
 
 type UpdateFoodParams struct {
