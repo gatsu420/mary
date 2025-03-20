@@ -104,7 +104,6 @@ func (u *usecase) UpdateFood(ctx context.Context, arg *UpdateFoodParams) error {
 	if err := u.q.UpdateFood(ctx, params); err != nil {
 		return errors.New(errors.InternalServerError, "DB failed to update food")
 	}
-
 	return nil
 }
 
@@ -116,6 +115,5 @@ func (u *usecase) DeleteFood(ctx context.Context, id int32) error {
 	if err := u.q.DeleteFood(ctx, id); err != nil {
 		return errors.New(errors.InternalServerError, "DB failed to delete food")
 	}
-
 	return nil
 }
