@@ -16,7 +16,6 @@ func ResponseError() grpc.UnaryServerInterceptor {
 				return res, status.Error(svcerr.GRPCCode(), svcerr.Error())
 			}
 		}
-
 		return res, nil
 	}
 }
