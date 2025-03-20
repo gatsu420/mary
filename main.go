@@ -7,10 +7,10 @@ import (
 
 	apiauthv1 "github.com/gatsu420/mary/api/gen/go/auth/v1"
 	apifoodv1 "github.com/gatsu420/mary/api/gen/go/food/v1"
-	"github.com/gatsu420/mary/app/auth"
 	"github.com/gatsu420/mary/app/config"
 	"github.com/gatsu420/mary/app/handlers"
 	"github.com/gatsu420/mary/app/interceptors"
+	"github.com/gatsu420/mary/app/usecases/auth"
 	"github.com/gatsu420/mary/app/usecases/food"
 	"github.com/gatsu420/mary/db/repository"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -26,9 +26,9 @@ func main() {
 
 	dbpool, _ := pgxpool.New(context.Background(), cfg.PostgresURL)
 	defer dbpool.Close()
-
 	dbQueries := repository.New(dbpool)
-	authSvc := auth.NewService(cfg.JWTSecret, dbQueries)
+
+	authUsecases := auth.NewUsecases(cfg.JWTSecret, dbQueries)
 	foodUsecases := food.NewUsecases(dbQueries)
 
 	grpcServer := grpc.NewServer(
@@ -36,11 +36,11 @@ func main() {
 			// Should panic recoverer be put first or last?
 			interceptors.RecoverPanic(),
 			interceptors.ResponseError(),
-			interceptors.ValidateToken(authSvc),
+			interceptors.ValidateToken(authUsecases),
 		),
 	)
 	apiauthv1.RegisterAuthServiceServer(grpcServer, &handlers.AuthServer{
-		Services: authSvc,
+		Usecases: authUsecases,
 	})
 	apifoodv1.RegisterFoodServiceServer(grpcServer, &handlers.FoodServer{
 		Usecases: foodUsecases,
