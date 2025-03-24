@@ -17,10 +17,10 @@ type Usecases interface {
 }
 
 type usecase struct {
-	q *repository.Queries
+	q repository.Querier
 }
 
-func NewUsecases(q *repository.Queries) Usecases {
+func NewUsecases(q repository.Querier) Usecases {
 	return &usecase{
 		q: q,
 	}

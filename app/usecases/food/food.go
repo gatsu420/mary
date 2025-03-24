@@ -61,9 +61,9 @@ func (u *usecase) ListFood(ctx context.Context, arg *ListFoodParams) ([]reposito
 }
 
 func (u *usecase) GetFood(ctx context.Context, id int32) (repository.GetFoodRow, error) {
-	if err := u.CheckFoodIsRemoved(ctx, id); err != nil {
-		return repository.GetFoodRow{}, err
-	}
+	// if err := u.CheckFoodIsRemoved(ctx, id); err != nil {
+	// 	return repository.GetFoodRow{}, err
+	// }
 
 	food, err := u.q.GetFood(ctx, id)
 	switch err {
