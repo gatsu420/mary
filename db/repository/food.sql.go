@@ -54,17 +54,21 @@ func (q *Queries) CreateFood(ctx context.Context, arg *CreateFoodParams) error {
 	return err
 }
 
-const deleteFood = `-- name: DeleteFood :exec
+const deleteFood = `-- name: DeleteFood :execrows
 update food
 set
     removed_at = current_timestamp
 where id = $1
 and removed_at is null
+returning id, name, type_id, intake_status_id, feeder_id, location_id, remarks, created_at, updated_at, removed_at
 `
 
-func (q *Queries) DeleteFood(ctx context.Context, id int32) error {
-	_, err := q.db.Exec(ctx, deleteFood, id)
-	return err
+func (q *Queries) DeleteFood(ctx context.Context, id int32) (int64, error) {
+	result, err := q.db.Exec(ctx, deleteFood, id)
+	if err != nil {
+		return 0, err
+	}
+	return result.RowsAffected(), nil
 }
 
 const getFood = `-- name: GetFood :one
@@ -209,7 +213,7 @@ func (q *Queries) ListFood(ctx context.Context, arg *ListFoodParams) ([]ListFood
 	return items, nil
 }
 
-const updateFood = `-- name: UpdateFood :exec
+const updateFood = `-- name: UpdateFood :execrows
 update food
 set
     name = coalesce($1::text, name),
@@ -221,6 +225,7 @@ set
     updated_at = current_timestamp
 where id = $7
 and removed_at is null
+returning id, name, type_id, intake_status_id, feeder_id, location_id, remarks, created_at, updated_at, removed_at
 `
 
 type UpdateFoodParams struct {
@@ -233,8 +238,8 @@ type UpdateFoodParams struct {
 	ID             int32       `db:"id"`
 }
 
-func (q *Queries) UpdateFood(ctx context.Context, arg *UpdateFoodParams) error {
-	_, err := q.db.Exec(ctx, updateFood,
+func (q *Queries) UpdateFood(ctx context.Context, arg *UpdateFoodParams) (int64, error) {
+	result, err := q.db.Exec(ctx, updateFood,
 		arg.Name,
 		arg.TypeID,
 		arg.IntakeStatusID,
@@ -243,5 +248,8 @@ func (q *Queries) UpdateFood(ctx context.Context, arg *UpdateFoodParams) error {
 		arg.Remarks,
 		arg.ID,
 	)
-	return err
+	if err != nil {
+		return 0, err
+	}
+	return result.RowsAffected(), nil
 }

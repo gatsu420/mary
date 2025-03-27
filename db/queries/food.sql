@@ -58,7 +58,7 @@ left join food_locations fl on f.location_id = fl.id
 where f.id = sqlc.arg(id)
 and f.removed_at is null;
 
--- name: UpdateFood :exec
+-- name: UpdateFood :execrows
 update food
 set
     name = coalesce(sqlc.narg(name)::text, name),
@@ -69,14 +69,16 @@ set
     remarks = coalesce(sqlc.narg(remarks)::text, remarks),
     updated_at = current_timestamp
 where id = sqlc.arg(id)
-and removed_at is null;
+and removed_at is null
+returning *;
 
--- name: DeleteFood :exec
+-- name: DeleteFood :execrows
 update food
 set
     removed_at = current_timestamp
 where id = sqlc.arg(id)
-and removed_at is null;
+and removed_at is null
+returning *;
 
 -- name: CheckFoodIsRemoved :one
 select
