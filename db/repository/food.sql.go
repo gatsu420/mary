@@ -59,6 +59,7 @@ update food
 set
     removed_at = current_timestamp
 where id = $1
+and removed_at is null
 `
 
 func (q *Queries) DeleteFood(ctx context.Context, id int32) error {
@@ -83,6 +84,7 @@ left join food_intake_status fis on f.intake_status_id = fis.id
 left join food_feeders ff on f.feeder_id = ff.id
 left join food_locations fl on f.location_id = fl.id
 where f.id = $1
+and f.removed_at is null
 `
 
 type GetFoodRow struct {
@@ -218,6 +220,7 @@ set
     remarks = coalesce($6::text, remarks),
     updated_at = current_timestamp
 where id = $7
+and removed_at is null
 `
 
 type UpdateFoodParams struct {
