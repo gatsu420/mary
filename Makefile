@@ -18,3 +18,7 @@ sqlc-gen:
 buf-update-gen:
 	buf dep update
 	buf generate
+
+.PHONY: mock
+mock:
+	mockery
