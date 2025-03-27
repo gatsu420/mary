@@ -61,6 +61,8 @@ func (u *usecase) ListFood(ctx context.Context, arg *ListFoodParams) ([]reposito
 }
 
 func (u *usecase) GetFood(ctx context.Context, id int32) (repository.GetFoodRow, error) {
+	// TODO: move this not in the same layer as usecase, maybe in interceptor?
+	// also for update and delete method that requires checking food removal status
 	// if err := u.CheckFoodIsRemoved(ctx, id); err != nil {
 	// 	return repository.GetFoodRow{}, err
 	// }
@@ -87,9 +89,9 @@ type UpdateFoodParams struct {
 }
 
 func (u *usecase) UpdateFood(ctx context.Context, arg *UpdateFoodParams) error {
-	if err := u.CheckFoodIsRemoved(ctx, arg.ID); err != nil {
-		return err
-	}
+	// if err := u.CheckFoodIsRemoved(ctx, arg.ID); err != nil {
+	// 	return err
+	// }
 
 	params := &repository.UpdateFoodParams{
 		Name:           arg.Name,
@@ -108,9 +110,9 @@ func (u *usecase) UpdateFood(ctx context.Context, arg *UpdateFoodParams) error {
 }
 
 func (u *usecase) DeleteFood(ctx context.Context, id int32) error {
-	if err := u.CheckFoodIsRemoved(ctx, id); err != nil {
-		return err
-	}
+	// if err := u.CheckFoodIsRemoved(ctx, id); err != nil {
+	// 	return err
+	// }
 
 	if err := u.q.DeleteFood(ctx, id); err != nil {
 		return errors.New(errors.InternalServerError, "DB failed to delete food")
