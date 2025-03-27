@@ -61,10 +61,6 @@ func (u *usecase) ListFood(ctx context.Context, arg *ListFoodParams) ([]reposito
 }
 
 func (u *usecase) GetFood(ctx context.Context, id int32) (repository.GetFoodRow, error) {
-	if err := u.CheckFoodIsRemoved(ctx, id); err != nil {
-		return repository.GetFoodRow{}, err
-	}
-
 	food, err := u.q.GetFood(ctx, id)
 	switch err {
 	case pgx.ErrNoRows:
@@ -87,10 +83,6 @@ type UpdateFoodParams struct {
 }
 
 func (u *usecase) UpdateFood(ctx context.Context, arg *UpdateFoodParams) error {
-	if err := u.CheckFoodIsRemoved(ctx, arg.ID); err != nil {
-		return err
-	}
-
 	params := &repository.UpdateFoodParams{
 		Name:           arg.Name,
 		TypeID:         arg.TypeID,
@@ -101,19 +93,27 @@ func (u *usecase) UpdateFood(ctx context.Context, arg *UpdateFoodParams) error {
 		ID:             arg.ID,
 	}
 
-	if err := u.q.UpdateFood(ctx, params); err != nil {
+	rows, err := u.q.UpdateFood(ctx, params)
+	if rows == 0 {
+		return errors.New(errors.NotFoundError, "food not found")
+	}
+	switch err {
+	case nil:
+		return nil
+	default:
 		return errors.New(errors.InternalServerError, "DB failed to update food")
 	}
-	return nil
 }
 
 func (u *usecase) DeleteFood(ctx context.Context, id int32) error {
-	if err := u.CheckFoodIsRemoved(ctx, id); err != nil {
-		return err
+	rows, err := u.q.DeleteFood(ctx, id)
+	if rows == 0 {
+		return errors.New(errors.NotFoundError, "food not found")
 	}
-
-	if err := u.q.DeleteFood(ctx, id); err != nil {
+	switch err {
+	case nil:
+		return nil
+	default:
 		return errors.New(errors.InternalServerError, "DB failed to delete food")
 	}
-	return nil
 }
