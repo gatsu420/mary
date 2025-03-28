@@ -1,0 +1,8 @@
+packages:
+  github.com/gatsu420/mary/db/repository:
+    config:
+      include-regex: "Querier"
+      recursive: true
+      dir: "./mocks/db/repository"
+      filename: "mock_{{ .InterfaceName | snakecase }}.go"
+      outpkg: "mock{{ .PackageName }}"
