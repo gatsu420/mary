@@ -30,13 +30,11 @@ func (u *usecase) UpdateFood(ctx context.Context, arg *UpdateFoodParams) error {
 	}
 
 	rows, err := u.q.UpdateFood(ctx, params)
+	if err != nil {
+		return errors.New(errors.InternalServerError, "DB failed to update food")
+	}
 	if rows == 0 {
 		return errors.New(errors.NotFoundError, "food not found")
 	}
-	switch err {
-	case nil:
-		return nil
-	default:
-		return errors.New(errors.InternalServerError, "DB failed to update food")
-	}
+	return nil
 }
