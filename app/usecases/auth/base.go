@@ -7,7 +7,7 @@ import (
 )
 
 type Usecases interface {
-	IssueToken(username string) (string, error)
+	IssueToken(username string) string
 	ValidateToken(signedToken string) (string, error)
 	CheckUserIsExisting(ctx context.Context, username string) error
 }

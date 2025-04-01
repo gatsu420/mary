@@ -17,10 +17,7 @@ func (s *AuthServer) IssueToken(ctx context.Context, user *apiauthv1.IssueTokenR
 		return nil, err
 	}
 
-	signedToken, err := s.Usecases.IssueToken(user.Username)
-	if err != nil {
-		return nil, err
-	}
+	signedToken := s.Usecases.IssueToken(user.Username)
 	return &apiauthv1.IssueTokenResponse{
 		SignedToken: signedToken,
 	}, nil
