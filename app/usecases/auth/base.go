@@ -14,10 +14,10 @@ type Usecases interface {
 
 type usecase struct {
 	secret string
-	query  *repository.Queries
+	query  repository.Querier
 }
 
-func NewUsecases(secret string, query *repository.Queries) Usecases {
+func NewUsecases(secret string, query repository.Querier) Usecases {
 	return &usecase{
 		secret: secret,
 		query:  query,
