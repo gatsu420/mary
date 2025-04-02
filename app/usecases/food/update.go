@@ -18,7 +18,7 @@ type UpdateFoodParams struct {
 	ID             int32
 }
 
-func (u *usecase) UpdateFood(ctx context.Context, arg *UpdateFoodParams) error {
+func (u *usecaseImpl) UpdateFood(ctx context.Context, arg *UpdateFoodParams) error {
 	params := &repository.UpdateFoodParams{
 		Name:           arg.Name,
 		TypeID:         arg.TypeID,
@@ -29,7 +29,7 @@ func (u *usecase) UpdateFood(ctx context.Context, arg *UpdateFoodParams) error {
 		ID:             arg.ID,
 	}
 
-	rows, err := u.q.UpdateFood(ctx, params)
+	rows, err := u.query.UpdateFood(ctx, params)
 	if err != nil {
 		return errors.New(errors.InternalServerError, "DB failed to update food")
 	}

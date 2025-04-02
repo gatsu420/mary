@@ -29,7 +29,7 @@ func main() {
 	dbQueries := repository.New(dbpool)
 
 	authUsecases := auth.NewUsecases(cfg.JWTSecret, dbQueries)
-	foodUsecases := food.NewUsecases(dbQueries)
+	foodUsecases := food.NewUsecase(dbQueries)
 
 	grpcServer := grpc.NewServer(
 		grpc.ChainUnaryInterceptor(

@@ -6,8 +6,8 @@ import (
 	"github.com/gatsu420/mary/common/errors"
 )
 
-func (u *usecase) DeleteFood(ctx context.Context, id int32) error {
-	rows, err := u.q.DeleteFood(ctx, id)
+func (u *usecaseImpl) DeleteFood(ctx context.Context, id int32) error {
+	rows, err := u.query.DeleteFood(ctx, id)
 	if err != nil {
 		return errors.New(errors.InternalServerError, "DB failed to delete food")
 	}

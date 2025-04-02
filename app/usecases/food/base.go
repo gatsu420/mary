@@ -6,7 +6,7 @@ import (
 	"github.com/gatsu420/mary/db/repository"
 )
 
-type Usecases interface {
+type Usecase interface {
 	CreateFood(ctx context.Context, arg *CreateFoodParams) error
 	ListFood(ctx context.Context, arg *ListFoodParams) ([]repository.ListFoodRow, error)
 	GetFood(ctx context.Context, id int32) (repository.GetFoodRow, error)
@@ -14,12 +14,12 @@ type Usecases interface {
 	DeleteFood(ctx context.Context, id int32) error
 }
 
-type usecase struct {
-	q repository.Querier
+type usecaseImpl struct {
+	query repository.Querier
 }
 
-func NewUsecases(q repository.Querier) Usecases {
-	return &usecase{
-		q: q,
+func NewUsecase(q repository.Querier) Usecase {
+	return &usecaseImpl{
+		query: q,
 	}
 }
