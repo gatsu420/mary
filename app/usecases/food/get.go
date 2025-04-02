@@ -8,8 +8,8 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-func (u *usecase) GetFood(ctx context.Context, id int32) (repository.GetFoodRow, error) {
-	food, err := u.q.GetFood(ctx, id)
+func (u *usecaseImpl) GetFood(ctx context.Context, id int32) (repository.GetFoodRow, error) {
+	food, err := u.query.GetFood(ctx, id)
 	switch err {
 	case pgx.ErrNoRows:
 		return repository.GetFoodRow{}, errors.New(errors.NotFoundError, "food not found")

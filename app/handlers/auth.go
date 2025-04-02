@@ -9,7 +9,7 @@ import (
 
 type AuthServer struct {
 	apiauthv1.UnimplementedAuthServiceServer
-	Usecases auth.Usecases
+	Usecases auth.Usecase
 }
 
 func (s *AuthServer) IssueToken(ctx context.Context, user *apiauthv1.IssueTokenRequest) (*apiauthv1.IssueTokenResponse, error) {

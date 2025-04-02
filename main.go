@@ -28,8 +28,8 @@ func main() {
 	defer dbpool.Close()
 	dbQueries := repository.New(dbpool)
 
-	authUsecases := auth.NewUsecases(cfg.JWTSecret, dbQueries)
-	foodUsecases := food.NewUsecases(dbQueries)
+	authUsecases := auth.NewUsecase(cfg.JWTSecret, dbQueries)
+	foodUsecases := food.NewUsecase(dbQueries)
 
 	grpcServer := grpc.NewServer(
 		grpc.ChainUnaryInterceptor(

@@ -12,7 +12,7 @@ import (
 
 type FoodServer struct {
 	apifoodv1.UnimplementedFoodServiceServer
-	Usecases food.Usecases
+	Usecases food.Usecase
 }
 
 func (fs *FoodServer) Create(ctx context.Context, req *apifoodv1.CreateRequest) (*apifoodv1.CreateResponse, error) {

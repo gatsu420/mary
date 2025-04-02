@@ -17,7 +17,7 @@ type ListFoodParams struct {
 	Location       pgtype.Text
 }
 
-func (u *usecase) ListFood(ctx context.Context, arg *ListFoodParams) ([]repository.ListFoodRow, error) {
+func (u *usecaseImpl) ListFood(ctx context.Context, arg *ListFoodParams) ([]repository.ListFoodRow, error) {
 	params := &repository.ListFoodParams{
 		StartTimestamp: arg.StartTimestamp,
 		EndTimestamp:   arg.EndTimestamp,
@@ -27,7 +27,7 @@ func (u *usecase) ListFood(ctx context.Context, arg *ListFoodParams) ([]reposito
 		Location:       arg.Location,
 	}
 
-	foodList, err := u.q.ListFood(ctx, params)
+	foodList, err := u.query.ListFood(ctx, params)
 	if err != nil {
 		return nil, errors.New(errors.InternalServerError, "DB failed to list food")
 	}

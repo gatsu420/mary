@@ -17,7 +17,7 @@ type CreateFoodParams struct {
 	Remarks        pgtype.Text
 }
 
-func (u *usecase) CreateFood(ctx context.Context, arg *CreateFoodParams) error {
+func (u *usecaseImpl) CreateFood(ctx context.Context, arg *CreateFoodParams) error {
 	params := &repository.CreateFoodParams{
 		Name:           arg.Name,
 		TypeID:         arg.TypeID,
@@ -27,7 +27,7 @@ func (u *usecase) CreateFood(ctx context.Context, arg *CreateFoodParams) error {
 		Remarks:        arg.Remarks,
 	}
 
-	if err := u.q.CreateFood(ctx, params); err != nil {
+	if err := u.query.CreateFood(ctx, params); err != nil {
 		return errors.New(errors.InternalServerError, "DB failed to create food")
 	}
 	return nil
