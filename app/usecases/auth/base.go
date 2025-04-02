@@ -13,11 +13,11 @@ type Usecase interface {
 }
 
 type usecaseImpl struct {
-	secret string
+	secret interface{}
 	query  repository.Querier
 }
 
-func NewUsecase(secret string, query repository.Querier) Usecase {
+func NewUsecase(secret interface{}, query repository.Querier) Usecase {
 	return &usecaseImpl{
 		secret: secret,
 		query:  query,

@@ -14,7 +14,7 @@ func (u *usecaseImpl) IssueToken(username string) (string, error) {
 		"exp": time.Now().Add(15 * time.Minute).Unix(),
 	})
 
-	signedToken, err := token.SignedString([]byte(u.secret))
+	signedToken, err := token.SignedString(u.secret)
 	if err != nil {
 		// TODO: pass err to new error in the same fashion as this:
 		// return "", fmt.Errorf("unable to sign JWT: %w", err)

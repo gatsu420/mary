@@ -11,7 +11,7 @@ func (u *usecaseImpl) ValidateToken(signedToken string) (string, error) {
 			return nil, errors.New(errors.AuthError, "expected signing method HS256")
 		}
 
-		return []byte(u.secret), nil
+		return u.secret, nil
 	})
 	if err != nil {
 		return "", errors.New(errors.AuthError, "invalid token")
