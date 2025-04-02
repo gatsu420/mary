@@ -7,7 +7,7 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
-func (u *usecase) IssueToken(username string) (string, error) {
+func (u *usecaseImpl) IssueToken(username string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"sub": username,
 		"iat": time.Now().Unix(),

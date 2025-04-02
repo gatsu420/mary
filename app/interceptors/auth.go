@@ -14,7 +14,7 @@ type ctxKey int
 
 const authTokenClaimCtx ctxKey = iota
 
-func ValidateToken(authUsecases auth.Usecases) grpc.UnaryServerInterceptor {
+func ValidateToken(authUsecases auth.Usecase) grpc.UnaryServerInterceptor {
 	return func(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp any, err error) {
 		publicMethods := map[string]bool{
 			"/auth.v1.AuthService/IssueToken": true,
