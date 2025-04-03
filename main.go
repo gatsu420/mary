@@ -9,8 +9,9 @@ import (
 	apifoodv1 "github.com/gatsu420/mary/api/gen/go/food/v1"
 	"github.com/gatsu420/mary/app/handlers"
 	"github.com/gatsu420/mary/app/interceptors"
-	"github.com/gatsu420/mary/app/usecases/auth"
 	"github.com/gatsu420/mary/app/usecases/food"
+	"github.com/gatsu420/mary/app/usecases/users"
+	"github.com/gatsu420/mary/auth"
 	"github.com/gatsu420/mary/common/config"
 	"github.com/gatsu420/mary/db/repository"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -28,19 +29,22 @@ func main() {
 	defer dbpool.Close()
 	dbQueries := repository.New(dbpool)
 
-	authUsecases := auth.NewUsecase(cfg.JWTSecret, dbQueries)
+	auth := auth.NewAuth(cfg.JWTSecret)
+
 	foodUsecases := food.NewUsecase(dbQueries)
+	usersUsecase := users.NewUsecase(dbQueries)
 
 	grpcServer := grpc.NewServer(
 		grpc.ChainUnaryInterceptor(
 			// Should panic recoverer be put first or last?
 			interceptors.RecoverPanic(),
 			interceptors.ResponseError(),
-			interceptors.ValidateToken(authUsecases),
+			interceptors.ValidateToken(auth),
 		),
 	)
 	apiauthv1.RegisterAuthServiceServer(grpcServer, &handlers.AuthServer{
-		Usecases: authUsecases,
+		Auth:         auth,
+		UsersUsecase: usersUsecase,
 	})
 	apifoodv1.RegisterFoodServiceServer(grpcServer, &handlers.FoodServer{
 		Usecases: foodUsecases,
