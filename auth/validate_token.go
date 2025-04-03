@@ -5,13 +5,13 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
-func (u *usecaseImpl) ValidateToken(signedToken string) (string, error) {
+func (a *authImpl) ValidateToken(signedToken string) (string, error) {
 	token, err := jwt.Parse(signedToken, func(t *jwt.Token) (interface{}, error) {
 		if t.Method.Alg() != "HS256" {
 			return nil, errors.New(errors.AuthError, "expected signing method HS256")
 		}
 
-		return []byte(u.secret), nil
+		return []byte(a.secret), nil
 	})
 	if err != nil {
 		return "", errors.New(errors.AuthError, "invalid token")

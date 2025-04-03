@@ -3,7 +3,7 @@ package interceptors
 import (
 	"context"
 
-	"github.com/gatsu420/mary/app/usecases/auth"
+	"github.com/gatsu420/mary/auth"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"
@@ -14,7 +14,7 @@ type ctxKey int
 
 const authTokenClaimCtx ctxKey = iota
 
-func ValidateToken(authUsecases auth.Usecase) grpc.UnaryServerInterceptor {
+func ValidateToken(auth auth.Auth) grpc.UnaryServerInterceptor {
 	return func(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp any, err error) {
 		publicMethods := map[string]bool{
 			"/auth.v1.AuthService/IssueToken": true,
@@ -33,7 +33,7 @@ func ValidateToken(authUsecases auth.Usecase) grpc.UnaryServerInterceptor {
 			return nil, status.Error(codes.Unauthenticated, "token is not provided")
 		}
 
-		userID, err := authUsecases.ValidateToken(signedToken)
+		userID, err := auth.ValidateToken(signedToken)
 		if err != nil {
 			return nil, status.Errorf(codes.Unauthenticated, "%v", err)
 		}
