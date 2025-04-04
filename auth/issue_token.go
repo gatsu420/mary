@@ -13,7 +13,8 @@ func (a *authImpl) IssueToken(username string) (string, error) {
 		"exp": time.Now().Add(15 * time.Minute).Unix(),
 	})
 
-	// SignedString will still return token eventhouggh secret is empty string.
+	// SignedString will still return token eventhough secret is empty string,
+	// therefore we can ignore the error.
 	signedToken, _ := token.SignedString([]byte(a.secret))
 	return signedToken, nil
 }
