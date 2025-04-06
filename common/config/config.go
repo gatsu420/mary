@@ -18,8 +18,8 @@ func LoadConfig(filePath string) (*Config, error) {
 	}
 
 	return &Config{
-		PostgresURL:    os.Getenv("POSTGRES_URL"),
-		GRPCServerPort: os.Getenv("GRPC_SERVER_PORT"),
-		JWTSecret:      os.Getenv("JWT_SECRET"),
+		PostgresURL:    os.Getenv("MARY_POSTGRES_URL"),
+		GRPCServerPort: os.Getenv("MARY_GRPC_SERVER_PORT"),
+		JWTSecret:      os.Getenv("MARY_JWT_SECRET"),
 	}, nil
 }
