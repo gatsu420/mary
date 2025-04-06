@@ -12,7 +12,6 @@ func Test_LoadConfig(t *testing.T) {
 		testName       string
 		filePath       string
 		expectedConfig *config.Config
-		expectedErr    error
 	}{
 		{
 			testName:       "file is not found",
