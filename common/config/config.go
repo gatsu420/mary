@@ -7,16 +7,9 @@ import (
 )
 
 type Config struct {
-	PostgresHost     string
-	PostgresPort     string
-	PostgresDB       string
-	PostgresUser     string
-	PostgresPassword string
-	PostgresURL      string
-
+	PostgresURL    string
 	GRPCServerPort string
-
-	JWTSecret string
+	JWTSecret      string
 }
 
 func LoadConfig(filePath string) (*Config, error) {
@@ -25,15 +18,8 @@ func LoadConfig(filePath string) (*Config, error) {
 	}
 
 	return &Config{
-		PostgresHost:     os.Getenv("POSTGRES_HOST"),
-		PostgresPort:     os.Getenv("POSTGRES_PORT"),
-		PostgresDB:       os.Getenv("POSTGRES_DB"),
-		PostgresUser:     os.Getenv("POSTGRES_USER"),
-		PostgresPassword: os.Getenv("POSTGRES_PASSWORD"),
-		PostgresURL:      os.Getenv("POSTGRES_URL"),
-
+		PostgresURL:    os.Getenv("POSTGRES_URL"),
 		GRPCServerPort: os.Getenv("GRPC_SERVER_PORT"),
-
-		JWTSecret: os.Getenv("JWT_SECRET"),
+		JWTSecret:      os.Getenv("JWT_SECRET"),
 	}, nil
 }
