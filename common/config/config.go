@@ -1,37 +1,39 @@
 package config
 
-import "github.com/spf13/viper"
+import (
+	"os"
+
+	"github.com/joho/godotenv"
+)
 
 type Config struct {
 	PostgresHost     string
-	PostgresPort     int
+	PostgresPort     string
 	PostgresDB       string
 	PostgresUser     string
 	PostgresPassword string
 	PostgresURL      string
 
-	GRPCServerPort int
+	GRPCServerPort string
 
 	JWTSecret string
 }
 
 func LoadConfig(filePath string) (*Config, error) {
-	viper.SetConfigFile(filePath)
-	if err := viper.ReadInConfig(); err != nil {
+	if err := godotenv.Load(filePath); err != nil {
 		return nil, err
 	}
-	viper.AutomaticEnv()
 
 	return &Config{
-		PostgresHost:     viper.GetString("POSTGRES_HOST"),
-		PostgresPort:     viper.GetInt("POSTGRES_PORT"),
-		PostgresDB:       viper.GetString("POSTGRES_DB"),
-		PostgresUser:     viper.GetString("POSTGRES_USER"),
-		PostgresPassword: viper.GetString("POSTGRES_PASSWORD"),
-		PostgresURL:      viper.GetString("POSTGRES_URL"),
+		PostgresHost:     os.Getenv("POSTGRES_HOST"),
+		PostgresPort:     os.Getenv("POSTGRES_PORT"),
+		PostgresDB:       os.Getenv("POSTGRES_DB"),
+		PostgresUser:     os.Getenv("POSTGRES_USER"),
+		PostgresPassword: os.Getenv("POSTGRES_PASSWORD"),
+		PostgresURL:      os.Getenv("POSTGRES_URL"),
 
-		GRPCServerPort: viper.GetInt("GRPC_SERVER_PORT"),
+		GRPCServerPort: os.Getenv("GRPC_SERVER_PORT"),
 
-		JWTSecret: viper.GetString("JWT_SECRET"),
+		JWTSecret: os.Getenv("JWT_SECRET"),
 	}, nil
 }
