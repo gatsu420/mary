@@ -14,17 +14,21 @@ func (a *authImpl) ValidateToken(signedToken string) (string, error) {
 		return []byte(a.secret), nil
 	})
 	if err != nil {
+		return "", errors.New(errors.InternalServerError, "unable to parse token")
+	}
+	if !token.Valid {
 		return "", errors.New(errors.AuthError, "invalid token")
 	}
 
-	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		userID, ok := claims["sub"].(string)
-		if !ok {
-			return "", errors.New(errors.AuthError, "failed to extract userID from claims")
-		}
-
-		return userID, nil
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		return "", errors.New(errors.InternalServerError, "unable to get claims out of parsed token")
 	}
 
-	return "", errors.New(errors.AuthError, "invalid token")
+	userID, ok := claims["sub"].(string)
+	if !ok {
+		return "", errors.New(errors.InternalServerError, "unable to get sub out of claims")
+	}
+
+	return userID, nil
 }
