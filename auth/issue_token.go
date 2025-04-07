@@ -13,8 +13,9 @@ func (a *authImpl) IssueToken(username string) (string, error) {
 		"exp": time.Now().Add(15 * time.Minute).Unix(),
 	})
 
-	// SignedString will still return token eventhough secret is empty string,
-	// therefore we can ignore the error.
+	// SignedString returns token even when secret is empty string.
+	// Since we explicitly put the key as []byte to HS256 signing
+	// method, we can ignore the error.
 	signedToken, _ := token.SignedString([]byte(a.secret))
 	return signedToken, nil
 }
