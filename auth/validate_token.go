@@ -7,17 +7,10 @@ import (
 
 func (a *authImpl) ValidateToken(signedToken string) (string, error) {
 	token, err := jwt.Parse(signedToken, func(t *jwt.Token) (interface{}, error) {
-		if t.Method.Alg() != "HS256" {
-			return nil, errors.New(errors.AuthError, "expected signing method HS256")
-		}
-
 		return []byte(a.secret), nil
 	})
 	if err != nil {
-		return "", errors.New(errors.InternalServerError, "unable to parse token")
-	}
-	if !token.Valid {
-		return "", errors.New(errors.AuthError, "invalid token")
+		return "", errors.New(errors.AuthError, "unable to parse or verify token")
 	}
 
 	claims, _ := token.Claims.(jwt.MapClaims)

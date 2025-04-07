@@ -13,7 +13,7 @@ func (s *testSuite) Test_IssueToken() {
 
 	for _, tc := range testCases {
 		s.Run(tc.testName, func() {
-			signedToken, err := s.auth.IssueToken("test")
+			signedToken, err := s.auth.IssueToken(s.username)
 			s.NotEqual("", signedToken)
 			s.Equal(tc.expectedErr, err)
 		})
