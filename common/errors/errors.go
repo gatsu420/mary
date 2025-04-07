@@ -34,10 +34,6 @@ func (e *Error) GRPCCode() codes.Code {
 }
 
 func New(category ErrCategory, msg string) *Error {
-	if category == 0 {
-		return nil
-	}
-
 	return &Error{
 		Category: category,
 		Message:  msg,
