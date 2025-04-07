@@ -20,15 +20,8 @@ func (a *authImpl) ValidateToken(signedToken string) (string, error) {
 		return "", errors.New(errors.AuthError, "invalid token")
 	}
 
-	claims, ok := token.Claims.(jwt.MapClaims)
-	if !ok {
-		return "", errors.New(errors.InternalServerError, "unable to get claims out of parsed token")
-	}
-
-	userID, ok := claims["sub"].(string)
-	if !ok {
-		return "", errors.New(errors.InternalServerError, "unable to get sub out of claims")
-	}
+	claims, _ := token.Claims.(jwt.MapClaims)
+	userID, _ := claims["sub"].(string)
 
 	return userID, nil
 }
