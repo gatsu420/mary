@@ -4,10 +4,9 @@ import (
 	"context"
 
 	"github.com/gatsu420/mary/auth"
+	"github.com/gatsu420/mary/common/errors"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"
-	"google.golang.org/grpc/status"
 )
 
 type ctxKey int
@@ -25,17 +24,17 @@ func ValidateToken(auth auth.Auth) grpc.UnaryServerInterceptor {
 
 		md, ok := metadata.FromIncomingContext(ctx)
 		if !ok {
-			return nil, status.Error(codes.Unauthenticated, "metadata is not provided")
+			return nil, errors.New(errors.InternalServerError, "metadata is not provided")
 		}
 
 		signedToken := md["authorization"][0]
 		if len(signedToken) == 0 && !publicMethods[info.FullMethod] {
-			return nil, status.Error(codes.Unauthenticated, "token is not provided")
+			return nil, errors.New(errors.InternalServerError, "token is not provided")
 		}
 
 		userID, err := auth.ValidateToken(signedToken)
 		if err != nil {
-			return nil, status.Errorf(codes.Unauthenticated, "%v", err)
+			return nil, err
 		}
 
 		ctx = context.WithValue(ctx, authTokenClaimCtx, userID)
