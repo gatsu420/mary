@@ -22,11 +22,7 @@ func ValidateToken(auth auth.Auth) grpc.UnaryServerInterceptor {
 			return handler(ctx, req)
 		}
 
-		md, ok := metadata.FromIncomingContext(ctx)
-		if !ok {
-			return nil, errors.New(errors.InternalServerError, "metadata is not provided")
-		}
-
+		md, _ := metadata.FromIncomingContext(ctx)
 		signedToken := md["authorization"][0]
 		if len(signedToken) == 0 && !publicMethods[info.FullMethod] {
 			return nil, errors.New(errors.InternalServerError, "token is not provided")
