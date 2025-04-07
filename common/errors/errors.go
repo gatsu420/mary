@@ -2,10 +2,10 @@ package errors
 
 import "google.golang.org/grpc/codes"
 
-type errCategory int
+type ErrCategory int
 
 const (
-	AuthError errCategory = iota + 1
+	AuthError ErrCategory = iota + 1
 	ForbiddenError
 	InternalServerError
 	BadRequestError
@@ -13,15 +13,15 @@ const (
 )
 
 type Error struct {
-	category errCategory
-	message  string
+	Category ErrCategory
+	Message  string
 }
 
 func (e *Error) Error() string {
-	return e.message
+	return e.Message
 }
 
-var grpcErrors = map[errCategory]codes.Code{
+var grpcErrors = map[ErrCategory]codes.Code{
 	1: codes.Unauthenticated,
 	2: codes.PermissionDenied,
 	3: codes.Internal,
@@ -30,16 +30,16 @@ var grpcErrors = map[errCategory]codes.Code{
 }
 
 func (e *Error) GRPCCode() codes.Code {
-	return grpcErrors[e.category]
+	return grpcErrors[e.Category]
 }
 
-func New(category errCategory, msg string) *Error {
+func New(category ErrCategory, msg string) *Error {
 	if category == 0 {
 		return nil
 	}
 
 	return &Error{
-		category: category,
-		message:  msg,
+		Category: category,
+		Message:  msg,
 	}
 }
