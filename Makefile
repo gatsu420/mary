@@ -14,9 +14,8 @@ migration-new:
 sqlc-gen:
 	sqlc generate
 
-.PHONY: buf-update-gen
-buf-update-gen:
-	buf dep update
+.PHONY: buf-gen
+buf-gen:
 	buf generate
 
 .PHONY: mock
