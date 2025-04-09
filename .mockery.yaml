@@ -1,8 +1,19 @@
+recursive: true
+filename: "mock_{{ .InterfaceName | snakecase }}.go"
+outpkg: "mock{{ .PackageName }}"
+
 packages:
   github.com/gatsu420/mary/db/repository:
     config:
       include-regex: "Querier"
-      recursive: true
       dir: "./mocks/db/repository"
-      filename: "mock_{{ .InterfaceName | snakecase }}.go"
-      outpkg: "mock{{ .PackageName }}"
+
+  github.com/gatsu420/mary/app/usecases/food:
+    config:
+      include-regex: "Usecase"
+      dir: "./mocks/app/usecases/food"
+
+  github.com/gatsu420/mary/app/usecases/users:
+    config:
+      include-regex: "Usecase"
+      dir: "./mocks/app/usecases/users"
