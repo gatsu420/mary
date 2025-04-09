@@ -47,12 +47,12 @@ func (s *testSuite) Test_Create() {
 
 	for _, tc := range testCases {
 		s.Run(tc.testName, func() {
-			s.mockUsecase.EXPECT().CreateFood(
+			s.mockFoodUsecase.EXPECT().CreateFood(
 				mock.Anything,
 				mock.AnythingOfType("*food.CreateFoodParams"),
 			).Return(tc.usecaseErr).Once()
 
-			resp, err := s.server.Create(s.stubCtx, tc.req)
+			resp, err := s.foodServer.Create(s.stubCtx, tc.req)
 			s.Equal(tc.expectedResp, resp)
 			s.Equal(tc.expectedErr, err)
 		})
@@ -150,12 +150,12 @@ func (s *testSuite) Test_List() {
 
 	for _, tc := range testCases {
 		s.Run(tc.testName, func() {
-			s.mockUsecase.EXPECT().ListFood(
+			s.mockFoodUsecase.EXPECT().ListFood(
 				mock.Anything,
 				mock.AnythingOfType("*food.ListFoodParams"),
 			).Return(tc.usecaseDBRows, tc.usecaseErr).Once()
 
-			resp, err := s.server.List(s.stubCtx, tc.req)
+			resp, err := s.foodServer.List(s.stubCtx, tc.req)
 			s.Equal(tc.expectedResp, resp)
 			s.Equal(tc.expectedErr, err)
 		})
@@ -211,12 +211,12 @@ func (s *testSuite) Test_Get() {
 
 	for _, tc := range testCases {
 		s.Run(tc.testName, func() {
-			s.mockUsecase.EXPECT().GetFood(
+			s.mockFoodUsecase.EXPECT().GetFood(
 				mock.Anything,
 				mock.AnythingOfType("int32"),
 			).Return(tc.usecaseDBRow, tc.usecaseErr).Once()
 
-			resp, err := s.server.Get(s.stubCtx, tc.req)
+			resp, err := s.foodServer.Get(s.stubCtx, tc.req)
 			s.Equal(tc.expectedResp, resp)
 			s.Equal(tc.expectedErr, err)
 		})
@@ -265,12 +265,12 @@ func (s *testSuite) Test_Update() {
 
 	for _, tc := range testCases {
 		s.Run(tc.testName, func() {
-			s.mockUsecase.EXPECT().UpdateFood(
+			s.mockFoodUsecase.EXPECT().UpdateFood(
 				mock.Anything,
 				mock.AnythingOfType("*food.UpdateFoodParams"),
 			).Return(tc.usecaseErr).Once()
 
-			resp, err := s.server.Update(s.stubCtx, tc.req)
+			resp, err := s.foodServer.Update(s.stubCtx, tc.req)
 			s.Equal(tc.expectedResp, resp)
 			s.Equal(tc.expectedErr, err)
 		})
@@ -303,12 +303,12 @@ func (s *testSuite) Test_Delete() {
 
 	for _, tc := range testCases {
 		s.Run(tc.testName, func() {
-			s.mockUsecase.EXPECT().DeleteFood(
+			s.mockFoodUsecase.EXPECT().DeleteFood(
 				mock.Anything,
 				mock.AnythingOfType("int32"),
 			).Return(tc.usecaseErr).Once()
 
-			resp, err := s.server.Delete(s.stubCtx, tc.req)
+			resp, err := s.foodServer.Delete(s.stubCtx, tc.req)
 			s.Equal(tc.expectedResp, resp)
 			s.Equal(tc.expectedErr, err)
 		})

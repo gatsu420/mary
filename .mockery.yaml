@@ -17,3 +17,8 @@ packages:
     config:
       include-regex: "Usecase"
       dir: "./mocks/app/usecases/users"
+
+  github.com/gatsu420/mary/auth:
+    config:
+      include-regex: "Auth"
+      dir: "./mocks/auth"

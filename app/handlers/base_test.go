@@ -7,6 +7,8 @@ import (
 
 	"github.com/gatsu420/mary/app/handlers"
 	mockfood "github.com/gatsu420/mary/mocks/app/usecases/food"
+	mockusers "github.com/gatsu420/mary/mocks/app/usecases/users"
+	mockauth "github.com/gatsu420/mary/mocks/auth"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/stretchr/testify/suite"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -15,8 +17,11 @@ import (
 
 type testSuite struct {
 	suite.Suite
-	mockUsecase *mockfood.MockUsecase
-	server      handlers.FoodServer
+	mockAuth         *mockauth.MockAuth
+	mockUsersUsecase *mockusers.MockUsecase
+	mockFoodUsecase  *mockfood.MockUsecase
+	authServer       *handlers.AuthServer
+	foodServer       *handlers.FoodServer
 
 	stubCtx      context.Context
 	stubTimeSec  int
@@ -54,8 +59,11 @@ func (s *testSuite) SetupSuite() {
 }
 
 func (s *testSuite) SetupTest() {
-	s.mockUsecase = mockfood.NewMockUsecase(s.T())
-	s.server = *handlers.NewFoodServer(s.mockUsecase)
+	s.mockAuth = mockauth.NewMockAuth(s.T())
+	s.mockUsersUsecase = mockusers.NewMockUsecase(s.T())
+	s.mockFoodUsecase = mockfood.NewMockUsecase(s.T())
+	s.authServer = handlers.NewAuthServer(s.mockAuth, s.mockUsersUsecase)
+	s.foodServer = handlers.NewFoodServer(s.mockFoodUsecase)
 }
 
 func Test(t *testing.T) {
