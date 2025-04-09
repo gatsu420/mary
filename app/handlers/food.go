@@ -12,7 +12,7 @@ import (
 
 type FoodServer struct {
 	apifoodv1.UnimplementedFoodServiceServer
-	Usecases food.Usecase
+	Usecase food.Usecase
 }
 
 func (fs *FoodServer) Create(ctx context.Context, req *apifoodv1.CreateRequest) (*apifoodv1.CreateResponse, error) {
@@ -25,7 +25,7 @@ func (fs *FoodServer) Create(ctx context.Context, req *apifoodv1.CreateRequest) 
 		Remarks:        utils.NullStringWrapperToPGText(req.Remarks),
 	}
 
-	if err := fs.Usecases.CreateFood(ctx, params); err != nil {
+	if err := fs.Usecase.CreateFood(ctx, params); err != nil {
 		return nil, err
 	}
 	return &apifoodv1.CreateResponse{}, nil
@@ -46,7 +46,7 @@ func (fs *FoodServer) List(ctx context.Context, req *apifoodv1.ListRequest) (*ap
 		Feeder:       utils.NullStringWrapperToPGText(req.Feeder),
 		Location:     utils.NullStringWrapperToPGText(req.Location),
 	}
-	dbRows, err := fs.Usecases.ListFood(ctx, params)
+	dbRows, err := fs.Usecase.ListFood(ctx, params)
 	if err != nil {
 		return nil, err
 	}
@@ -69,7 +69,7 @@ func (fs *FoodServer) List(ctx context.Context, req *apifoodv1.ListRequest) (*ap
 }
 
 func (fs *FoodServer) Get(ctx context.Context, req *apifoodv1.GetRequest) (*apifoodv1.GetResponse, error) {
-	dbRow, err := fs.Usecases.GetFood(ctx, req.Id)
+	dbRow, err := fs.Usecase.GetFood(ctx, req.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -99,14 +99,14 @@ func (fs *FoodServer) Update(ctx context.Context, req *apifoodv1.UpdateRequest) 
 		ID:             req.Id,
 	}
 
-	if err := fs.Usecases.UpdateFood(ctx, params); err != nil {
+	if err := fs.Usecase.UpdateFood(ctx, params); err != nil {
 		return nil, err
 	}
 	return &apifoodv1.UpdateResponse{}, nil
 }
 
 func (fs *FoodServer) Delete(ctx context.Context, req *apifoodv1.DeleteRequest) (*apifoodv1.DeleteResponse, error) {
-	if err := fs.Usecases.DeleteFood(ctx, req.Id); err != nil {
+	if err := fs.Usecase.DeleteFood(ctx, req.Id); err != nil {
 		return nil, err
 	}
 	return &apifoodv1.DeleteResponse{}, nil

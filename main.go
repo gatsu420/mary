@@ -31,7 +31,7 @@ func main() {
 
 	auth := auth.NewAuth(cfg.JWTSecret)
 
-	foodUsecases := food.NewUsecase(dbQueries)
+	foodUsecase := food.NewUsecase(dbQueries)
 	usersUsecase := users.NewUsecase(dbQueries)
 
 	grpcServer := grpc.NewServer(
@@ -47,7 +47,7 @@ func main() {
 		UsersUsecase: usersUsecase,
 	})
 	apifoodv1.RegisterFoodServiceServer(grpcServer, &handlers.FoodServer{
-		Usecases: foodUsecases,
+		Usecase: foodUsecase,
 	})
 
 	port := fmt.Sprintf(":%v", cfg.GRPCServerPort)

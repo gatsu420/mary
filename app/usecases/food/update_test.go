@@ -68,7 +68,7 @@ func (s *testSuite) Test_UpdateFood() {
 				mock.AnythingOfType("*repository.UpdateFoodParams"),
 			).Return(tc.repoRows, tc.repoErr).Once()
 
-			err := s.usecases.UpdateFood(s.ctx, tc.arg)
+			err := s.usecase.UpdateFood(s.ctx, tc.arg)
 			s.Equal(tc.expectedErr, err)
 		})
 	}

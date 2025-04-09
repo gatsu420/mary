@@ -79,7 +79,7 @@ func (s *testSuite) Test_ListFood() {
 				mock.AnythingOfType("*repository.ListFoodParams"),
 			).Return(tc.repoFoodList, tc.repoErr).Once()
 
-			food, err := s.usecases.ListFood(s.ctx, tc.arg)
+			food, err := s.usecase.ListFood(s.ctx, tc.arg)
 			s.Equal(tc.expectedFoodList, food)
 			s.Equal(tc.expectedErr, err)
 		})
