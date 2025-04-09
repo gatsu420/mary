@@ -43,7 +43,7 @@ func (s *testSuite) Test_DeleteFood() {
 				mock.AnythingOfType("int32"),
 			).Return(tc.repoRows, tc.repoErr).Once()
 
-			err := s.usecases.DeleteFood(s.ctx, tc.id)
+			err := s.usecase.DeleteFood(s.ctx, tc.id)
 			s.Equal(tc.expectedErr, err)
 		})
 	}

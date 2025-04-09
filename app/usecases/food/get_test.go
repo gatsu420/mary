@@ -69,7 +69,7 @@ func (s *testSuite) Test_GetFood() {
 				mock.AnythingOfType("int32"),
 			).Return(tc.repoFood, tc.repoErr).Once()
 
-			food, err := s.usecases.GetFood(s.ctx, tc.id)
+			food, err := s.usecase.GetFood(s.ctx, tc.id)
 			s.Equal(tc.expectedFood, food)
 			s.Equal(tc.expectedErr, err)
 		})

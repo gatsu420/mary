@@ -49,7 +49,7 @@ func (s *testSuite) Test_CreateFood() {
 				mock.AnythingOfType("*repository.CreateFoodParams"),
 			).Return(tc.repoErr).Once()
 
-			err := s.usecases.CreateFood(s.ctx, tc.arg)
+			err := s.usecase.CreateFood(s.ctx, tc.arg)
 			s.Equal(tc.expectedError, err)
 		})
 	}

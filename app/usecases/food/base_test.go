@@ -14,7 +14,7 @@ import (
 type testSuite struct {
 	suite.Suite
 	mockRepo *mockrepository.MockQuerier
-	usecases food.Usecase
+	usecase  food.Usecase
 
 	ctx               context.Context
 	mockPGText        pgtype.Text
@@ -31,7 +31,7 @@ func (s *testSuite) SetupSuite() {
 
 func (s *testSuite) SetupTest() {
 	s.mockRepo = mockrepository.NewMockQuerier(s.T())
-	s.usecases = food.NewUsecase(s.mockRepo)
+	s.usecase = food.NewUsecase(s.mockRepo)
 }
 
 func Test(t *testing.T) {
