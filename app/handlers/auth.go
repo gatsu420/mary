@@ -14,6 +14,13 @@ type AuthServer struct {
 	UsersUsecase users.Usecase
 }
 
+func NewAuthServer(auth auth.Auth, usersUsecase users.Usecase) *AuthServer {
+	return &AuthServer{
+		Auth:         auth,
+		UsersUsecase: usersUsecase,
+	}
+}
+
 func (s *AuthServer) IssueToken(ctx context.Context, user *apiauthv1.IssueTokenRequest) (*apiauthv1.IssueTokenResponse, error) {
 	if err := s.UsersUsecase.CheckUserIsExisting(ctx, user.Username); err != nil {
 		return nil, err
