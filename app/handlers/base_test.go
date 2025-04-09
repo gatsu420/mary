@@ -28,6 +28,8 @@ type testSuite struct {
 
 	stubTimestampWrapper *timestamppb.Timestamp
 	stubPGTimestamptz    pgtype.Timestamptz
+
+	stubInt32Wrapper *wrapperspb.Int32Value
 }
 
 func (s *testSuite) SetupSuite() {
@@ -47,6 +49,8 @@ func (s *testSuite) SetupSuite() {
 		Time:  time.Unix(int64(s.stubTimeSec), int64(s.stubTimeNano)),
 		Valid: true,
 	}
+
+	s.stubInt32Wrapper = &wrapperspb.Int32Value{Value: 99}
 }
 
 func (s *testSuite) SetupTest() {

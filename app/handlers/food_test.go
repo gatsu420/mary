@@ -161,3 +161,156 @@ func (s *testSuite) Test_List() {
 		})
 	}
 }
+
+func (s *testSuite) Test_Get() {
+	testCases := []struct {
+		testName     string
+		req          *apifoodv1.GetRequest
+		usecaseDBRow repository.GetFoodRow
+		usecaseErr   error
+		expectedResp *apifoodv1.GetResponse
+		expectedErr  error
+	}{
+		{
+			testName:     "usecase error",
+			req:          &apifoodv1.GetRequest{Id: 99},
+			usecaseDBRow: repository.GetFoodRow{},
+			usecaseErr:   errors.New(errors.BadRequestError, "bad request"),
+			expectedResp: nil,
+			expectedErr:  errors.New(errors.BadRequestError, "bad request"),
+		},
+		{
+			testName: "success",
+			req:      &apifoodv1.GetRequest{Id: 99},
+			usecaseDBRow: repository.GetFoodRow{
+				ID:           99,
+				Name:         "some food",
+				Type:         s.stubPGText,
+				IntakeStatus: s.stubPGText,
+				Feeder:       s.stubPGText,
+				Location:     s.stubPGText,
+				Remarks:      s.stubPGText,
+				CreatedAt:    s.stubPGTimestamptz,
+				UpdatedAt:    s.stubPGTimestamptz,
+			},
+			usecaseErr: nil,
+			expectedResp: &apifoodv1.GetResponse{
+				Id:           99,
+				Name:         "some food",
+				Type:         s.stubString,
+				IntakeStatus: s.stubString,
+				Feeder:       s.stubString,
+				Location:     s.stubString,
+				Remarks:      s.stubString,
+				CreatedAt:    s.stubTimestampWrapper,
+				UpdatedAt:    s.stubTimestampWrapper,
+			},
+			expectedErr: nil,
+		},
+	}
+
+	for _, tc := range testCases {
+		s.Run(tc.testName, func() {
+			s.mockUsecase.EXPECT().GetFood(
+				mock.Anything,
+				mock.AnythingOfType("int32"),
+			).Return(tc.usecaseDBRow, tc.usecaseErr).Once()
+
+			resp, err := s.server.Get(s.stubCtx, tc.req)
+			s.Equal(tc.expectedResp, resp)
+			s.Equal(tc.expectedErr, err)
+		})
+	}
+}
+
+func (s *testSuite) Test_Update() {
+	testCases := []struct {
+		testName     string
+		req          *apifoodv1.UpdateRequest
+		usecaseErr   error
+		expectedResp *apifoodv1.UpdateResponse
+		expectedErr  error
+	}{
+		{
+			testName: "usecase error",
+			req: &apifoodv1.UpdateRequest{
+				Name:           s.stubStringWrapper,
+				TypeId:         s.stubInt32Wrapper,
+				IntakeStatusId: s.stubInt32Wrapper,
+				FeederId:       s.stubInt32Wrapper,
+				LocationId:     s.stubInt32Wrapper,
+				Remarks:        s.stubStringWrapper,
+				Id:             99,
+			},
+			usecaseErr:   errors.New(errors.BadRequestError, "bad request"),
+			expectedResp: nil,
+			expectedErr:  errors.New(errors.BadRequestError, "bad request"),
+		},
+		{
+			testName: "success",
+			req: &apifoodv1.UpdateRequest{
+				Name:           s.stubStringWrapper,
+				TypeId:         s.stubInt32Wrapper,
+				IntakeStatusId: s.stubInt32Wrapper,
+				FeederId:       s.stubInt32Wrapper,
+				LocationId:     s.stubInt32Wrapper,
+				Remarks:        s.stubStringWrapper,
+				Id:             99,
+			},
+			usecaseErr:   nil,
+			expectedResp: &apifoodv1.UpdateResponse{},
+			expectedErr:  nil,
+		},
+	}
+
+	for _, tc := range testCases {
+		s.Run(tc.testName, func() {
+			s.mockUsecase.EXPECT().UpdateFood(
+				mock.Anything,
+				mock.AnythingOfType("*food.UpdateFoodParams"),
+			).Return(tc.usecaseErr).Once()
+
+			resp, err := s.server.Update(s.stubCtx, tc.req)
+			s.Equal(tc.expectedResp, resp)
+			s.Equal(tc.expectedErr, err)
+		})
+	}
+}
+
+func (s *testSuite) Test_Delete() {
+	testCases := []struct {
+		testName     string
+		req          *apifoodv1.DeleteRequest
+		usecaseErr   error
+		expectedResp *apifoodv1.DeleteResponse
+		expectedErr  error
+	}{
+		{
+			testName:     "usecase error",
+			req:          &apifoodv1.DeleteRequest{Id: 99},
+			usecaseErr:   errors.New(errors.BadRequestError, "bad request"),
+			expectedResp: nil,
+			expectedErr:  errors.New(errors.BadRequestError, "bad request"),
+		},
+		{
+			testName:     "success",
+			req:          &apifoodv1.DeleteRequest{Id: 99},
+			usecaseErr:   nil,
+			expectedResp: &apifoodv1.DeleteResponse{},
+			expectedErr:  nil,
+		},
+	}
+
+	for _, tc := range testCases {
+		s.Run(tc.testName, func() {
+			s.mockUsecase.EXPECT().DeleteFood(
+				mock.Anything,
+				mock.AnythingOfType("int32"),
+			).Return(tc.usecaseErr).Once()
+
+			resp, err := s.server.Delete(s.stubCtx, tc.req)
+			s.Equal(tc.expectedResp, resp)
+			s.Equal(tc.expectedErr, err)
+		})
+	}
+}
