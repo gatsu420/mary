@@ -10,17 +10,6 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-type FoodServer struct {
-	apifoodv1.UnimplementedFoodServiceServer
-	Usecase food.Usecase
-}
-
-func NewFoodServer(usecase food.Usecase) *FoodServer {
-	return &FoodServer{
-		Usecase: usecase,
-	}
-}
-
 func (fs *FoodServer) Create(ctx context.Context, req *apifoodv1.CreateRequest) (*apifoodv1.CreateResponse, error) {
 	params := &food.CreateFoodParams{
 		Name:           req.Name,
