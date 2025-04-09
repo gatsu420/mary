@@ -42,13 +42,8 @@ func main() {
 			interceptors.ValidateToken(auth),
 		),
 	)
-	apiauthv1.RegisterAuthServiceServer(grpcServer, &handlers.AuthServer{
-		Auth:         auth,
-		UsersUsecase: usersUsecase,
-	})
-	apifoodv1.RegisterFoodServiceServer(grpcServer, &handlers.FoodServer{
-		Usecase: foodUsecase,
-	})
+	apiauthv1.RegisterAuthServiceServer(grpcServer, handlers.NewAuthServer(auth, usersUsecase))
+	apifoodv1.RegisterFoodServiceServer(grpcServer, handlers.NewFoodServer(foodUsecase))
 
 	port := fmt.Sprintf(":%v", cfg.GRPCServerPort)
 	listener, _ := net.Listen("tcp", port)
