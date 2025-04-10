@@ -16,17 +16,17 @@ type testSuite struct {
 	mockRepo *mockrepository.MockQuerier
 	usecase  food.Usecase
 
-	ctx               context.Context
-	mockPGText        pgtype.Text
-	mockPGTimestamptz pgtype.Timestamptz
-	mockPGInt4        pgtype.Int4
+	ctx           context.Context
+	pgText        pgtype.Text
+	pgTimestamptz pgtype.Timestamptz
+	pgInt4        pgtype.Int4
 }
 
 func (s *testSuite) SetupSuite() {
 	s.ctx = context.Background()
-	s.mockPGText = pgtype.Text{String: "test", Valid: true}
-	s.mockPGTimestamptz = pgtype.Timestamptz{Time: time.Now(), Valid: true}
-	s.mockPGInt4 = pgtype.Int4{Int32: 99, Valid: true}
+	s.pgText = pgtype.Text{String: "test", Valid: true}
+	s.pgTimestamptz = pgtype.Timestamptz{Time: time.Now(), Valid: true}
+	s.pgInt4 = pgtype.Int4{Int32: 99, Valid: true}
 }
 
 func (s *testSuite) SetupTest() {

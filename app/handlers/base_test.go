@@ -23,39 +23,39 @@ type testSuite struct {
 	authServer       *handlers.AuthServer
 	foodServer       *handlers.FoodServer
 
-	stubCtx      context.Context
-	stubTimeSec  int
-	stubTimeNano int
+	ctx      context.Context
+	timeSec  int
+	timeNano int
 
-	stubStringWrapper *wrapperspb.StringValue
-	stubString        string
-	stubPGText        pgtype.Text
+	stringWrapper *wrapperspb.StringValue
+	stringDummy   string
+	pgText        pgtype.Text
 
-	stubTimestampWrapper *timestamppb.Timestamp
-	stubPGTimestamptz    pgtype.Timestamptz
+	timestampWrapper *timestamppb.Timestamp
+	pgTimestamptz    pgtype.Timestamptz
 
-	stubInt32Wrapper *wrapperspb.Int32Value
+	int32Wrapper *wrapperspb.Int32Value
 }
 
 func (s *testSuite) SetupSuite() {
-	s.stubCtx = context.Background()
-	s.stubTimeSec = 1744208782
-	s.stubTimeNano = 99
+	s.ctx = context.Background()
+	s.timeSec = 1744208782
+	s.timeNano = 99
 
-	s.stubStringWrapper = &wrapperspb.StringValue{Value: "test"}
-	s.stubString = "test"
-	s.stubPGText = pgtype.Text{String: "test", Valid: true}
+	s.stringWrapper = &wrapperspb.StringValue{Value: "test"}
+	s.stringDummy = "test"
+	s.pgText = pgtype.Text{String: "test", Valid: true}
 
-	s.stubTimestampWrapper = &timestamppb.Timestamp{
-		Seconds: int64(s.stubTimeSec),
-		Nanos:   int32(s.stubTimeNano),
+	s.timestampWrapper = &timestamppb.Timestamp{
+		Seconds: int64(s.timeSec),
+		Nanos:   int32(s.timeNano),
 	}
-	s.stubPGTimestamptz = pgtype.Timestamptz{
-		Time:  time.Unix(int64(s.stubTimeSec), int64(s.stubTimeNano)),
+	s.pgTimestamptz = pgtype.Timestamptz{
+		Time:  time.Unix(int64(s.timeSec), int64(s.timeNano)),
 		Valid: true,
 	}
 
-	s.stubInt32Wrapper = &wrapperspb.Int32Value{Value: 99}
+	s.int32Wrapper = &wrapperspb.Int32Value{Value: 99}
 }
 
 func (s *testSuite) SetupTest() {
