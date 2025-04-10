@@ -55,7 +55,7 @@ func (s *testSuite) Test_IssueToken() {
 			).Return(tc.authSignedToken, tc.authErr).Once()
 		}
 
-		resp, err := s.authServer.IssueToken(s.stubCtx, tc.req)
+		resp, err := s.authServer.IssueToken(s.ctx, tc.req)
 		s.Equal(tc.expectedResp, resp)
 		s.Equal(tc.expectedErr, err)
 	}

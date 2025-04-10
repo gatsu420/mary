@@ -22,19 +22,19 @@ func Test_New(t *testing.T) {
 }
 
 func Test_Error(t *testing.T) {
-	mockErr := errors.New(errors.AuthError, "auth error")
+	err := errors.New(errors.AuthError, "auth error")
 	expectedErrMsg := "auth error"
 	t.Run("successfully get error message", func(t *testing.T) {
-		errMsg := mockErr.Error()
+		errMsg := err.Error()
 		assert.Equal(t, expectedErrMsg, errMsg)
 	})
 }
 
 func Test_GRPCCode(t *testing.T) {
-	mockErr := errors.New(errors.AuthError, "auth error")
+	err := errors.New(errors.AuthError, "auth error")
 	expectedGRPCCode := codes.Unauthenticated
 	t.Run("successfully get GRPC code", func(t *testing.T) {
-		grpcCode := mockErr.GRPCCode()
+		grpcCode := err.GRPCCode()
 		assert.Equal(t, expectedGRPCCode, grpcCode)
 	})
 }

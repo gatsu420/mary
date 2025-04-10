@@ -23,7 +23,7 @@ func (s *testSuite) Test_Create() {
 				IntakeStatusId: 99,
 				FeederId:       99,
 				LocationId:     99,
-				Remarks:        s.stubStringWrapper,
+				Remarks:        s.stringWrapper,
 			},
 			usecaseErr:   errors.New(errors.BadRequestError, "bad request"),
 			expectedResp: nil,
@@ -37,7 +37,7 @@ func (s *testSuite) Test_Create() {
 				IntakeStatusId: 99,
 				FeederId:       99,
 				LocationId:     99,
-				Remarks:        s.stubStringWrapper,
+				Remarks:        s.stringWrapper,
 			},
 			usecaseErr:   nil,
 			expectedResp: &apifoodv1.CreateResponse{},
@@ -52,7 +52,7 @@ func (s *testSuite) Test_Create() {
 				mock.AnythingOfType("*food.CreateFoodParams"),
 			).Return(tc.usecaseErr).Once()
 
-			resp, err := s.foodServer.Create(s.stubCtx, tc.req)
+			resp, err := s.foodServer.Create(s.ctx, tc.req)
 			s.Equal(tc.expectedResp, resp)
 			s.Equal(tc.expectedErr, err)
 		})
@@ -71,12 +71,12 @@ func (s *testSuite) Test_List() {
 		{
 			testName: "usecase error",
 			req: &apifoodv1.ListRequest{
-				StartTimestamp: s.stubTimestampWrapper,
-				EndTimestamp:   s.stubTimestampWrapper,
-				Type:           s.stubStringWrapper,
-				IntakeStatus:   s.stubStringWrapper,
-				Feeder:         s.stubStringWrapper,
-				Location:       s.stubStringWrapper,
+				StartTimestamp: s.timestampWrapper,
+				EndTimestamp:   s.timestampWrapper,
+				Type:           s.stringWrapper,
+				IntakeStatus:   s.stringWrapper,
+				Feeder:         s.stringWrapper,
+				Location:       s.stringWrapper,
 			},
 			usecaseDBRows: nil,
 			usecaseErr:    errors.New(errors.BadRequestError, "bad request"),
@@ -86,35 +86,35 @@ func (s *testSuite) Test_List() {
 		{
 			testName: "success",
 			req: &apifoodv1.ListRequest{
-				StartTimestamp: s.stubTimestampWrapper,
-				EndTimestamp:   s.stubTimestampWrapper,
-				Type:           s.stubStringWrapper,
-				IntakeStatus:   s.stubStringWrapper,
-				Feeder:         s.stubStringWrapper,
-				Location:       s.stubStringWrapper,
+				StartTimestamp: s.timestampWrapper,
+				EndTimestamp:   s.timestampWrapper,
+				Type:           s.stringWrapper,
+				IntakeStatus:   s.stringWrapper,
+				Feeder:         s.stringWrapper,
+				Location:       s.stringWrapper,
 			},
 			usecaseDBRows: []repository.ListFoodRow{
 				{
 					ID:           99,
 					Name:         "some food",
-					Type:         s.stubPGText,
-					IntakeStatus: s.stubPGText,
-					Feeder:       s.stubPGText,
-					Location:     s.stubPGText,
-					Remarks:      s.stubPGText,
-					CreatedAt:    s.stubPGTimestamptz,
-					UpdatedAt:    s.stubPGTimestamptz,
+					Type:         s.pgText,
+					IntakeStatus: s.pgText,
+					Feeder:       s.pgText,
+					Location:     s.pgText,
+					Remarks:      s.pgText,
+					CreatedAt:    s.pgTimestamptz,
+					UpdatedAt:    s.pgTimestamptz,
 				},
 				{
 					ID:           999,
 					Name:         "some other food",
-					Type:         s.stubPGText,
-					IntakeStatus: s.stubPGText,
-					Feeder:       s.stubPGText,
-					Location:     s.stubPGText,
-					Remarks:      s.stubPGText,
-					CreatedAt:    s.stubPGTimestamptz,
-					UpdatedAt:    s.stubPGTimestamptz,
+					Type:         s.pgText,
+					IntakeStatus: s.pgText,
+					Feeder:       s.pgText,
+					Location:     s.pgText,
+					Remarks:      s.pgText,
+					CreatedAt:    s.pgTimestamptz,
+					UpdatedAt:    s.pgTimestamptz,
 				},
 			},
 			usecaseErr: nil,
@@ -123,24 +123,24 @@ func (s *testSuite) Test_List() {
 					{
 						Id:           99,
 						Name:         "some food",
-						Type:         s.stubString,
-						IntakeStatus: s.stubString,
-						Feeder:       s.stubString,
-						Location:     s.stubString,
-						Remarks:      s.stubString,
-						CreatedAt:    s.stubTimestampWrapper,
-						UpdatedAt:    s.stubTimestampWrapper,
+						Type:         s.stringDummy,
+						IntakeStatus: s.stringDummy,
+						Feeder:       s.stringDummy,
+						Location:     s.stringDummy,
+						Remarks:      s.stringDummy,
+						CreatedAt:    s.timestampWrapper,
+						UpdatedAt:    s.timestampWrapper,
 					},
 					{
 						Id:           999,
 						Name:         "some other food",
-						Type:         s.stubString,
-						IntakeStatus: s.stubString,
-						Feeder:       s.stubString,
-						Location:     s.stubString,
-						Remarks:      s.stubString,
-						CreatedAt:    s.stubTimestampWrapper,
-						UpdatedAt:    s.stubTimestampWrapper,
+						Type:         s.stringDummy,
+						IntakeStatus: s.stringDummy,
+						Feeder:       s.stringDummy,
+						Location:     s.stringDummy,
+						Remarks:      s.stringDummy,
+						CreatedAt:    s.timestampWrapper,
+						UpdatedAt:    s.timestampWrapper,
 					},
 				},
 			},
@@ -155,7 +155,7 @@ func (s *testSuite) Test_List() {
 				mock.AnythingOfType("*food.ListFoodParams"),
 			).Return(tc.usecaseDBRows, tc.usecaseErr).Once()
 
-			resp, err := s.foodServer.List(s.stubCtx, tc.req)
+			resp, err := s.foodServer.List(s.ctx, tc.req)
 			s.Equal(tc.expectedResp, resp)
 			s.Equal(tc.expectedErr, err)
 		})
@@ -185,25 +185,25 @@ func (s *testSuite) Test_Get() {
 			usecaseDBRow: repository.GetFoodRow{
 				ID:           99,
 				Name:         "some food",
-				Type:         s.stubPGText,
-				IntakeStatus: s.stubPGText,
-				Feeder:       s.stubPGText,
-				Location:     s.stubPGText,
-				Remarks:      s.stubPGText,
-				CreatedAt:    s.stubPGTimestamptz,
-				UpdatedAt:    s.stubPGTimestamptz,
+				Type:         s.pgText,
+				IntakeStatus: s.pgText,
+				Feeder:       s.pgText,
+				Location:     s.pgText,
+				Remarks:      s.pgText,
+				CreatedAt:    s.pgTimestamptz,
+				UpdatedAt:    s.pgTimestamptz,
 			},
 			usecaseErr: nil,
 			expectedResp: &apifoodv1.GetResponse{
 				Id:           99,
 				Name:         "some food",
-				Type:         s.stubString,
-				IntakeStatus: s.stubString,
-				Feeder:       s.stubString,
-				Location:     s.stubString,
-				Remarks:      s.stubString,
-				CreatedAt:    s.stubTimestampWrapper,
-				UpdatedAt:    s.stubTimestampWrapper,
+				Type:         s.stringDummy,
+				IntakeStatus: s.stringDummy,
+				Feeder:       s.stringDummy,
+				Location:     s.stringDummy,
+				Remarks:      s.stringDummy,
+				CreatedAt:    s.timestampWrapper,
+				UpdatedAt:    s.timestampWrapper,
 			},
 			expectedErr: nil,
 		},
@@ -216,7 +216,7 @@ func (s *testSuite) Test_Get() {
 				mock.AnythingOfType("int32"),
 			).Return(tc.usecaseDBRow, tc.usecaseErr).Once()
 
-			resp, err := s.foodServer.Get(s.stubCtx, tc.req)
+			resp, err := s.foodServer.Get(s.ctx, tc.req)
 			s.Equal(tc.expectedResp, resp)
 			s.Equal(tc.expectedErr, err)
 		})
@@ -234,12 +234,12 @@ func (s *testSuite) Test_Update() {
 		{
 			testName: "usecase error",
 			req: &apifoodv1.UpdateRequest{
-				Name:           s.stubStringWrapper,
-				TypeId:         s.stubInt32Wrapper,
-				IntakeStatusId: s.stubInt32Wrapper,
-				FeederId:       s.stubInt32Wrapper,
-				LocationId:     s.stubInt32Wrapper,
-				Remarks:        s.stubStringWrapper,
+				Name:           s.stringWrapper,
+				TypeId:         s.int32Wrapper,
+				IntakeStatusId: s.int32Wrapper,
+				FeederId:       s.int32Wrapper,
+				LocationId:     s.int32Wrapper,
+				Remarks:        s.stringWrapper,
 				Id:             99,
 			},
 			usecaseErr:   errors.New(errors.BadRequestError, "bad request"),
@@ -249,12 +249,12 @@ func (s *testSuite) Test_Update() {
 		{
 			testName: "success",
 			req: &apifoodv1.UpdateRequest{
-				Name:           s.stubStringWrapper,
-				TypeId:         s.stubInt32Wrapper,
-				IntakeStatusId: s.stubInt32Wrapper,
-				FeederId:       s.stubInt32Wrapper,
-				LocationId:     s.stubInt32Wrapper,
-				Remarks:        s.stubStringWrapper,
+				Name:           s.stringWrapper,
+				TypeId:         s.int32Wrapper,
+				IntakeStatusId: s.int32Wrapper,
+				FeederId:       s.int32Wrapper,
+				LocationId:     s.int32Wrapper,
+				Remarks:        s.stringWrapper,
 				Id:             99,
 			},
 			usecaseErr:   nil,
@@ -270,7 +270,7 @@ func (s *testSuite) Test_Update() {
 				mock.AnythingOfType("*food.UpdateFoodParams"),
 			).Return(tc.usecaseErr).Once()
 
-			resp, err := s.foodServer.Update(s.stubCtx, tc.req)
+			resp, err := s.foodServer.Update(s.ctx, tc.req)
 			s.Equal(tc.expectedResp, resp)
 			s.Equal(tc.expectedErr, err)
 		})
@@ -308,7 +308,7 @@ func (s *testSuite) Test_Delete() {
 				mock.AnythingOfType("int32"),
 			).Return(tc.usecaseErr).Once()
 
-			resp, err := s.foodServer.Delete(s.stubCtx, tc.req)
+			resp, err := s.foodServer.Delete(s.ctx, tc.req)
 			s.Equal(tc.expectedResp, resp)
 			s.Equal(tc.expectedErr, err)
 		})
