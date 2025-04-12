@@ -7,11 +7,11 @@ import (
 )
 
 func (s *AuthServer) IssueToken(ctx context.Context, user *apiauthv1.IssueTokenRequest) (*apiauthv1.IssueTokenResponse, error) {
-	if err := s.UsersUsecase.CheckUserIsExisting(ctx, user.Username); err != nil {
+	if err := s.usersUsecase.CheckUserIsExisting(ctx, user.Username); err != nil {
 		return nil, err
 	}
 
-	signedToken, err := s.Auth.IssueToken(user.Username)
+	signedToken, err := s.auth.IssueToken(user.Username)
 	if err != nil {
 		return nil, err
 	}

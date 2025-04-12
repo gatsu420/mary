@@ -10,14 +10,14 @@ import (
 
 type AuthServer struct {
 	apiauthv1.UnimplementedAuthServiceServer
-	Auth         auth.Auth
-	UsersUsecase users.Usecase
+	auth         auth.Auth
+	usersUsecase users.Usecase
 }
 
 func NewAuthServer(auth auth.Auth, usersUsecase users.Usecase) *AuthServer {
 	return &AuthServer{
-		Auth:         auth,
-		UsersUsecase: usersUsecase,
+		auth:         auth,
+		usersUsecase: usersUsecase,
 	}
 }
 
@@ -25,12 +25,12 @@ var _ apiauthv1.AuthServiceServer = (*AuthServer)(nil)
 
 type FoodServer struct {
 	apifoodv1.UnimplementedFoodServiceServer
-	Usecase food.Usecase
+	usecase food.Usecase
 }
 
 func NewFoodServer(usecase food.Usecase) *FoodServer {
 	return &FoodServer{
-		Usecase: usecase,
+		usecase: usecase,
 	}
 }
 
