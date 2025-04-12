@@ -15,6 +15,12 @@ type testSuite struct {
 	username string
 }
 
+var (
+	_ suite.TestingSuite   = (*testSuite)(nil)
+	_ suite.SetupAllSuite  = (*testSuite)(nil)
+	_ suite.SetupTestSuite = (*testSuite)(nil)
+)
+
 func (s *testSuite) SetupSuite() {
 	s.secret = "nasi_gila"
 	s.username = "es_teh_manis"

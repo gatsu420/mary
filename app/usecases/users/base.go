@@ -14,6 +14,8 @@ type usecaseImpl struct {
 	query repository.Querier
 }
 
+var _ Usecase = (*usecaseImpl)(nil)
+
 func NewUsecase(query repository.Querier) Usecase {
 	return &usecaseImpl{
 		query: query,

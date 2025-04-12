@@ -22,6 +22,12 @@ type testSuite struct {
 	pgInt4        pgtype.Int4
 }
 
+var (
+	_ suite.TestingSuite   = (*testSuite)(nil)
+	_ suite.SetupAllSuite  = (*testSuite)(nil)
+	_ suite.SetupTestSuite = (*testSuite)(nil)
+)
+
 func (s *testSuite) SetupSuite() {
 	s.ctx = context.Background()
 	s.pgText = pgtype.Text{String: "test", Valid: true}

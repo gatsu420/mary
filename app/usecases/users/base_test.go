@@ -17,6 +17,12 @@ type testSuite struct {
 	ctx context.Context
 }
 
+var (
+	_ suite.TestingSuite   = (*testSuite)(nil)
+	_ suite.SetupAllSuite  = (*testSuite)(nil)
+	_ suite.SetupTestSuite = (*testSuite)(nil)
+)
+
 func (s *testSuite) SetupSuite() {
 	s.ctx = context.Background()
 }
