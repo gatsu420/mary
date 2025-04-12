@@ -24,7 +24,7 @@ func ValidateToken(auth auth.Auth) grpc.UnaryServerInterceptor {
 
 		md, _ := metadata.FromIncomingContext(ctx)
 		signedToken := md["authorization"][0]
-		if len(signedToken) == 0 && !publicMethods[info.FullMethod] {
+		if len(signedToken) == 0 {
 			return nil, errors.New(errors.InternalServerError, "token is not provided")
 		}
 
@@ -34,7 +34,6 @@ func ValidateToken(auth auth.Auth) grpc.UnaryServerInterceptor {
 		}
 
 		ctx = context.WithValue(ctx, authTokenClaimCtx, userID)
-
 		return handler(ctx, req)
 	}
 }
