@@ -34,7 +34,6 @@ func ValidateToken(auth auth.Auth) grpc.UnaryServerInterceptor {
 		}
 
 		ctx = context.WithValue(ctx, authTokenClaimCtx, userID)
-
 		return handler(ctx, req)
 	}
 }
