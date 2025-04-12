@@ -37,6 +37,12 @@ type testSuite struct {
 	int32Wrapper *wrapperspb.Int32Value
 }
 
+var (
+	_ suite.TestingSuite   = (*testSuite)(nil)
+	_ suite.SetupAllSuite  = (*testSuite)(nil)
+	_ suite.SetupTestSuite = (*testSuite)(nil)
+)
+
 func (s *testSuite) SetupSuite() {
 	s.ctx = context.Background()
 	s.timeSec = 1744208782

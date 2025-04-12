@@ -21,6 +21,8 @@ func NewAuthServer(auth auth.Auth, usersUsecase users.Usecase) *AuthServer {
 	}
 }
 
+var _ apiauthv1.AuthServiceServer = (*AuthServer)(nil)
+
 type FoodServer struct {
 	apifoodv1.UnimplementedFoodServiceServer
 	Usecase food.Usecase
@@ -31,3 +33,5 @@ func NewFoodServer(usecase food.Usecase) *FoodServer {
 		Usecase: usecase,
 	}
 }
+
+var _ apifoodv1.FoodServiceServer = (*FoodServer)(nil)

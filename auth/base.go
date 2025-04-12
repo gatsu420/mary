@@ -9,6 +9,8 @@ type authImpl struct {
 	secret string
 }
 
+var _ Auth = &authImpl{}
+
 func NewAuth(secret string) Auth {
 	return &authImpl{
 		secret: secret,
