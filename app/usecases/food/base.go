@@ -18,8 +18,8 @@ type usecaseImpl struct {
 	query repository.Querier
 }
 
-func NewUsecase(q repository.Querier) Usecase {
+func NewUsecase(query repository.Querier) Usecase {
 	return &usecaseImpl{
-		query: q,
+		query: query,
 	}
 }
