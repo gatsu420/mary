@@ -34,12 +34,12 @@ insert into food (
 `
 
 type CreateFoodParams struct {
-	Name           string      `db:"name"`
-	TypeID         int32       `db:"type_id"`
-	IntakeStatusID int32       `db:"intake_status_id"`
-	FeederID       int32       `db:"feeder_id"`
-	LocationID     int32       `db:"location_id"`
-	Remarks        pgtype.Text `db:"remarks"`
+	Name           string
+	TypeID         int32
+	IntakeStatusID int32
+	FeederID       int32
+	LocationID     int32
+	Remarks        pgtype.Text
 }
 
 func (q *Queries) CreateFood(ctx context.Context, arg *CreateFoodParams) error {
@@ -92,15 +92,15 @@ and f.removed_at is null
 `
 
 type GetFoodRow struct {
-	ID           int32              `db:"id"`
-	Name         string             `db:"name"`
-	Type         pgtype.Text        `db:"type"`
-	IntakeStatus pgtype.Text        `db:"intake_status"`
-	Feeder       pgtype.Text        `db:"feeder"`
-	Location     pgtype.Text        `db:"location"`
-	Remarks      pgtype.Text        `db:"remarks"`
-	CreatedAt    pgtype.Timestamptz `db:"created_at"`
-	UpdatedAt    pgtype.Timestamptz `db:"updated_at"`
+	ID           int32
+	Name         string
+	Type         pgtype.Text
+	IntakeStatus pgtype.Text
+	Feeder       pgtype.Text
+	Location     pgtype.Text
+	Remarks      pgtype.Text
+	CreatedAt    pgtype.Timestamptz
+	UpdatedAt    pgtype.Timestamptz
 }
 
 func (q *Queries) GetFood(ctx context.Context, id int32) (GetFoodRow, error) {
@@ -156,24 +156,24 @@ and (
 `
 
 type ListFoodParams struct {
-	StartTimestamp pgtype.Timestamptz `db:"start_timestamp"`
-	EndTimestamp   pgtype.Timestamptz `db:"end_timestamp"`
-	Type           pgtype.Text        `db:"type"`
-	IntakeStatus   pgtype.Text        `db:"intake_status"`
-	Feeder         pgtype.Text        `db:"feeder"`
-	Location       pgtype.Text        `db:"location"`
+	StartTimestamp pgtype.Timestamptz
+	EndTimestamp   pgtype.Timestamptz
+	Type           pgtype.Text
+	IntakeStatus   pgtype.Text
+	Feeder         pgtype.Text
+	Location       pgtype.Text
 }
 
 type ListFoodRow struct {
-	ID           int32              `db:"id"`
-	Name         string             `db:"name"`
-	Type         pgtype.Text        `db:"type"`
-	IntakeStatus pgtype.Text        `db:"intake_status"`
-	Feeder       pgtype.Text        `db:"feeder"`
-	Location     pgtype.Text        `db:"location"`
-	Remarks      pgtype.Text        `db:"remarks"`
-	CreatedAt    pgtype.Timestamptz `db:"created_at"`
-	UpdatedAt    pgtype.Timestamptz `db:"updated_at"`
+	ID           int32
+	Name         string
+	Type         pgtype.Text
+	IntakeStatus pgtype.Text
+	Feeder       pgtype.Text
+	Location     pgtype.Text
+	Remarks      pgtype.Text
+	CreatedAt    pgtype.Timestamptz
+	UpdatedAt    pgtype.Timestamptz
 }
 
 func (q *Queries) ListFood(ctx context.Context, arg *ListFoodParams) ([]ListFoodRow, error) {
@@ -229,13 +229,13 @@ returning id, name, type_id, intake_status_id, feeder_id, location_id, remarks, 
 `
 
 type UpdateFoodParams struct {
-	Name           pgtype.Text `db:"name"`
-	TypeID         pgtype.Int4 `db:"type_id"`
-	IntakeStatusID pgtype.Int4 `db:"intake_status_id"`
-	FeederID       pgtype.Int4 `db:"feeder_id"`
-	LocationID     pgtype.Int4 `db:"location_id"`
-	Remarks        pgtype.Text `db:"remarks"`
-	ID             int32       `db:"id"`
+	Name           pgtype.Text
+	TypeID         pgtype.Int4
+	IntakeStatusID pgtype.Int4
+	FeederID       pgtype.Int4
+	LocationID     pgtype.Int4
+	Remarks        pgtype.Text
+	ID             int32
 }
 
 func (q *Queries) UpdateFood(ctx context.Context, arg *UpdateFoodParams) (int64, error) {

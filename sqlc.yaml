@@ -8,7 +8,6 @@ sql:
         package: "repository"
         out: "./db/repository"
         sql_package: "pgx/v5"
-        emit_db_tags: true
         emit_interface: true
         emit_exact_table_names: true
         emit_params_struct_pointers: true
