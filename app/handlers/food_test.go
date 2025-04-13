@@ -2,8 +2,8 @@ package handlers_test
 
 import (
 	apifoodv1 "github.com/gatsu420/mary/api/gen/go/food/v1"
+	"github.com/gatsu420/mary/app/usecases/food"
 	"github.com/gatsu420/mary/common/errors"
-	"github.com/gatsu420/mary/db/repository"
 	"github.com/stretchr/testify/mock"
 )
 
@@ -63,7 +63,7 @@ func (s *testSuite) Test_List() {
 	testCases := []struct {
 		testName      string
 		req           *apifoodv1.ListRequest
-		usecaseDBRows []repository.ListFoodRow
+		usecaseDBRows []food.ListFoodRow
 		usecaseErr    error
 		expectedResp  *apifoodv1.ListResponse
 		expectedErr   error
@@ -93,7 +93,7 @@ func (s *testSuite) Test_List() {
 				Feeder:         s.stringWrapper,
 				Location:       s.stringWrapper,
 			},
-			usecaseDBRows: []repository.ListFoodRow{
+			usecaseDBRows: []food.ListFoodRow{
 				{
 					ID:           99,
 					Name:         "some food",
@@ -166,7 +166,7 @@ func (s *testSuite) Test_Get() {
 	testCases := []struct {
 		testName     string
 		req          *apifoodv1.GetRequest
-		usecaseDBRow repository.GetFoodRow
+		usecaseDBRow *food.GetFoodRow
 		usecaseErr   error
 		expectedResp *apifoodv1.GetResponse
 		expectedErr  error
@@ -174,7 +174,7 @@ func (s *testSuite) Test_Get() {
 		{
 			testName:     "usecase error",
 			req:          &apifoodv1.GetRequest{Id: 99},
-			usecaseDBRow: repository.GetFoodRow{},
+			usecaseDBRow: &food.GetFoodRow{},
 			usecaseErr:   errors.New(errors.BadRequestError, "bad request"),
 			expectedResp: nil,
 			expectedErr:  errors.New(errors.BadRequestError, "bad request"),
@@ -182,7 +182,7 @@ func (s *testSuite) Test_Get() {
 		{
 			testName: "success",
 			req:      &apifoodv1.GetRequest{Id: 99},
-			usecaseDBRow: repository.GetFoodRow{
+			usecaseDBRow: &food.GetFoodRow{
 				ID:           99,
 				Name:         "some food",
 				Type:         s.pgText,
