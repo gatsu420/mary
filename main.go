@@ -20,7 +20,7 @@ import (
 )
 
 func main() {
-	cfg, err := config.LoadConfig(".env")
+	cfg, err := config.New(".env")
 	if err != nil {
 		log.Fatal().Msgf("failed to read config file: %v", err)
 	}
