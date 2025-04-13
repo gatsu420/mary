@@ -9,58 +9,58 @@ import (
 )
 
 type Food struct {
-	ID             int32              `db:"id"`
-	Name           string             `db:"name"`
-	TypeID         int32              `db:"type_id"`
-	IntakeStatusID int32              `db:"intake_status_id"`
-	FeederID       int32              `db:"feeder_id"`
-	LocationID     int32              `db:"location_id"`
-	Remarks        pgtype.Text        `db:"remarks"`
-	CreatedAt      pgtype.Timestamptz `db:"created_at"`
-	UpdatedAt      pgtype.Timestamptz `db:"updated_at"`
-	RemovedAt      pgtype.Timestamptz `db:"removed_at"`
+	ID             int32
+	Name           string
+	TypeID         int32
+	IntakeStatusID int32
+	FeederID       int32
+	LocationID     int32
+	Remarks        pgtype.Text
+	CreatedAt      pgtype.Timestamptz
+	UpdatedAt      pgtype.Timestamptz
+	RemovedAt      pgtype.Timestamptz
 }
 
 type FoodFeeders struct {
-	ID        int32              `db:"id"`
-	Name      string             `db:"name"`
-	CreatedAt pgtype.Timestamptz `db:"created_at"`
-	UpdatedAt pgtype.Timestamptz `db:"updated_at"`
+	ID        int32
+	Name      string
+	CreatedAt pgtype.Timestamptz
+	UpdatedAt pgtype.Timestamptz
 }
 
 type FoodIntakeStatus struct {
-	ID        int32              `db:"id"`
-	Name      string             `db:"name"`
-	CreatedAt pgtype.Timestamptz `db:"created_at"`
-	UpdatedAt pgtype.Timestamptz `db:"updated_at"`
+	ID        int32
+	Name      string
+	CreatedAt pgtype.Timestamptz
+	UpdatedAt pgtype.Timestamptz
 }
 
 type FoodLocations struct {
-	ID        int32              `db:"id"`
-	Name      string             `db:"name"`
-	CreatedAt pgtype.Timestamptz `db:"created_at"`
-	UpdatedAt pgtype.Timestamptz `db:"updated_at"`
+	ID        int32
+	Name      string
+	CreatedAt pgtype.Timestamptz
+	UpdatedAt pgtype.Timestamptz
 }
 
 type FoodTypes struct {
-	ID        int32              `db:"id"`
-	Name      string             `db:"name"`
-	CreatedAt pgtype.Timestamptz `db:"created_at"`
-	UpdatedAt pgtype.Timestamptz `db:"updated_at"`
+	ID        int32
+	Name      string
+	CreatedAt pgtype.Timestamptz
+	UpdatedAt pgtype.Timestamptz
 }
 
 type UserTypes struct {
-	ID        int32              `db:"id"`
-	Name      string             `db:"name"`
-	CreatedAt pgtype.Timestamptz `db:"created_at"`
-	UpdatedAt pgtype.Timestamptz `db:"updated_at"`
+	ID        int32
+	Name      string
+	CreatedAt pgtype.Timestamptz
+	UpdatedAt pgtype.Timestamptz
 }
 
 type Users struct {
-	ID        int32              `db:"id"`
-	Username  string             `db:"username"`
-	TypeID    int32              `db:"type_id"`
-	CreatedAt pgtype.Timestamptz `db:"created_at"`
-	UpdatedAt pgtype.Timestamptz `db:"updated_at"`
-	RemovedAt pgtype.Timestamptz `db:"removed_at"`
+	ID        int32
+	Username  string
+	TypeID    int32
+	CreatedAt pgtype.Timestamptz
+	UpdatedAt pgtype.Timestamptz
+	RemovedAt pgtype.Timestamptz
 }
