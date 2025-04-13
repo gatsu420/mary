@@ -13,7 +13,7 @@ func (s *testSuite) Test_ListFood() {
 		arg              *food.ListFoodParams
 		repoFoodList     []repository.ListFoodRow
 		repoErr          error
-		expectedFoodList []repository.ListFoodRow
+		expectedFoodList []food.ListFoodRow
 		expectedErr      error
 	}{
 		{
@@ -55,7 +55,7 @@ func (s *testSuite) Test_ListFood() {
 				},
 			},
 			repoErr: nil,
-			expectedFoodList: []repository.ListFoodRow{
+			expectedFoodList: []food.ListFoodRow{
 				{
 					ID:           99,
 					Name:         "test",
