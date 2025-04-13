@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_LoadConfig(t *testing.T) {
+func Test_New(t *testing.T) {
 	testCases := []struct {
 		testName       string
 		filePath       string
@@ -31,7 +31,7 @@ func Test_LoadConfig(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.testName, func(t *testing.T) {
-			cfg, err := config.LoadConfig(tc.filePath)
+			cfg, err := config.New(tc.filePath)
 			assert.Equal(t, tc.expectedConfig, cfg)
 			if tc.expectedConfig == nil {
 				assert.NotNil(t, err)

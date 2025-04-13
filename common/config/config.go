@@ -12,7 +12,7 @@ type Config struct {
 	JWTSecret      string
 }
 
-func LoadConfig(filePath string) (*Config, error) {
+func New(filePath string) (*Config, error) {
 	if err := godotenv.Load(filePath); err != nil {
 		return nil, err
 	}
