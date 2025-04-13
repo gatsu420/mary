@@ -1,6 +1,7 @@
 package food_test
 
 import (
+	"github.com/gatsu420/mary/app/usecases/food"
 	"github.com/gatsu420/mary/common/errors"
 	"github.com/gatsu420/mary/db/repository"
 	"github.com/jackc/pgx/v5"
@@ -13,7 +14,7 @@ func (s *testSuite) Test_GetFood() {
 		id           int32
 		repoFood     repository.GetFoodRow
 		repoErr      error
-		expectedFood repository.GetFoodRow
+		expectedFood *food.GetFoodRow
 		expectedErr  error
 	}{
 		{
@@ -21,7 +22,7 @@ func (s *testSuite) Test_GetFood() {
 			id:           99,
 			repoFood:     repository.GetFoodRow{},
 			repoErr:      errors.New(errors.InternalServerError, "DB error"),
-			expectedFood: repository.GetFoodRow{},
+			expectedFood: &food.GetFoodRow{},
 			expectedErr:  errors.New(errors.InternalServerError, "DB failed to get food"),
 		},
 		{
@@ -29,7 +30,7 @@ func (s *testSuite) Test_GetFood() {
 			id:           99,
 			repoFood:     repository.GetFoodRow{},
 			repoErr:      pgx.ErrNoRows,
-			expectedFood: repository.GetFoodRow{},
+			expectedFood: &food.GetFoodRow{},
 			expectedErr:  errors.New(errors.NotFoundError, "food not found"),
 		},
 		{
@@ -47,7 +48,7 @@ func (s *testSuite) Test_GetFood() {
 				UpdatedAt:    s.pgTimestamptz,
 			},
 			repoErr: nil,
-			expectedFood: repository.GetFoodRow{
+			expectedFood: &food.GetFoodRow{
 				ID:           99,
 				Name:         "test",
 				Type:         s.pgText,
