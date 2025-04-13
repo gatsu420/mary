@@ -17,7 +17,19 @@ type ListFoodParams struct {
 	Location       pgtype.Text
 }
 
-func (u *usecaseImpl) ListFood(ctx context.Context, arg *ListFoodParams) ([]repository.ListFoodRow, error) {
+type ListFoodRow struct {
+	ID           int32
+	Name         string
+	Type         pgtype.Text
+	IntakeStatus pgtype.Text
+	Feeder       pgtype.Text
+	Location     pgtype.Text
+	Remarks      pgtype.Text
+	CreatedAt    pgtype.Timestamptz
+	UpdatedAt    pgtype.Timestamptz
+}
+
+func (u *usecaseImpl) ListFood(ctx context.Context, arg *ListFoodParams) ([]ListFoodRow, error) {
 	params := &repository.ListFoodParams{
 		StartTimestamp: arg.StartTimestamp,
 		EndTimestamp:   arg.EndTimestamp,
@@ -31,5 +43,21 @@ func (u *usecaseImpl) ListFood(ctx context.Context, arg *ListFoodParams) ([]repo
 	if err != nil {
 		return nil, errors.New(errors.InternalServerError, "DB failed to list food")
 	}
-	return foodList, nil
+
+	rows := []ListFoodRow{}
+	for _, f := range foodList {
+		rows = append(rows, ListFoodRow{
+			ID:           f.ID,
+			Name:         f.Name,
+			Type:         f.Type,
+			IntakeStatus: f.IntakeStatus,
+			Feeder:       f.Feeder,
+			Location:     f.Location,
+			Remarks:      f.Remarks,
+			CreatedAt:    f.CreatedAt,
+			UpdatedAt:    f.UpdatedAt,
+		})
+	}
+
+	return rows, nil
 }
