@@ -1,9 +1,9 @@
 package food_test
 
 import (
+	"github.com/gatsu420/mary/app/repository"
 	"github.com/gatsu420/mary/app/usecases/food"
 	"github.com/gatsu420/mary/common/errors"
-	"github.com/gatsu420/mary/db/repository"
 	"github.com/stretchr/testify/mock"
 )
 

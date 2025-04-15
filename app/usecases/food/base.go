@@ -3,7 +3,7 @@ package food
 import (
 	"context"
 
-	"github.com/gatsu420/mary/db/repository"
+	"github.com/gatsu420/mary/app/repository"
 )
 
 type Usecase interface {

@@ -5,7 +5,7 @@ package mockrepository
 import (
 	context "context"
 
-	repository "github.com/gatsu420/mary/db/repository"
+	repository "github.com/gatsu420/mary/app/repository"
 	mock "github.com/stretchr/testify/mock"
 )
 

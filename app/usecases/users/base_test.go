@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/gatsu420/mary/app/usecases/users"
-	mockrepository "github.com/gatsu420/mary/mocks/db/repository"
+	mockrepository "github.com/gatsu420/mary/mocks/app/repository"
 	"github.com/stretchr/testify/suite"
 )
 

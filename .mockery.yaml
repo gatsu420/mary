@@ -3,10 +3,10 @@ filename: "mock_{{ .InterfaceName | snakecase }}.go"
 outpkg: "mock{{ .PackageName }}"
 
 packages:
-  github.com/gatsu420/mary/db/repository:
+  github.com/gatsu420/mary/app/repository:
     config:
       include-regex: "Querier"
-      dir: "./mocks/db/repository"
+      dir: "./mocks/app/repository"
 
   github.com/gatsu420/mary/app/usecases/food:
     config:

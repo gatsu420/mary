@@ -1,14 +1,25 @@
 .PHONY: migration-up
 migration-up:
-	dbmate --env POSTGRES_URL up
+	dbmate \
+		--env MARY_POSTGRES_URL \
+		--migrations-dir "./dependency/postgres/migrations" \
+		--schema-file "./dependency/postgres/schema.sql" \
+		up
 
 .PHONY: migration-down
 migration-down:
-	dbmate --env POSTGRES_URL down
+	dbmate \
+		--env MARY_POSTGRES_URL \
+		--migrations-dir "./dependency/postgres/migrations" \
+		--schema-file "./dependency/postgres/schema.sql" \
+		down
 
 .PHONY: migration-new
 migration-new:
-	dbmate --env POSTGRES_URL new $(NAME)
+	dbmate \
+		--env MARY_POSTGRES_URL \
+		--migrations-dir "./dependency/postgres/migrations" \
+		new $(NAME)
 
 .PHONY: sqlc-gen
 sqlc-gen:

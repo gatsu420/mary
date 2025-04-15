@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/gatsu420/mary/app/usecases/food"
-	mockrepository "github.com/gatsu420/mary/mocks/db/repository"
+	mockrepository "github.com/gatsu420/mary/mocks/app/repository"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/stretchr/testify/suite"
 )
