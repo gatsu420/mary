@@ -3,8 +3,8 @@ package food
 import (
 	"context"
 
+	"github.com/gatsu420/mary/app/repository"
 	"github.com/gatsu420/mary/common/errors"
-	"github.com/gatsu420/mary/db/repository"
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
