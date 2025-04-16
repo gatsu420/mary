@@ -1,11 +1,11 @@
-package utils
+package pbwrappers
 
 import (
 	"github.com/jackc/pgx/v5/pgtype"
 	"google.golang.org/protobuf/types/known/wrapperspb"
 )
 
-func NullStringWrapperToPGText(wrapper *wrapperspb.StringValue) pgtype.Text {
+func ToPGText(wrapper *wrapperspb.StringValue) pgtype.Text {
 	if wrapper == nil {
 		return pgtype.Text{
 			Valid: false,
@@ -18,7 +18,7 @@ func NullStringWrapperToPGText(wrapper *wrapperspb.StringValue) pgtype.Text {
 	}
 }
 
-func NullInt32WrapperToPGInt4(wrapper *wrapperspb.Int32Value) pgtype.Int4 {
+func ToPGInt4(wrapper *wrapperspb.Int32Value) pgtype.Int4 {
 	if wrapper == nil {
 		return pgtype.Int4{
 			Valid: false,
