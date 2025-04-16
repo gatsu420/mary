@@ -1,7 +1,7 @@
 .PHONY: migration-up
 migration-up:
 	dbmate \
-		--env MARY_POSTGRES_URL \
+		--env MARY_POSTGRES_DSN \
 		--migrations-dir "./dependency/postgres/migrations" \
 		--schema-file "./dependency/postgres/schema.sql" \
 		up
@@ -9,7 +9,7 @@ migration-up:
 .PHONY: migration-down
 migration-down:
 	dbmate \
-		--env MARY_POSTGRES_URL \
+		--env MARY_POSTGRES_DSN \
 		--migrations-dir "./dependency/postgres/migrations" \
 		--schema-file "./dependency/postgres/schema.sql" \
 		down
@@ -17,7 +17,7 @@ migration-down:
 .PHONY: migration-new
 migration-new:
 	dbmate \
-		--env MARY_POSTGRES_URL \
+		--env MARY_POSTGRES_DSN \
 		--migrations-dir "./dependency/postgres/migrations" \
 		new $(NAME)
 

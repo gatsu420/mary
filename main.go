@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"net"
 
@@ -14,7 +13,7 @@ import (
 	"github.com/gatsu420/mary/app/usecases/food"
 	"github.com/gatsu420/mary/app/usecases/users"
 	"github.com/gatsu420/mary/common/config"
-	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/gatsu420/mary/dependency/postgres"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
 )
@@ -25,14 +24,17 @@ func main() {
 		log.Fatal().Msgf("failed to read config file: %v", err)
 	}
 
-	dbpool, _ := pgxpool.New(context.Background(), cfg.PostgresURL)
-	defer dbpool.Close()
-	dbQueries := repository.New(dbpool)
+	dbPool, err := postgres.NewPool(cfg.PostgresDSN)
+	if err != nil {
+		log.Fatal().Msgf("failed to create DB connection: %v", err)
+	}
+	defer dbPool.Close()
+	dbQuerier := repository.New(dbPool)
 
 	auth := auth.NewAuth(cfg.JWTSecret)
 
-	foodUsecase := food.NewUsecase(dbQueries)
-	usersUsecase := users.NewUsecase(dbQueries)
+	foodUsecase := food.NewUsecase(dbQuerier)
+	usersUsecase := users.NewUsecase(dbQuerier)
 
 	grpcServer := grpc.NewServer(
 		grpc.ChainUnaryInterceptor(

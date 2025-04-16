@@ -22,7 +22,7 @@ func Test_New(t *testing.T) {
 			testName: "file is found",
 			filePath: "../../.env.example",
 			expectedConfig: &config.Config{
-				PostgresURL:    "postgres://user:pass@localhost:5432/testdb?sslmode=disable",
+				PostgresDSN:    "postgres://user:pass@localhost:5432/testdb?sslmode=disable",
 				GRPCServerPort: "9090",
 				JWTSecret:      "secret",
 			},
