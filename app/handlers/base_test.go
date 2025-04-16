@@ -6,9 +6,9 @@ import (
 	"time"
 
 	"github.com/gatsu420/mary/app/handlers"
+	mockauth "github.com/gatsu420/mary/mocks/app/auth"
 	mockfood "github.com/gatsu420/mary/mocks/app/usecases/food"
 	mockusers "github.com/gatsu420/mary/mocks/app/usecases/users"
-	mockauth "github.com/gatsu420/mary/mocks/auth"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/stretchr/testify/suite"
 	"google.golang.org/protobuf/types/known/timestamppb"
