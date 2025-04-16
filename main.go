@@ -24,17 +24,17 @@ func main() {
 		log.Fatal().Msgf("failed to read config file: %v", err)
 	}
 
-	dbpool, err := postgres.NewPool(cfg.PostgresDSN)
+	dbPool, err := postgres.NewPool(cfg.PostgresDSN)
 	if err != nil {
 		log.Fatal().Msgf("failed to create DB connection: %v", err)
 	}
-	defer dbpool.Close()
-	dbQueries := repository.New(dbpool)
+	defer dbPool.Close()
+	dbQuerier := repository.New(dbPool)
 
 	auth := auth.NewAuth(cfg.JWTSecret)
 
-	foodUsecase := food.NewUsecase(dbQueries)
-	usersUsecase := users.NewUsecase(dbQueries)
+	foodUsecase := food.NewUsecase(dbQuerier)
+	usersUsecase := users.NewUsecase(dbQuerier)
 
 	grpcServer := grpc.NewServer(
 		grpc.ChainUnaryInterceptor(
