@@ -3,9 +3,9 @@ package handlers
 import (
 	apiauthv1 "github.com/gatsu420/mary/api/gen/go/auth/v1"
 	apifoodv1 "github.com/gatsu420/mary/api/gen/go/food/v1"
+	"github.com/gatsu420/mary/app/auth"
 	"github.com/gatsu420/mary/app/usecases/food"
 	"github.com/gatsu420/mary/app/usecases/users"
-	"github.com/gatsu420/mary/auth"
 )
 
 type AuthServer struct {

@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
+	"github.com/gatsu420/mary/app/auth"
 	"github.com/gatsu420/mary/app/interceptors"
-	"github.com/gatsu420/mary/auth"
 	"github.com/gatsu420/mary/common/errors"
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/grpc"

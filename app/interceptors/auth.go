@@ -3,7 +3,7 @@ package interceptors
 import (
 	"context"
 
-	"github.com/gatsu420/mary/auth"
+	"github.com/gatsu420/mary/app/auth"
 	"github.com/gatsu420/mary/common/errors"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"

@@ -3,7 +3,7 @@ package auth_test
 import (
 	"testing"
 
-	"github.com/gatsu420/mary/auth"
+	"github.com/gatsu420/mary/app/auth"
 	"github.com/stretchr/testify/suite"
 )
 
