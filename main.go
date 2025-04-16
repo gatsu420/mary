@@ -24,7 +24,7 @@ func main() {
 		log.Fatal().Msgf("failed to read config file: %v", err)
 	}
 
-	dbpool, err := postgres.NewPool(cfg.PostgresURL)
+	dbpool, err := postgres.NewPool(cfg.PostgresDSN)
 	if err != nil {
 		log.Fatal().Msgf("failed to create DB connection: %v", err)
 	}
