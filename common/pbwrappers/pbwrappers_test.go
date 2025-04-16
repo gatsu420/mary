@@ -1,15 +1,15 @@
-package utils_test
+package pbwrappers_test
 
 import (
 	"testing"
 
-	"github.com/gatsu420/mary/common/utils"
+	"github.com/gatsu420/mary/common/pbwrappers"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/protobuf/types/known/wrapperspb"
 )
 
-func Test_NullStringWrapperToPGText(t *testing.T) {
+func Test_ToPGText(t *testing.T) {
 	testCases := []struct {
 		testName       string
 		wrapper        *wrapperspb.StringValue
@@ -35,12 +35,12 @@ func Test_NullStringWrapperToPGText(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		pgText := utils.NullStringWrapperToPGText(tc.wrapper)
+		pgText := pbwrappers.ToPGText(tc.wrapper)
 		assert.Equal(t, tc.expectedPGText, pgText)
 	}
 }
 
-func Test_NullInt32WrapperToPGInt4(t *testing.T) {
+func Test_ToPGInt4(t *testing.T) {
 	testCases := []struct {
 		testname       string
 		wrapper        *wrapperspb.Int32Value
@@ -66,7 +66,7 @@ func Test_NullInt32WrapperToPGInt4(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		pgInt4 := utils.NullInt32WrapperToPGInt4(tc.wrapper)
+		pgInt4 := pbwrappers.ToPGInt4(tc.wrapper)
 		assert.Equal(t, tc.expectedPGInt4, pgInt4)
 	}
 }

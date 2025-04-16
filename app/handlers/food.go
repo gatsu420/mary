@@ -5,7 +5,7 @@ import (
 
 	apifoodv1 "github.com/gatsu420/mary/api/gen/go/food/v1"
 	"github.com/gatsu420/mary/app/usecases/food"
-	"github.com/gatsu420/mary/common/utils"
+	"github.com/gatsu420/mary/common/pbwrappers"
 	"github.com/jackc/pgx/v5/pgtype"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -17,7 +17,7 @@ func (fs *FoodServer) Create(ctx context.Context, req *apifoodv1.CreateRequest) 
 		IntakeStatusID: req.IntakeStatusId,
 		FeederID:       req.FeederId,
 		LocationID:     req.LocationId,
-		Remarks:        utils.NullStringWrapperToPGText(req.Remarks),
+		Remarks:        pbwrappers.ToPGText(req.Remarks),
 	}
 
 	if err := fs.usecase.CreateFood(ctx, params); err != nil {
@@ -36,10 +36,10 @@ func (fs *FoodServer) List(ctx context.Context, req *apifoodv1.ListRequest) (*ap
 			Time:  req.EndTimestamp.AsTime(),
 			Valid: true,
 		},
-		Type:         utils.NullStringWrapperToPGText(req.Type),
-		IntakeStatus: utils.NullStringWrapperToPGText(req.IntakeStatus),
-		Feeder:       utils.NullStringWrapperToPGText(req.Feeder),
-		Location:     utils.NullStringWrapperToPGText(req.Location),
+		Type:         pbwrappers.ToPGText(req.Type),
+		IntakeStatus: pbwrappers.ToPGText(req.IntakeStatus),
+		Feeder:       pbwrappers.ToPGText(req.Feeder),
+		Location:     pbwrappers.ToPGText(req.Location),
 	}
 	dbRows, err := fs.usecase.ListFood(ctx, params)
 	if err != nil {
@@ -85,12 +85,12 @@ func (fs *FoodServer) Get(ctx context.Context, req *apifoodv1.GetRequest) (*apif
 
 func (fs *FoodServer) Update(ctx context.Context, req *apifoodv1.UpdateRequest) (*apifoodv1.UpdateResponse, error) {
 	params := &food.UpdateFoodParams{
-		Name:           utils.NullStringWrapperToPGText(req.Name),
-		TypeID:         utils.NullInt32WrapperToPGInt4(req.TypeId),
-		IntakeStatusID: utils.NullInt32WrapperToPGInt4(req.IntakeStatusId),
-		FeederID:       utils.NullInt32WrapperToPGInt4(req.FeederId),
-		LocationID:     utils.NullInt32WrapperToPGInt4(req.LocationId),
-		Remarks:        utils.NullStringWrapperToPGText(req.Remarks),
+		Name:           pbwrappers.ToPGText(req.Name),
+		TypeID:         pbwrappers.ToPGInt4(req.TypeId),
+		IntakeStatusID: pbwrappers.ToPGInt4(req.IntakeStatusId),
+		FeederID:       pbwrappers.ToPGInt4(req.FeederId),
+		LocationID:     pbwrappers.ToPGInt4(req.LocationId),
+		Remarks:        pbwrappers.ToPGText(req.Remarks),
 		ID:             req.Id,
 	}
 
