@@ -28,6 +28,7 @@ func main() {
 	if err != nil {
 		log.Fatal().Msgf("failed to create DB connection: %v", err)
 	}
+	defer dbpool.Close()
 	dbQueries := repository.New(dbpool)
 
 	auth := auth.NewAuth(cfg.JWTSecret)

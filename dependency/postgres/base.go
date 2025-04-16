@@ -11,7 +11,6 @@ func NewPool(dsn string) (*pgxpool.Pool, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer pool.Close()
 
 	return pool, nil
 }
