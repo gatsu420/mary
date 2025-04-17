@@ -8,6 +8,14 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+type Events struct {
+	ID         int32
+	Name       string
+	UserID     string
+	CreatedAt  pgtype.Timestamptz
+	InsertedAt pgtype.Timestamptz
+}
+
 type Food struct {
 	ID             int32
 	Name           string

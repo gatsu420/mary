@@ -12,6 +12,8 @@ type Usecase interface {
 	GetFood(ctx context.Context, id int32) (*GetFoodRow, error)
 	UpdateFood(ctx context.Context, arg *UpdateFoodParams) error
 	DeleteFood(ctx context.Context, id int32) error
+
+	CreateEvent(ctx context.Context) error
 }
 
 type usecaseImpl struct {
