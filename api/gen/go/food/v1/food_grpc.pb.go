@@ -19,11 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	FoodService_Create_FullMethodName = "/food.v1.FoodService/Create"
-	FoodService_List_FullMethodName   = "/food.v1.FoodService/List"
-	FoodService_Get_FullMethodName    = "/food.v1.FoodService/Get"
-	FoodService_Update_FullMethodName = "/food.v1.FoodService/Update"
-	FoodService_Delete_FullMethodName = "/food.v1.FoodService/Delete"
+	FoodService_Create_FullMethodName      = "/food.v1.FoodService/Create"
+	FoodService_List_FullMethodName        = "/food.v1.FoodService/List"
+	FoodService_Get_FullMethodName         = "/food.v1.FoodService/Get"
+	FoodService_Update_FullMethodName      = "/food.v1.FoodService/Update"
+	FoodService_Delete_FullMethodName      = "/food.v1.FoodService/Delete"
+	FoodService_CreateEvent_FullMethodName = "/food.v1.FoodService/CreateEvent"
 )
 
 // FoodServiceClient is the client API for FoodService service.
@@ -35,6 +36,7 @@ type FoodServiceClient interface {
 	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
 	Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error)
 	Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	CreateEvent(ctx context.Context, in *CreateEventRequest, opts ...grpc.CallOption) (*CreateEventResponse, error)
 }
 
 type foodServiceClient struct {
@@ -95,6 +97,16 @@ func (c *foodServiceClient) Delete(ctx context.Context, in *DeleteRequest, opts 
 	return out, nil
 }
 
+func (c *foodServiceClient) CreateEvent(ctx context.Context, in *CreateEventRequest, opts ...grpc.CallOption) (*CreateEventResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateEventResponse)
+	err := c.cc.Invoke(ctx, FoodService_CreateEvent_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // FoodServiceServer is the server API for FoodService service.
 // All implementations must embed UnimplementedFoodServiceServer
 // for forward compatibility.
@@ -104,6 +116,7 @@ type FoodServiceServer interface {
 	Get(context.Context, *GetRequest) (*GetResponse, error)
 	Update(context.Context, *UpdateRequest) (*UpdateResponse, error)
 	Delete(context.Context, *DeleteRequest) (*DeleteResponse, error)
+	CreateEvent(context.Context, *CreateEventRequest) (*CreateEventResponse, error)
 	mustEmbedUnimplementedFoodServiceServer()
 }
 
@@ -128,6 +141,9 @@ func (UnimplementedFoodServiceServer) Update(context.Context, *UpdateRequest) (*
 }
 func (UnimplementedFoodServiceServer) Delete(context.Context, *DeleteRequest) (*DeleteResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+}
+func (UnimplementedFoodServiceServer) CreateEvent(context.Context, *CreateEventRequest) (*CreateEventResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateEvent not implemented")
 }
 func (UnimplementedFoodServiceServer) mustEmbedUnimplementedFoodServiceServer() {}
 func (UnimplementedFoodServiceServer) testEmbeddedByValue()                     {}
@@ -240,6 +256,24 @@ func _FoodService_Delete_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _FoodService_CreateEvent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateEventRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FoodServiceServer).CreateEvent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FoodService_CreateEvent_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FoodServiceServer).CreateEvent(ctx, req.(*CreateEventRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // FoodService_ServiceDesc is the grpc.ServiceDesc for FoodService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -266,6 +300,10 @@ var FoodService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Delete",
 			Handler:    _FoodService_Delete_Handler,
+		},
+		{
+			MethodName: "CreateEvent",
+			Handler:    _FoodService_CreateEvent_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

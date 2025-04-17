@@ -106,3 +106,12 @@ func (fs *FoodServer) Delete(ctx context.Context, req *apifoodv1.DeleteRequest) 
 	}
 	return &apifoodv1.DeleteResponse{}, nil
 }
+
+func (fs *FoodServer) CreateEvent(ctx context.Context, req *apifoodv1.CreateEventRequest) (*apifoodv1.CreateEventResponse, error) {
+	err := fs.usecase.CreateEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return &apifoodv1.CreateEventResponse{}, nil
+}
