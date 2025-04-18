@@ -137,7 +137,7 @@ func (_c *MockQuerier_CheckUserIsExisting_Call) RunAndReturn(run func(context.Co
 }
 
 // CreateFood provides a mock function with given fields: ctx, arg
-func (_m *MockQuerier) CreateFood(ctx context.Context, arg *repository.CreateFoodParams) error {
+func (_m *MockQuerier) CreateFood(ctx context.Context, arg repository.CreateFoodParams) error {
 	ret := _m.Called(ctx, arg)
 
 	if len(ret) == 0 {
@@ -145,7 +145,7 @@ func (_m *MockQuerier) CreateFood(ctx context.Context, arg *repository.CreateFoo
 	}
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, *repository.CreateFoodParams) error); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, repository.CreateFoodParams) error); ok {
 		r0 = rf(ctx, arg)
 	} else {
 		r0 = ret.Error(0)
@@ -161,14 +161,14 @@ type MockQuerier_CreateFood_Call struct {
 
 // CreateFood is a helper method to define mock.On call
 //   - ctx context.Context
-//   - arg *repository.CreateFoodParams
+//   - arg repository.CreateFoodParams
 func (_e *MockQuerier_Expecter) CreateFood(ctx interface{}, arg interface{}) *MockQuerier_CreateFood_Call {
 	return &MockQuerier_CreateFood_Call{Call: _e.mock.On("CreateFood", ctx, arg)}
 }
 
-func (_c *MockQuerier_CreateFood_Call) Run(run func(ctx context.Context, arg *repository.CreateFoodParams)) *MockQuerier_CreateFood_Call {
+func (_c *MockQuerier_CreateFood_Call) Run(run func(ctx context.Context, arg repository.CreateFoodParams)) *MockQuerier_CreateFood_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(context.Context), args[1].(*repository.CreateFoodParams))
+		run(args[0].(context.Context), args[1].(repository.CreateFoodParams))
 	})
 	return _c
 }
@@ -178,7 +178,7 @@ func (_c *MockQuerier_CreateFood_Call) Return(_a0 error) *MockQuerier_CreateFood
 	return _c
 }
 
-func (_c *MockQuerier_CreateFood_Call) RunAndReturn(run func(context.Context, *repository.CreateFoodParams) error) *MockQuerier_CreateFood_Call {
+func (_c *MockQuerier_CreateFood_Call) RunAndReturn(run func(context.Context, repository.CreateFoodParams) error) *MockQuerier_CreateFood_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -298,7 +298,7 @@ func (_c *MockQuerier_GetFood_Call) RunAndReturn(run func(context.Context, int32
 }
 
 // ListFood provides a mock function with given fields: ctx, arg
-func (_m *MockQuerier) ListFood(ctx context.Context, arg *repository.ListFoodParams) ([]repository.ListFoodRow, error) {
+func (_m *MockQuerier) ListFood(ctx context.Context, arg repository.ListFoodParams) ([]repository.ListFoodRow, error) {
 	ret := _m.Called(ctx, arg)
 
 	if len(ret) == 0 {
@@ -307,10 +307,10 @@ func (_m *MockQuerier) ListFood(ctx context.Context, arg *repository.ListFoodPar
 
 	var r0 []repository.ListFoodRow
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, *repository.ListFoodParams) ([]repository.ListFoodRow, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, repository.ListFoodParams) ([]repository.ListFoodRow, error)); ok {
 		return rf(ctx, arg)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, *repository.ListFoodParams) []repository.ListFoodRow); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, repository.ListFoodParams) []repository.ListFoodRow); ok {
 		r0 = rf(ctx, arg)
 	} else {
 		if ret.Get(0) != nil {
@@ -318,7 +318,7 @@ func (_m *MockQuerier) ListFood(ctx context.Context, arg *repository.ListFoodPar
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, *repository.ListFoodParams) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, repository.ListFoodParams) error); ok {
 		r1 = rf(ctx, arg)
 	} else {
 		r1 = ret.Error(1)
@@ -334,14 +334,14 @@ type MockQuerier_ListFood_Call struct {
 
 // ListFood is a helper method to define mock.On call
 //   - ctx context.Context
-//   - arg *repository.ListFoodParams
+//   - arg repository.ListFoodParams
 func (_e *MockQuerier_Expecter) ListFood(ctx interface{}, arg interface{}) *MockQuerier_ListFood_Call {
 	return &MockQuerier_ListFood_Call{Call: _e.mock.On("ListFood", ctx, arg)}
 }
 
-func (_c *MockQuerier_ListFood_Call) Run(run func(ctx context.Context, arg *repository.ListFoodParams)) *MockQuerier_ListFood_Call {
+func (_c *MockQuerier_ListFood_Call) Run(run func(ctx context.Context, arg repository.ListFoodParams)) *MockQuerier_ListFood_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(context.Context), args[1].(*repository.ListFoodParams))
+		run(args[0].(context.Context), args[1].(repository.ListFoodParams))
 	})
 	return _c
 }
@@ -351,13 +351,13 @@ func (_c *MockQuerier_ListFood_Call) Return(_a0 []repository.ListFoodRow, _a1 er
 	return _c
 }
 
-func (_c *MockQuerier_ListFood_Call) RunAndReturn(run func(context.Context, *repository.ListFoodParams) ([]repository.ListFoodRow, error)) *MockQuerier_ListFood_Call {
+func (_c *MockQuerier_ListFood_Call) RunAndReturn(run func(context.Context, repository.ListFoodParams) ([]repository.ListFoodRow, error)) *MockQuerier_ListFood_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // UpdateFood provides a mock function with given fields: ctx, arg
-func (_m *MockQuerier) UpdateFood(ctx context.Context, arg *repository.UpdateFoodParams) (int64, error) {
+func (_m *MockQuerier) UpdateFood(ctx context.Context, arg repository.UpdateFoodParams) (int64, error) {
 	ret := _m.Called(ctx, arg)
 
 	if len(ret) == 0 {
@@ -366,16 +366,16 @@ func (_m *MockQuerier) UpdateFood(ctx context.Context, arg *repository.UpdateFoo
 
 	var r0 int64
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, *repository.UpdateFoodParams) (int64, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, repository.UpdateFoodParams) (int64, error)); ok {
 		return rf(ctx, arg)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, *repository.UpdateFoodParams) int64); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, repository.UpdateFoodParams) int64); ok {
 		r0 = rf(ctx, arg)
 	} else {
 		r0 = ret.Get(0).(int64)
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, *repository.UpdateFoodParams) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, repository.UpdateFoodParams) error); ok {
 		r1 = rf(ctx, arg)
 	} else {
 		r1 = ret.Error(1)
@@ -391,14 +391,14 @@ type MockQuerier_UpdateFood_Call struct {
 
 // UpdateFood is a helper method to define mock.On call
 //   - ctx context.Context
-//   - arg *repository.UpdateFoodParams
+//   - arg repository.UpdateFoodParams
 func (_e *MockQuerier_Expecter) UpdateFood(ctx interface{}, arg interface{}) *MockQuerier_UpdateFood_Call {
 	return &MockQuerier_UpdateFood_Call{Call: _e.mock.On("UpdateFood", ctx, arg)}
 }
 
-func (_c *MockQuerier_UpdateFood_Call) Run(run func(ctx context.Context, arg *repository.UpdateFoodParams)) *MockQuerier_UpdateFood_Call {
+func (_c *MockQuerier_UpdateFood_Call) Run(run func(ctx context.Context, arg repository.UpdateFoodParams)) *MockQuerier_UpdateFood_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(context.Context), args[1].(*repository.UpdateFoodParams))
+		run(args[0].(context.Context), args[1].(repository.UpdateFoodParams))
 	})
 	return _c
 }
@@ -408,7 +408,7 @@ func (_c *MockQuerier_UpdateFood_Call) Return(_a0 int64, _a1 error) *MockQuerier
 	return _c
 }
 
-func (_c *MockQuerier_UpdateFood_Call) RunAndReturn(run func(context.Context, *repository.UpdateFoodParams) (int64, error)) *MockQuerier_UpdateFood_Call {
+func (_c *MockQuerier_UpdateFood_Call) RunAndReturn(run func(context.Context, repository.UpdateFoodParams) (int64, error)) *MockQuerier_UpdateFood_Call {
 	_c.Call.Return(run)
 	return _c
 }

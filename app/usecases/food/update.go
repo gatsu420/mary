@@ -19,7 +19,7 @@ type UpdateFoodParams struct {
 }
 
 func (u *usecaseImpl) UpdateFood(ctx context.Context, arg *UpdateFoodParams) error {
-	params := &repository.UpdateFoodParams{
+	params := repository.UpdateFoodParams{
 		Name:           arg.Name,
 		TypeID:         arg.TypeID,
 		IntakeStatusID: arg.IntakeStatusID,
