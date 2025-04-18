@@ -2,6 +2,7 @@ package food
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/gatsu420/mary/app/cache"
@@ -36,7 +37,7 @@ func (u *usecaseImpl) CreateFood(ctx context.Context, arg *CreateFoodParams) err
 	eventParams := cache.CreateEventParams{
 		Name:      "CreateFood",
 		UserID:    "user_ngetes",
-		CreatedAt: time.Now().String(),
+		CreatedAt: fmt.Sprintf("%v", time.Now().Unix()),
 	}
 	if err := u.cache.CreateEvent(ctx, eventParams); err != nil {
 		return errors.New(errors.InternalServerError, "cache failed to store event")
