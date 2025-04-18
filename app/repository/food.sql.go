@@ -42,7 +42,7 @@ type CreateFoodParams struct {
 	Remarks        pgtype.Text
 }
 
-func (q *Queries) CreateFood(ctx context.Context, arg *CreateFoodParams) error {
+func (q *Queries) CreateFood(ctx context.Context, arg CreateFoodParams) error {
 	_, err := q.db.Exec(ctx, createFood,
 		arg.Name,
 		arg.TypeID,
@@ -176,7 +176,7 @@ type ListFoodRow struct {
 	UpdatedAt    pgtype.Timestamptz
 }
 
-func (q *Queries) ListFood(ctx context.Context, arg *ListFoodParams) ([]ListFoodRow, error) {
+func (q *Queries) ListFood(ctx context.Context, arg ListFoodParams) ([]ListFoodRow, error) {
 	rows, err := q.db.Query(ctx, listFood,
 		arg.StartTimestamp,
 		arg.EndTimestamp,
@@ -238,7 +238,7 @@ type UpdateFoodParams struct {
 	ID             int32
 }
 
-func (q *Queries) UpdateFood(ctx context.Context, arg *UpdateFoodParams) (int64, error) {
+func (q *Queries) UpdateFood(ctx context.Context, arg UpdateFoodParams) (int64, error) {
 	result, err := q.db.Exec(ctx, updateFood,
 		arg.Name,
 		arg.TypeID,

@@ -30,7 +30,7 @@ type ListFoodRow struct {
 }
 
 func (u *usecaseImpl) ListFood(ctx context.Context, arg *ListFoodParams) ([]ListFoodRow, error) {
-	params := &repository.ListFoodParams{
+	params := repository.ListFoodParams{
 		StartTimestamp: arg.StartTimestamp,
 		EndTimestamp:   arg.EndTimestamp,
 		Type:           arg.Type,

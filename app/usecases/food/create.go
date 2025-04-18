@@ -18,7 +18,7 @@ type CreateFoodParams struct {
 }
 
 func (u *usecaseImpl) CreateFood(ctx context.Context, arg *CreateFoodParams) error {
-	params := &repository.CreateFoodParams{
+	params := repository.CreateFoodParams{
 		Name:           arg.Name,
 		TypeID:         arg.TypeID,
 		IntakeStatusID: arg.IntakeStatusID,

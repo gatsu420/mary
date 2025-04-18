@@ -11,11 +11,11 @@ import (
 type Querier interface {
 	CheckFoodIsRemoved(ctx context.Context, id int32) (bool, error)
 	CheckUserIsExisting(ctx context.Context, username string) (bool, error)
-	CreateFood(ctx context.Context, arg *CreateFoodParams) error
+	CreateFood(ctx context.Context, arg CreateFoodParams) error
 	DeleteFood(ctx context.Context, id int32) (int64, error)
 	GetFood(ctx context.Context, id int32) (GetFoodRow, error)
-	ListFood(ctx context.Context, arg *ListFoodParams) ([]ListFoodRow, error)
-	UpdateFood(ctx context.Context, arg *UpdateFoodParams) (int64, error)
+	ListFood(ctx context.Context, arg ListFoodParams) ([]ListFoodRow, error)
+	UpdateFood(ctx context.Context, arg UpdateFoodParams) (int64, error)
 }
 
 var _ Querier = (*Queries)(nil)
