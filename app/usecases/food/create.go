@@ -2,7 +2,9 @@ package food
 
 import (
 	"context"
+	"time"
 
+	"github.com/gatsu420/mary/app/cache"
 	"github.com/gatsu420/mary/app/repository"
 	"github.com/gatsu420/mary/common/errors"
 	"github.com/jackc/pgx/v5/pgtype"
@@ -30,5 +32,15 @@ func (u *usecaseImpl) CreateFood(ctx context.Context, arg *CreateFoodParams) err
 	if err := u.query.CreateFood(ctx, params); err != nil {
 		return errors.New(errors.InternalServerError, "DB failed to create food")
 	}
+
+	eventParams := cache.CreateEventParams{
+		Name:      "CreateFood",
+		UserID:    "user_ngetes",
+		CreatedAt: time.Now().String(),
+	}
+	if err := u.cache.CreateEvent(ctx, eventParams); err != nil {
+		return errors.New(errors.InternalServerError, "cache failed to store event")
+	}
+
 	return nil
 }

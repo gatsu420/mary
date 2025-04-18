@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/gatsu420/mary/app/usecases/food"
+	mockcache "github.com/gatsu420/mary/mocks/app/cache"
 	mockrepository "github.com/gatsu420/mary/mocks/app/repository"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/stretchr/testify/suite"
@@ -13,8 +14,9 @@ import (
 
 type testSuite struct {
 	suite.Suite
-	mockRepo *mockrepository.MockQuerier
-	usecase  food.Usecase
+	mockRepo  *mockrepository.MockQuerier
+	mockCache *mockcache.MockStorer
+	usecase   food.Usecase
 
 	ctx           context.Context
 	pgText        pgtype.Text
@@ -37,7 +39,7 @@ func (s *testSuite) SetupSuite() {
 
 func (s *testSuite) SetupTest() {
 	s.mockRepo = mockrepository.NewMockQuerier(s.T())
-	s.usecase = food.NewUsecase(s.mockRepo)
+	s.usecase = food.NewUsecase(s.mockRepo, s.mockCache)
 }
 
 func Test(t *testing.T) {
