@@ -9,10 +9,11 @@ import (
 
 func (s *testSuite) Test_CreateFood() {
 	testCases := []struct {
-		testName      string
-		arg           *food.CreateFoodParams
-		repoErr       error
-		expectedError error
+		testName    string
+		arg         *food.CreateFoodParams
+		repoErr     error
+		eventErr    error
+		expectedErr error
 	}{
 		{
 			testName: "repo error",
@@ -24,8 +25,22 @@ func (s *testSuite) Test_CreateFood() {
 				LocationID:     99,
 				Remarks:        pgtype.Text{String: "test", Valid: true},
 			},
-			repoErr:       errors.New(errors.InternalServerError, "DB error"),
-			expectedError: errors.New(errors.InternalServerError, "DB failed to create food"),
+			repoErr:     errors.New(errors.InternalServerError, "DB error"),
+			expectedErr: errors.New(errors.InternalServerError, "DB failed to create food"),
+		},
+		{
+			testName: "event error",
+			arg: &food.CreateFoodParams{
+				Name:           "test",
+				TypeID:         99,
+				IntakeStatusID: 99,
+				FeederID:       99,
+				LocationID:     99,
+				Remarks:        pgtype.Text{String: "test", Valid: true},
+			},
+			repoErr:     nil,
+			eventErr:    errors.New(errors.InternalServerError, "cache error"),
+			expectedErr: errors.New(errors.InternalServerError, "cache failed to store event"),
 		},
 		{
 			testName: "success",
@@ -37,8 +52,9 @@ func (s *testSuite) Test_CreateFood() {
 				LocationID:     99,
 				Remarks:        pgtype.Text{String: "test", Valid: true},
 			},
-			repoErr:       nil,
-			expectedError: nil,
+			repoErr:     nil,
+			eventErr:    nil,
+			expectedErr: nil,
 		},
 	}
 
@@ -46,11 +62,18 @@ func (s *testSuite) Test_CreateFood() {
 		s.Run(tc.testName, func() {
 			s.mockRepo.EXPECT().CreateFood(
 				mock.Anything,
-				mock.AnythingOfType("*repository.CreateFoodParams"),
+				mock.AnythingOfType("repository.CreateFoodParams"),
 			).Return(tc.repoErr).Once()
 
+			if tc.repoErr == nil {
+				s.mockCache.EXPECT().CreateEvent(
+					mock.Anything,
+					mock.AnythingOfType("cache.CreateEventParams"),
+				).Return(tc.eventErr).Once()
+			}
+
 			err := s.usecase.CreateFood(s.ctx, tc.arg)
-			s.Equal(tc.expectedError, err)
+			s.Equal(tc.expectedErr, err)
 		})
 	}
 }
