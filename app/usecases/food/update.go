@@ -3,6 +3,7 @@ package food
 import (
 	"context"
 
+	"github.com/gatsu420/mary/app/cache"
 	"github.com/gatsu420/mary/app/repository"
 	"github.com/gatsu420/mary/common/errors"
 	"github.com/jackc/pgx/v5/pgtype"
@@ -36,5 +37,13 @@ func (u *usecaseImpl) UpdateFood(ctx context.Context, arg *UpdateFoodParams) err
 	if rows == 0 {
 		return errors.New(errors.NotFoundError, "food not found")
 	}
+
+	eventParams := cache.CreateEventParams{
+		Name: "UpdateFood",
+	}
+	if err := u.cache.CreateEvent(ctx, eventParams); err != nil {
+		return errors.New(errors.InternalServerError, "cache failed to create event")
+	}
+
 	return nil
 }
