@@ -36,7 +36,7 @@ func (u *usecaseImpl) CreateFood(ctx context.Context, arg *CreateFoodParams) err
 		Name: "CreateFood",
 	}
 	if err := u.cache.CreateEvent(ctx, eventParams); err != nil {
-		return errors.New(errors.InternalServerError, "cache failed to store event")
+		return errors.New(errors.InternalServerError, "cache failed to create event")
 	}
 
 	return nil

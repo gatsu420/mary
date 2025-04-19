@@ -40,7 +40,7 @@ func (s *testSuite) Test_CreateFood() {
 			},
 			repoErr:     nil,
 			eventErr:    errors.New(errors.InternalServerError, "cache error"),
-			expectedErr: errors.New(errors.InternalServerError, "cache failed to store event"),
+			expectedErr: errors.New(errors.InternalServerError, "cache failed to create event"),
 		},
 		{
 			testName: "success",
