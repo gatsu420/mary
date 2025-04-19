@@ -7,6 +7,7 @@ import (
 
 	"github.com/gatsu420/mary/app/cache"
 	"github.com/gatsu420/mary/app/repository"
+	"github.com/gatsu420/mary/common/ctxvalue"
 	"github.com/gatsu420/mary/common/errors"
 	"github.com/jackc/pgx/v5/pgtype"
 )
@@ -34,10 +35,11 @@ func (u *usecaseImpl) CreateFood(ctx context.Context, arg *CreateFoodParams) err
 		return errors.New(errors.InternalServerError, "DB failed to create food")
 	}
 
+	userCtx := ctxvalue.GetUser(ctx)
 	eventParams := cache.CreateEventParams{
-		Name:      "CreateFood",
-		UserID:    "user_ngetes",
-		CreatedAt: fmt.Sprintf("%v", time.Now().Unix()),
+		Name:           "CreateFood",
+		UserID:         userCtx.UserID,
+		CreatedAtEpoch: fmt.Sprintf("%v", time.Now().Unix()),
 	}
 	if err := u.cache.CreateEvent(ctx, eventParams); err != nil {
 		return errors.New(errors.InternalServerError, "cache failed to store event")
