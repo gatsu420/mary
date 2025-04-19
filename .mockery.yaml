@@ -8,6 +8,11 @@ packages:
       include-regex: "Querier"
       dir: "./mocks/app/repository"
 
+  github.com/gatsu420/mary/app/cache:
+    config:
+      include-regex: "Storer"
+      dir: "./mocks/app/cache"
+
   github.com/gatsu420/mary/app/usecases/food:
     config:
       include-regex: "Usecase"

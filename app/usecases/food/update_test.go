@@ -12,6 +12,7 @@ func (s *testSuite) Test_UpdateFood() {
 		arg         *food.UpdateFoodParams
 		repoRows    int64
 		repoErr     error
+		eventErr    error
 		expectedErr error
 	}{
 		{
@@ -45,6 +46,22 @@ func (s *testSuite) Test_UpdateFood() {
 			expectedErr: errors.New(errors.NotFoundError, "food not found"),
 		},
 		{
+			testName: "event error",
+			arg: &food.UpdateFoodParams{
+				Name:           s.pgText,
+				TypeID:         s.pgInt4,
+				IntakeStatusID: s.pgInt4,
+				FeederID:       s.pgInt4,
+				LocationID:     s.pgInt4,
+				Remarks:        s.pgText,
+				ID:             99,
+			},
+			repoRows:    1,
+			repoErr:     nil,
+			eventErr:    errors.New(errors.InternalServerError, "cache error"),
+			expectedErr: errors.New(errors.InternalServerError, "cache failed to create event"),
+		},
+		{
 			testName: "success",
 			arg: &food.UpdateFoodParams{
 				Name:           s.pgText,
@@ -57,6 +74,7 @@ func (s *testSuite) Test_UpdateFood() {
 			},
 			repoRows:    1,
 			repoErr:     nil,
+			eventErr:    nil,
 			expectedErr: nil,
 		},
 	}
@@ -65,8 +83,15 @@ func (s *testSuite) Test_UpdateFood() {
 		s.Run(tc.testName, func() {
 			s.mockRepo.EXPECT().UpdateFood(
 				mock.Anything,
-				mock.AnythingOfType("*repository.UpdateFoodParams"),
+				mock.AnythingOfType("repository.UpdateFoodParams"),
 			).Return(tc.repoRows, tc.repoErr).Once()
+
+			if tc.repoErr == nil && tc.repoRows != 0 {
+				s.mockCache.EXPECT().CreateEvent(
+					mock.Anything,
+					mock.AnythingOfType("cache.CreateEventParams"),
+				).Return(tc.eventErr).Once()
+			}
 
 			err := s.usecase.UpdateFood(s.ctx, tc.arg)
 			s.Equal(tc.expectedErr, err)

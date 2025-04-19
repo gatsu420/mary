@@ -7,6 +7,7 @@ import (
 	apiauthv1 "github.com/gatsu420/mary/api/gen/go/auth/v1"
 	apifoodv1 "github.com/gatsu420/mary/api/gen/go/food/v1"
 	"github.com/gatsu420/mary/app/auth"
+	"github.com/gatsu420/mary/app/cache"
 	"github.com/gatsu420/mary/app/handlers"
 	"github.com/gatsu420/mary/app/interceptors"
 	"github.com/gatsu420/mary/app/repository"
@@ -14,6 +15,7 @@ import (
 	"github.com/gatsu420/mary/app/usecases/users"
 	"github.com/gatsu420/mary/common/config"
 	"github.com/gatsu420/mary/dependency/postgres"
+	"github.com/gatsu420/mary/dependency/valkeydep"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
 )
@@ -31,9 +33,16 @@ func main() {
 	defer dbPool.Close()
 	dbQuerier := repository.New(dbPool)
 
+	valkeyClient, err := valkeydep.New(cfg.CacheAddress)
+	if err != nil {
+		log.Fatal().Msgf("failed to create cache connection: %v", err)
+	}
+	defer valkeyClient.Close()
+	cacheStorer := cache.New(valkeyClient)
+
 	auth := auth.NewAuth(cfg.JWTSecret)
 
-	foodUsecase := food.NewUsecase(dbQuerier)
+	foodUsecase := food.NewUsecase(dbQuerier, cacheStorer)
 	usersUsecase := users.NewUsecase(dbQuerier)
 
 	grpcServer := grpc.NewServer(

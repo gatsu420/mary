@@ -14,6 +14,7 @@ func (s *testSuite) Test_GetFood() {
 		id           int32
 		repoFood     repository.GetFoodRow
 		repoErr      error
+		eventErr     error
 		expectedFood *food.GetFoodRow
 		expectedErr  error
 	}{
@@ -22,7 +23,7 @@ func (s *testSuite) Test_GetFood() {
 			id:           99,
 			repoFood:     repository.GetFoodRow{},
 			repoErr:      errors.New(errors.InternalServerError, "DB error"),
-			expectedFood: &food.GetFoodRow{},
+			expectedFood: nil,
 			expectedErr:  errors.New(errors.InternalServerError, "DB failed to get food"),
 		},
 		{
@@ -30,8 +31,27 @@ func (s *testSuite) Test_GetFood() {
 			id:           99,
 			repoFood:     repository.GetFoodRow{},
 			repoErr:      pgx.ErrNoRows,
-			expectedFood: &food.GetFoodRow{},
+			expectedFood: nil,
 			expectedErr:  errors.New(errors.NotFoundError, "food not found"),
+		},
+		{
+			testName: "event error",
+			id:       99,
+			repoFood: repository.GetFoodRow{
+				ID:           99,
+				Name:         "test",
+				Type:         s.pgText,
+				IntakeStatus: s.pgText,
+				Feeder:       s.pgText,
+				Location:     s.pgText,
+				Remarks:      s.pgText,
+				CreatedAt:    s.pgTimestamptz,
+				UpdatedAt:    s.pgTimestamptz,
+			},
+			repoErr:      nil,
+			eventErr:     errors.New(errors.InternalServerError, "cache error"),
+			expectedFood: nil,
+			expectedErr:  errors.New(errors.InternalServerError, "cache failed to create event"),
 		},
 		{
 			testName: "success",
@@ -47,7 +67,8 @@ func (s *testSuite) Test_GetFood() {
 				CreatedAt:    s.pgTimestamptz,
 				UpdatedAt:    s.pgTimestamptz,
 			},
-			repoErr: nil,
+			repoErr:  nil,
+			eventErr: nil,
 			expectedFood: &food.GetFoodRow{
 				ID:           99,
 				Name:         "test",
@@ -69,6 +90,13 @@ func (s *testSuite) Test_GetFood() {
 				mock.Anything,
 				mock.AnythingOfType("int32"),
 			).Return(tc.repoFood, tc.repoErr).Once()
+
+			if tc.repoErr == nil {
+				s.mockCache.EXPECT().CreateEvent(
+					mock.Anything,
+					mock.AnythingOfType("cache.CreateEventParams"),
+				).Return(tc.eventErr).Once()
+			}
 
 			food, err := s.usecase.GetFood(s.ctx, tc.id)
 			s.Equal(tc.expectedFood, food)

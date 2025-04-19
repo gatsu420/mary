@@ -3,6 +3,7 @@ package food
 import (
 	"context"
 
+	"github.com/gatsu420/mary/app/cache"
 	"github.com/gatsu420/mary/app/repository"
 	"github.com/gatsu420/mary/common/errors"
 	"github.com/jackc/pgx/v5/pgtype"
@@ -57,6 +58,13 @@ func (u *usecaseImpl) ListFood(ctx context.Context, arg *ListFoodParams) ([]List
 			CreatedAt:    f.CreatedAt,
 			UpdatedAt:    f.UpdatedAt,
 		})
+	}
+
+	eventParams := cache.CreateEventParams{
+		Name: "ListFood",
+	}
+	if err := u.cache.CreateEvent(ctx, eventParams); err != nil {
+		return nil, errors.New(errors.InternalServerError, "cache failed to create event")
 	}
 
 	return rows, nil
