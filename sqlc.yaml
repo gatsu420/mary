@@ -1,8 +1,8 @@
 version: "2"
 sql:
   - engine: "postgresql"
-    queries: "./dependency/postgres/queries"
-    schema: "./dependency/postgres/migrations"
+    queries: "./dependency/pgdep/queries"
+    schema: "./dependency/pgdep/migrations"
     gen:
       go:
         package: "repository"

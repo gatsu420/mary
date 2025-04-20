@@ -14,7 +14,7 @@ import (
 	"github.com/gatsu420/mary/app/usecases/food"
 	"github.com/gatsu420/mary/app/usecases/users"
 	"github.com/gatsu420/mary/common/config"
-	"github.com/gatsu420/mary/dependency/postgres"
+	"github.com/gatsu420/mary/dependency/pgdep"
 	"github.com/gatsu420/mary/dependency/valkeydep"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
@@ -26,7 +26,7 @@ func main() {
 		log.Fatal().Msgf("failed to read config file: %v", err)
 	}
 
-	dbPool, err := postgres.NewPool(cfg.PostgresDSN)
+	dbPool, err := pgdep.NewPool(cfg.PostgresDSN)
 	if err != nil {
 		log.Fatal().Msgf("failed to create DB connection: %v", err)
 	}
