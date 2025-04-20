@@ -4,14 +4,11 @@ import (
 	"context"
 
 	"github.com/gatsu420/mary/app/auth"
+	"github.com/gatsu420/mary/common/ctxvalue"
 	"github.com/gatsu420/mary/common/errors"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 )
-
-type ctxKey int
-
-const authTokenClaimCtx ctxKey = iota
 
 func ValidateToken(auth auth.Auth) grpc.UnaryServerInterceptor {
 	return func(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp any, err error) {
@@ -33,7 +30,10 @@ func ValidateToken(auth auth.Auth) grpc.UnaryServerInterceptor {
 			return nil, err
 		}
 
-		ctx = context.WithValue(ctx, authTokenClaimCtx, userID)
+		userCtx := ctxvalue.User{
+			UserID: userID,
+		}
+		ctx = ctxvalue.SetUser(ctx, userCtx)
 		return handler(ctx, req)
 	}
 }
