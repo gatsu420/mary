@@ -2,23 +2,23 @@
 migration-up:
 	dbmate \
 		--env MARY_POSTGRES_DSN \
-		--migrations-dir "./dependency/postgres/migrations" \
-		--schema-file "./dependency/postgres/schema.sql" \
+		--migrations-dir "./dependency/pgdep/migrations" \
+		--schema-file "./dependency/pgdep/schema.sql" \
 		up
 
 .PHONY: migration-down
 migration-down:
 	dbmate \
 		--env MARY_POSTGRES_DSN \
-		--migrations-dir "./dependency/postgres/migrations" \
-		--schema-file "./dependency/postgres/schema.sql" \
+		--migrations-dir "./dependency/pgdep/migrations" \
+		--schema-file "./dependency/pgdep/schema.sql" \
 		down
 
 .PHONY: migration-new
 migration-new:
 	dbmate \
 		--env MARY_POSTGRES_DSN \
-		--migrations-dir "./dependency/postgres/migrations" \
+		--migrations-dir "./dependency/pgdep/migrations" \
 		new $(NAME)
 
 .PHONY: sqlc-gen
