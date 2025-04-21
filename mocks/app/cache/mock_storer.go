@@ -70,6 +70,63 @@ func (_c *MockStorer_CreateEvent_Call) RunAndReturn(run func(context.Context, ca
 	return _c
 }
 
+// GetEvents provides a mock function with given fields: ctx, arg
+func (_m *MockStorer) GetEvents(ctx context.Context, arg cache.GetEventParams) (cache.GetEventResponse, error) {
+	ret := _m.Called(ctx, arg)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetEvents")
+	}
+
+	var r0 cache.GetEventResponse
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, cache.GetEventParams) (cache.GetEventResponse, error)); ok {
+		return rf(ctx, arg)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, cache.GetEventParams) cache.GetEventResponse); ok {
+		r0 = rf(ctx, arg)
+	} else {
+		r0 = ret.Get(0).(cache.GetEventResponse)
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, cache.GetEventParams) error); ok {
+		r1 = rf(ctx, arg)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockStorer_GetEvents_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetEvents'
+type MockStorer_GetEvents_Call struct {
+	*mock.Call
+}
+
+// GetEvents is a helper method to define mock.On call
+//   - ctx context.Context
+//   - arg cache.GetEventParams
+func (_e *MockStorer_Expecter) GetEvents(ctx interface{}, arg interface{}) *MockStorer_GetEvents_Call {
+	return &MockStorer_GetEvents_Call{Call: _e.mock.On("GetEvents", ctx, arg)}
+}
+
+func (_c *MockStorer_GetEvents_Call) Run(run func(ctx context.Context, arg cache.GetEventParams)) *MockStorer_GetEvents_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(context.Context), args[1].(cache.GetEventParams))
+	})
+	return _c
+}
+
+func (_c *MockStorer_GetEvents_Call) Return(_a0 cache.GetEventResponse, _a1 error) *MockStorer_GetEvents_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockStorer_GetEvents_Call) RunAndReturn(run func(context.Context, cache.GetEventParams) (cache.GetEventResponse, error)) *MockStorer_GetEvents_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // NewMockStorer creates a new instance of MockStorer. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.
 // The first argument is typically a *testing.T value.
 func NewMockStorer(t interface {
