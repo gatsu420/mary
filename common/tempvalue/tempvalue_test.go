@@ -8,7 +8,7 @@ import (
 )
 
 func Test_SetAndGetUserID(t *testing.T) {
-	t.Run("set and get user ID successfully", func(t *testing.T) {
+	t.Run("set and get userID successfully", func(t *testing.T) {
 		fakeValue := tempvalue.NewValue()
 		fakeUserID := "fakeUserID"
 
