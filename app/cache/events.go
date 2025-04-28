@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/gatsu420/mary/common/ctxvalue"
+	"github.com/gatsu420/mary/common/tempvalue"
 )
 
 type CreateEventParams struct {
@@ -40,9 +41,9 @@ type GetEventResponse struct {
 }
 
 func (s *Store) GetEvents(ctx context.Context, arg GetEventParams) (GetEventResponse, error) {
-	userCtx := ctxvalue.GetUser(ctx)
+	userID := tempvalue.GetUserID()
 	listKey := fmt.Sprintf("%v:%v",
-		userCtx.UserID,
+		userID,
 		arg.Name,
 	)
 
@@ -55,7 +56,7 @@ func (s *Store) GetEvents(ctx context.Context, arg GetEventParams) (GetEventResp
 	}
 	return GetEventResponse{
 		Name:           arg.Name,
-		UserID:         userCtx.UserID,
+		UserID:         userID,
 		CreatedAtEpoch: events,
 	}, nil
 }
