@@ -4,14 +4,12 @@ type value struct {
 	userID string
 }
 
-func NewValue() *value {
-	return &value{}
+var val = &value{}
+
+func SetUserID(userID string) {
+	val.userID = userID
 }
 
-func (v *value) SetUserID(userID string) {
-	v.userID = userID
-}
-
-func (v *value) GetUserID() string {
-	return v.userID
+func GetUserID() string {
+	return val.userID
 }
