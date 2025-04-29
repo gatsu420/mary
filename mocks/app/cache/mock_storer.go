@@ -70,23 +70,72 @@ func (_c *MockStorer_CreateEvent_Call) RunAndReturn(run func(context.Context, ca
 	return _c
 }
 
+// DeleteEvents provides a mock function with given fields: ctx, arg
+func (_m *MockStorer) DeleteEvents(ctx context.Context, arg cache.DeleteEventParams) error {
+	ret := _m.Called(ctx, arg)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteEvents")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, cache.DeleteEventParams) error); ok {
+		r0 = rf(ctx, arg)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// MockStorer_DeleteEvents_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteEvents'
+type MockStorer_DeleteEvents_Call struct {
+	*mock.Call
+}
+
+// DeleteEvents is a helper method to define mock.On call
+//   - ctx context.Context
+//   - arg cache.DeleteEventParams
+func (_e *MockStorer_Expecter) DeleteEvents(ctx interface{}, arg interface{}) *MockStorer_DeleteEvents_Call {
+	return &MockStorer_DeleteEvents_Call{Call: _e.mock.On("DeleteEvents", ctx, arg)}
+}
+
+func (_c *MockStorer_DeleteEvents_Call) Run(run func(ctx context.Context, arg cache.DeleteEventParams)) *MockStorer_DeleteEvents_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(context.Context), args[1].(cache.DeleteEventParams))
+	})
+	return _c
+}
+
+func (_c *MockStorer_DeleteEvents_Call) Return(_a0 error) *MockStorer_DeleteEvents_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *MockStorer_DeleteEvents_Call) RunAndReturn(run func(context.Context, cache.DeleteEventParams) error) *MockStorer_DeleteEvents_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetEvents provides a mock function with given fields: ctx, arg
-func (_m *MockStorer) GetEvents(ctx context.Context, arg cache.GetEventParams) (cache.GetEventResponse, error) {
+func (_m *MockStorer) GetEvents(ctx context.Context, arg cache.GetEventParams) ([]cache.GetEventResponse, error) {
 	ret := _m.Called(ctx, arg)
 
 	if len(ret) == 0 {
 		panic("no return value specified for GetEvents")
 	}
 
-	var r0 cache.GetEventResponse
+	var r0 []cache.GetEventResponse
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, cache.GetEventParams) (cache.GetEventResponse, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, cache.GetEventParams) ([]cache.GetEventResponse, error)); ok {
 		return rf(ctx, arg)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, cache.GetEventParams) cache.GetEventResponse); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, cache.GetEventParams) []cache.GetEventResponse); ok {
 		r0 = rf(ctx, arg)
 	} else {
-		r0 = ret.Get(0).(cache.GetEventResponse)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]cache.GetEventResponse)
+		}
 	}
 
 	if rf, ok := ret.Get(1).(func(context.Context, cache.GetEventParams) error); ok {
@@ -117,12 +166,12 @@ func (_c *MockStorer_GetEvents_Call) Run(run func(ctx context.Context, arg cache
 	return _c
 }
 
-func (_c *MockStorer_GetEvents_Call) Return(_a0 cache.GetEventResponse, _a1 error) *MockStorer_GetEvents_Call {
+func (_c *MockStorer_GetEvents_Call) Return(_a0 []cache.GetEventResponse, _a1 error) *MockStorer_GetEvents_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }
 
-func (_c *MockStorer_GetEvents_Call) RunAndReturn(run func(context.Context, cache.GetEventParams) (cache.GetEventResponse, error)) *MockStorer_GetEvents_Call {
+func (_c *MockStorer_GetEvents_Call) RunAndReturn(run func(context.Context, cache.GetEventParams) ([]cache.GetEventResponse, error)) *MockStorer_GetEvents_Call {
 	_c.Call.Return(run)
 	return _c
 }
