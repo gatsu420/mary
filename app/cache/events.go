@@ -15,10 +15,7 @@ type CreateEventParams struct {
 
 func (s *Store) CreateEvent(ctx context.Context, arg CreateEventParams) error {
 	userCtx := ctxvalue.GetUser(ctx)
-	listKey := fmt.Sprintf("%v:%v",
-		userCtx.UserID,
-		arg.Name,
-	)
+	listKey := fmt.Sprintf("%v:%v", userCtx.UserID, arg.Name)
 	currentTime := fmt.Sprintf("%v", time.Now().Unix())
 
 	cmd := s.valkeyClient.B().Lpush().Key(listKey).
