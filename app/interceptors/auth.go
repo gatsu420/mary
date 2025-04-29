@@ -6,6 +6,7 @@ import (
 	"github.com/gatsu420/mary/app/auth"
 	"github.com/gatsu420/mary/common/ctxvalue"
 	"github.com/gatsu420/mary/common/errors"
+	"github.com/gatsu420/mary/common/tempvalue"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 )
@@ -29,6 +30,8 @@ func ValidateToken(auth auth.Auth) grpc.UnaryServerInterceptor {
 		if err != nil {
 			return nil, err
 		}
+
+		tempvalue.SetUserID(userID)
 
 		userCtx := ctxvalue.User{
 			UserID: userID,

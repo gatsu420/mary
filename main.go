@@ -11,8 +11,10 @@ import (
 	"github.com/gatsu420/mary/app/handlers"
 	"github.com/gatsu420/mary/app/interceptors"
 	"github.com/gatsu420/mary/app/repository"
+	"github.com/gatsu420/mary/app/usecases/events"
 	"github.com/gatsu420/mary/app/usecases/food"
 	"github.com/gatsu420/mary/app/usecases/users"
+	"github.com/gatsu420/mary/app/workers"
 	"github.com/gatsu420/mary/common/config"
 	"github.com/gatsu420/mary/dependency/pgdep"
 	"github.com/gatsu420/mary/dependency/valkeydep"
@@ -44,6 +46,7 @@ func main() {
 
 	foodUsecase := food.NewUsecase(dbQuerier, cacheStorer)
 	usersUsecase := users.NewUsecase(dbQuerier)
+	eventsUsecase := events.NewUsecase(dbQuerier, cacheStorer)
 
 	grpcServer := grpc.NewServer(
 		grpc.ChainUnaryInterceptor(
@@ -55,6 +58,9 @@ func main() {
 	)
 	apiauthv1.RegisterAuthServiceServer(grpcServer, handlers.NewAuthServer(auth, usersUsecase))
 	apifoodv1.RegisterFoodServiceServer(grpcServer, handlers.NewFoodServer(foodUsecase))
+
+	worker := workers.New(eventsUsecase)
+	worker.Start()
 
 	port := fmt.Sprintf(":%v", cfg.GRPCServerPort)
 	listener, _ := net.Listen("tcp", port)

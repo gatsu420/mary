@@ -1,10 +1,13 @@
 package tempvalue
 
 type value struct {
-	userID string
+	userID        string
+	calledMethods map[string]struct{}
 }
 
-var val = &value{}
+var val = &value{
+	calledMethods: map[string]struct{}{},
+}
 
 func SetUserID(userID string) {
 	val.userID = userID
@@ -12,4 +15,12 @@ func SetUserID(userID string) {
 
 func GetUserID() string {
 	return val.userID
+}
+
+func SetCalledMethods(method string) {
+	val.calledMethods[method] = struct{}{}
+}
+
+func GetCalledMethods() map[string]struct{} {
+	return val.calledMethods
 }

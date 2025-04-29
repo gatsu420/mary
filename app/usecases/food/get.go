@@ -6,6 +6,7 @@ import (
 
 	"github.com/gatsu420/mary/app/cache"
 	"github.com/gatsu420/mary/common/errors"
+	"github.com/gatsu420/mary/common/tempvalue"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 )
@@ -43,6 +44,8 @@ func (u *usecaseImpl) GetFood(ctx context.Context, id int32) (*GetFoodRow, error
 		}
 		return nil, errors.New(errors.InternalServerError, "DB failed to get food")
 	}
+
+	tempvalue.SetCalledMethods("GetFood")
 
 	eventParams := cache.CreateEventParams{
 		Name: "GetFood",
