@@ -39,5 +39,12 @@ func (u *usecaseImpl) CreateEvent(ctx context.Context, arg *CreateEventParams) e
 	if _, err = u.query.CreateEvent(ctx, params); err != nil {
 		return errors.New(errors.InternalServerError, "DB failed to create event")
 	}
+
+	if err = u.cache.DeleteEvents(ctx, cache.DeleteEventParams{
+		Name: arg.Name,
+	}); err != nil {
+		return errors.New(errors.InternalServerError, "cache failed to delete event")
+	}
+
 	return nil
 }
