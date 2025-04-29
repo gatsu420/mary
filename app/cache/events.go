@@ -31,7 +31,7 @@ func (s *Store) CreateEvent(ctx context.Context, arg CreateEventParams) error {
 }
 
 type GetEventParams struct {
-	Name string
+	Name map[string]struct{}
 }
 
 type GetEventResponse struct {
@@ -40,23 +40,26 @@ type GetEventResponse struct {
 	CreatedAtEpoch []int64
 }
 
-func (s *Store) GetEvents(ctx context.Context, arg GetEventParams) (GetEventResponse, error) {
+func (s *Store) GetEvents(ctx context.Context, arg GetEventParams) ([]GetEventResponse, error) {
 	userID := tempvalue.GetUserID()
-	listKey := fmt.Sprintf("%v:%v",
-		userID,
-		arg.Name,
-	)
+	resp := []GetEventResponse{}
 
-	cmd := s.valkeyClient.B().Lrange().Key(listKey).
-		Start(0).Stop(-1).
-		Build()
-	events, err := s.valkeyClient.Do(ctx, cmd).AsIntSlice()
-	if err != nil {
-		return GetEventResponse{}, err
+	for k := range arg.Name {
+		listKey := fmt.Sprintf("%v:%v", userID, k)
+		cmd := s.valkeyClient.B().Lrange().Key(listKey).
+			Start(0).Stop(-1).
+			Build()
+		events, err := s.valkeyClient.Do(ctx, cmd).AsIntSlice()
+		if err != nil {
+			return nil, err
+		}
+
+		resp = append(resp, GetEventResponse{
+			Name:           k,
+			UserID:         userID,
+			CreatedAtEpoch: events,
+		})
 	}
-	return GetEventResponse{
-		Name:           arg.Name,
-		UserID:         userID,
-		CreatedAtEpoch: events,
-	}, nil
+
+	return resp, nil
 }

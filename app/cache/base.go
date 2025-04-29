@@ -8,7 +8,7 @@ import (
 
 type Storer interface {
 	CreateEvent(ctx context.Context, arg CreateEventParams) error
-	GetEvents(ctx context.Context, arg GetEventParams) (GetEventResponse, error)
+	GetEvents(ctx context.Context, arg GetEventParams) ([]GetEventResponse, error)
 }
 
 type Store struct {

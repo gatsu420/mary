@@ -6,6 +6,7 @@ import (
 	"github.com/gatsu420/mary/app/cache"
 	"github.com/gatsu420/mary/app/repository"
 	"github.com/gatsu420/mary/common/errors"
+	"github.com/gatsu420/mary/common/tempvalue"
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
@@ -59,6 +60,8 @@ func (u *usecaseImpl) ListFood(ctx context.Context, arg *ListFoodParams) ([]List
 			UpdatedAt:    f.UpdatedAt,
 		})
 	}
+
+	tempvalue.SetCalledMethods("ListFood")
 
 	eventParams := cache.CreateEventParams{
 		Name: "ListFood",

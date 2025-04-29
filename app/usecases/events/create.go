@@ -11,7 +11,7 @@ import (
 )
 
 type CreateEventParams struct {
-	Name string
+	Name map[string]struct{}
 }
 
 func (u *usecaseImpl) CreateEvent(ctx context.Context, arg *CreateEventParams) error {
@@ -23,18 +23,20 @@ func (u *usecaseImpl) CreateEvent(ctx context.Context, arg *CreateEventParams) e
 	}
 
 	params := []repository.CreateEventParams{}
-	for i := range events.CreatedAtEpoch {
-		params = append(params, repository.CreateEventParams{
-			Name:   events.Name,
-			UserID: events.UserID,
-			CreatedAt: pgtype.Timestamptz{
-				Time:  time.Unix(events.CreatedAtEpoch[i], 0),
-				Valid: true,
-			},
-		})
+	for _, v := range events {
+		for _, ev := range v.CreatedAtEpoch {
+			params = append(params, repository.CreateEventParams{
+				Name:   v.Name,
+				UserID: v.UserID,
+				CreatedAt: pgtype.Timestamptz{
+					Time:  time.Unix(ev, 0),
+					Valid: true,
+				},
+			})
+		}
 	}
-	_, err = u.query.CreateEvent(ctx, params)
-	if err != nil {
+
+	if _, err = u.query.CreateEvent(ctx, params); err != nil {
 		return errors.New(errors.InternalServerError, "DB failed to create event")
 	}
 	return nil
