@@ -22,6 +22,6 @@ func (w *workerImpl) Create() {
 			tempvalue.FlushCalledMethods()
 		}
 
-		time.Sleep(10 * time.Second)
+		time.Sleep(1 * time.Minute)
 	}
 }
