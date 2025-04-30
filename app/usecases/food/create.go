@@ -6,6 +6,7 @@ import (
 	"github.com/gatsu420/mary/app/cache"
 	"github.com/gatsu420/mary/app/repository"
 	"github.com/gatsu420/mary/common/errors"
+	"github.com/gatsu420/mary/common/tempvalue"
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
@@ -32,8 +33,9 @@ func (u *usecaseImpl) CreateFood(ctx context.Context, arg *CreateFoodParams) err
 		return errors.New(errors.InternalServerError, "DB failed to create food")
 	}
 
+	tempvalue.SetCalledMethods(cache.CreateFoodEventName)
 	eventParams := cache.CreateEventParams{
-		Name: "CreateFood",
+		Name: cache.CreateFoodEventName,
 	}
 	if err := u.cache.CreateEvent(ctx, eventParams); err != nil {
 		return errors.New(errors.InternalServerError, "cache failed to create event")
