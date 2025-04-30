@@ -11,13 +11,16 @@ import (
 
 func (w *workerImpl) Create() {
 	for {
-		params := &events.CreateEventParams{
-			Name: tempvalue.GetCalledMethods(),
+		calledMethods := tempvalue.GetCalledMethods()
+		if len(calledMethods) != 0 {
+			params := &events.CreateEventParams{
+				Name: calledMethods,
+			}
+			if err := w.usecase.CreateEvent(context.Background(), params); err != nil {
+				fmt.Println(err)
+			}
+			tempvalue.FlushCalledMethods()
 		}
-		if err := w.usecase.CreateEvent(context.Background(), params); err != nil {
-			fmt.Println(err)
-		}
-		tempvalue.FlushCalledMethods()
 
 		time.Sleep(1 * time.Minute)
 	}
