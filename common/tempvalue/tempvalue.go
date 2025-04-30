@@ -24,3 +24,7 @@ func SetCalledMethods(method string) {
 func GetCalledMethods() map[string]struct{} {
 	return val.calledMethods
 }
+
+func FlushCalledMethods() {
+	val.calledMethods = map[string]struct{}{}
+}

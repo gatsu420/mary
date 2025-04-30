@@ -17,6 +17,7 @@ func (w *workerImpl) Create() {
 		if err := w.usecase.CreateEvent(context.Background(), params); err != nil {
 			fmt.Println(err)
 		}
+		tempvalue.FlushCalledMethods()
 
 		time.Sleep(1 * time.Minute)
 	}
