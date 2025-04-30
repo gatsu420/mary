@@ -9,6 +9,14 @@ import (
 	"github.com/gatsu420/mary/common/tempvalue"
 )
 
+const (
+	CreateFoodEventName = "CreateFood"
+	DeleteFoodEventName = "DeleteFood"
+	GetFoodEventName    = "GetFood"
+	ListFoodEventName   = "ListFood"
+	UpdateFoodEventName = "UpdateFood"
+)
+
 type CreateEventParams struct {
 	Name string
 }

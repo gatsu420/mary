@@ -45,10 +45,9 @@ func (u *usecaseImpl) GetFood(ctx context.Context, id int32) (*GetFoodRow, error
 		return nil, errors.New(errors.InternalServerError, "DB failed to get food")
 	}
 
-	tempvalue.SetCalledMethods("GetFood")
-
+	tempvalue.SetCalledMethods(cache.GetFoodEventName)
 	eventParams := cache.CreateEventParams{
-		Name: "GetFood",
+		Name: cache.GetFoodEventName,
 	}
 	if err := u.cache.CreateEvent(ctx, eventParams); err != nil {
 		return nil, errors.New(errors.InternalServerError, "cache failed to create event")

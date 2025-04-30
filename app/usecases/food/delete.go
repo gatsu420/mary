@@ -5,6 +5,7 @@ import (
 
 	"github.com/gatsu420/mary/app/cache"
 	"github.com/gatsu420/mary/common/errors"
+	"github.com/gatsu420/mary/common/tempvalue"
 )
 
 func (u *usecaseImpl) DeleteFood(ctx context.Context, id int32) error {
@@ -16,8 +17,9 @@ func (u *usecaseImpl) DeleteFood(ctx context.Context, id int32) error {
 		return errors.New(errors.NotFoundError, "food not found")
 	}
 
+	tempvalue.SetCalledMethods(cache.DeleteFoodEventName)
 	eventParams := cache.CreateEventParams{
-		Name: "DeleteFood",
+		Name: cache.DeleteFoodEventName,
 	}
 	if err := u.cache.CreateEvent(ctx, eventParams); err != nil {
 		return errors.New(errors.InternalServerError, "cache failed to create event")

@@ -61,10 +61,9 @@ func (u *usecaseImpl) ListFood(ctx context.Context, arg *ListFoodParams) ([]List
 		})
 	}
 
-	tempvalue.SetCalledMethods("ListFood")
-
+	tempvalue.SetCalledMethods(cache.ListFoodEventName)
 	eventParams := cache.CreateEventParams{
-		Name: "ListFood",
+		Name: cache.ListFoodEventName,
 	}
 	if err := u.cache.CreateEvent(ctx, eventParams); err != nil {
 		return nil, errors.New(errors.InternalServerError, "cache failed to create event")
