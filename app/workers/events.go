@@ -9,7 +9,7 @@ import (
 	"github.com/gatsu420/mary/common/tempvalue"
 )
 
-func (w *workerImpl) Create() {
+func (w *workerImpl) Create(ctx context.Context) {
 	for {
 		calledMethods := tempvalue.GetCalledMethods()
 		if len(calledMethods) != 0 {

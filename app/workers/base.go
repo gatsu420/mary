@@ -1,9 +1,13 @@
 package workers
 
-import "github.com/gatsu420/mary/app/usecases/events"
+import (
+	"context"
+
+	"github.com/gatsu420/mary/app/usecases/events"
+)
 
 type Worker interface {
-	Start()
+	Create(ctx context.Context)
 }
 
 type workerImpl struct {
@@ -16,8 +20,4 @@ func New(usecase events.Usecase) Worker {
 	return &workerImpl{
 		usecase: usecase,
 	}
-}
-
-func (w *workerImpl) Start() {
-	go w.Create()
 }

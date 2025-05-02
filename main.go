@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"net"
 
@@ -60,7 +61,8 @@ func main() {
 	apifoodv1.RegisterFoodServiceServer(grpcServer, handlers.NewFoodServer(foodUsecase))
 
 	worker := workers.New(eventsUsecase)
-	worker.Start()
+	workerCtx := context.Background()
+	go worker.Create(workerCtx)
 
 	port := fmt.Sprintf(":%v", cfg.GRPCServerPort)
 	listener, _ := net.Listen("tcp", port)
