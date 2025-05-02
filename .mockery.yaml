@@ -23,6 +23,11 @@ packages:
       include-regex: "Usecase"
       dir: "./mocks/app/usecases/users"
 
+  github.com/gatsu420/mary/app/usecases/events:
+    config:
+      include-regex: "Usecase"
+      dir: "./mocks/app/usecases/events"
+
   github.com/gatsu420/mary/app/auth:
     config:
       include-regex: "Auth"
