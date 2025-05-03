@@ -11,15 +11,20 @@ import (
 
 func (w *workerImpl) Create(ctx context.Context) {
 	for {
-		calledMethods := tempvalue.GetCalledMethods()
-		if len(calledMethods) != 0 {
-			params := &events.CreateEventParams{
-				Name: calledMethods,
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			calledMethods := tempvalue.GetCalledMethods()
+			if len(calledMethods) != 0 {
+				params := &events.CreateEventParams{
+					Name: calledMethods,
+				}
+				if err := w.usecase.CreateEvent(context.Background(), params); err != nil {
+					fmt.Println(err)
+				}
+				tempvalue.FlushCalledMethods()
 			}
-			if err := w.usecase.CreateEvent(context.Background(), params); err != nil {
-				fmt.Println(err)
-			}
-			tempvalue.FlushCalledMethods()
 		}
 
 		time.Sleep(1 * time.Minute)
