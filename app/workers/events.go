@@ -9,12 +9,12 @@ import (
 	"github.com/gatsu420/mary/common/tempvalue"
 )
 
-func (w *workerImpl) Create(ctx context.Context) {
+func (w *workerImpl) Create(ctx context.Context, ticker <-chan time.Time) {
 	for {
 		select {
 		case <-ctx.Done():
 			return
-		default:
+		case <-ticker:
 			calledMethods := tempvalue.GetCalledMethods()
 			if len(calledMethods) != 0 {
 				params := &events.CreateEventParams{
@@ -26,7 +26,5 @@ func (w *workerImpl) Create(ctx context.Context) {
 				tempvalue.FlushCalledMethods()
 			}
 		}
-
-		time.Sleep(1 * time.Minute)
 	}
 }

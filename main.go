@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net"
+	"time"
 
 	apiauthv1 "github.com/gatsu420/mary/api/gen/go/auth/v1"
 	apifoodv1 "github.com/gatsu420/mary/api/gen/go/food/v1"
@@ -62,7 +63,9 @@ func main() {
 
 	worker := workers.New(eventsUsecase)
 	workerCtx := context.Background()
-	go worker.Create(workerCtx)
+	workerTicker := time.NewTicker(10 * time.Second)
+	defer workerTicker.Stop()
+	go worker.Create(workerCtx, workerTicker.C)
 
 	port := fmt.Sprintf(":%v", cfg.GRPCServerPort)
 	listener, _ := net.Listen("tcp", port)

@@ -28,7 +28,7 @@ func (s *testSuite) Test_Create() {
 
 	for _, tc := range testCases {
 		s.Run(tc.testName, func() {
-			ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+			ctx, cancel := context.WithTimeout(context.Background(), 50*time.Second)
 			defer cancel()
 
 			if tc.withSetCalledMethods {
@@ -40,15 +40,15 @@ func (s *testSuite) Test_Create() {
 				).Return(nil).Once()
 			}
 
-			// Since Create deliberately contains lag while looping, we need to finish the lag
-			// first if we run it as ordinary function and the loop will be done immediately
-			// due to timeout. However, we can spawn it into another goroutine and both asserts
-			// can kick in due to they being not concurrent-safe.
+			// If we run Create as ordinary function, unit test need to wait for loop to exit
+			// according to timeout. However, we can spawn it into another goroutine and both
+			// asserts can kick in in the first loop due to they being not concurrent-safe.
 			//
-			// Another 1 second lag is added because spawning goroutine has some overhead, but
-			// very short in time.
+			// 11 second lag is added because:
+			// 	1. 10 second for first loop (and will be caught by asserts)
+			// 	2. 1 second for goroutine overhead
 			go s.worker.Create(ctx)
-			time.Sleep(1 * time.Second)
+			time.Sleep(11 * time.Second)
 
 			if tc.withSetCalledMethods {
 				s.mockUsecase.AssertCalled(s.T(), "CreateEvent",
