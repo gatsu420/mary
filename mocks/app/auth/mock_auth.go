@@ -17,6 +17,110 @@ func (_m *MockAuth) EXPECT() *MockAuth_Expecter {
 	return &MockAuth_Expecter{mock: &_m.Mock}
 }
 
+// CheckMembership provides a mock function with given fields: registry, username
+func (_m *MockAuth) CheckMembership(registry []int, username string) error {
+	ret := _m.Called(registry, username)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CheckMembership")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func([]int, string) error); ok {
+		r0 = rf(registry, username)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// MockAuth_CheckMembership_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CheckMembership'
+type MockAuth_CheckMembership_Call struct {
+	*mock.Call
+}
+
+// CheckMembership is a helper method to define mock.On call
+//   - registry []int
+//   - username string
+func (_e *MockAuth_Expecter) CheckMembership(registry interface{}, username interface{}) *MockAuth_CheckMembership_Call {
+	return &MockAuth_CheckMembership_Call{Call: _e.mock.On("CheckMembership", registry, username)}
+}
+
+func (_c *MockAuth_CheckMembership_Call) Run(run func(registry []int, username string)) *MockAuth_CheckMembership_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].([]int), args[1].(string))
+	})
+	return _c
+}
+
+func (_c *MockAuth_CheckMembership_Call) Return(_a0 error) *MockAuth_CheckMembership_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *MockAuth_CheckMembership_Call) RunAndReturn(run func([]int, string) error) *MockAuth_CheckMembership_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CreateMembershipRegistry provides a mock function with no fields
+func (_m *MockAuth) CreateMembershipRegistry() ([]int, error) {
+	ret := _m.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateMembershipRegistry")
+	}
+
+	var r0 []int
+	var r1 error
+	if rf, ok := ret.Get(0).(func() ([]int, error)); ok {
+		return rf()
+	}
+	if rf, ok := ret.Get(0).(func() []int); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]int)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func() error); ok {
+		r1 = rf()
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockAuth_CreateMembershipRegistry_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateMembershipRegistry'
+type MockAuth_CreateMembershipRegistry_Call struct {
+	*mock.Call
+}
+
+// CreateMembershipRegistry is a helper method to define mock.On call
+func (_e *MockAuth_Expecter) CreateMembershipRegistry() *MockAuth_CreateMembershipRegistry_Call {
+	return &MockAuth_CreateMembershipRegistry_Call{Call: _e.mock.On("CreateMembershipRegistry")}
+}
+
+func (_c *MockAuth_CreateMembershipRegistry_Call) Run(run func()) *MockAuth_CreateMembershipRegistry_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run()
+	})
+	return _c
+}
+
+func (_c *MockAuth_CreateMembershipRegistry_Call) Return(_a0 []int, _a1 error) *MockAuth_CreateMembershipRegistry_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockAuth_CreateMembershipRegistry_Call) RunAndReturn(run func() ([]int, error)) *MockAuth_CreateMembershipRegistry_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // IssueToken provides a mock function with given fields: username
 func (_m *MockAuth) IssueToken(username string) (string, error) {
 	ret := _m.Called(username)
