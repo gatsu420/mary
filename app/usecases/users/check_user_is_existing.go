@@ -6,6 +6,7 @@ import (
 	"github.com/gatsu420/mary/common/errors"
 )
 
+// User checking via repository has been deprecated. Use CheckMembership in auth layer instead.
 func (u *usecaseImpl) CheckUserIsExisting(ctx context.Context, username string) error {
 	isExisting, err := u.query.CheckUserIsExisting(ctx, username)
 	if err != nil {
