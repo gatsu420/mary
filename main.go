@@ -44,7 +44,7 @@ func main() {
 	defer valkeyClient.Close()
 	cacheStorer := cache.New(valkeyClient)
 
-	auth := auth.NewAuth(cfg.JWTSecret)
+	auth := auth.NewAuth(cfg, dbQuerier)
 
 	foodUsecase := food.NewUsecase(dbQuerier, cacheStorer)
 	usersUsecase := users.NewUsecase(dbQuerier)

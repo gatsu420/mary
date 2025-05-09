@@ -22,3 +22,30 @@ func (q *Queries) CheckUserIsExisting(ctx context.Context, username string) (boo
 	err := row.Scan(&exists)
 	return exists, err
 }
+
+const listUsers = `-- name: ListUsers :many
+select
+    username
+from users
+where removed_at is null
+`
+
+func (q *Queries) ListUsers(ctx context.Context) ([]string, error) {
+	rows, err := q.db.Query(ctx, listUsers)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []string
+	for rows.Next() {
+		var username string
+		if err := rows.Scan(&username); err != nil {
+			return nil, err
+		}
+		items = append(items, username)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}

@@ -7,7 +7,12 @@ import (
 )
 
 func (s *AuthServer) IssueToken(ctx context.Context, user *apiauthv1.IssueTokenRequest) (*apiauthv1.IssueTokenResponse, error) {
-	if err := s.usersUsecase.CheckUserIsExisting(ctx, user.Username); err != nil {
+	membershipRegistry, err := s.auth.CreateMembershipRegistry()
+	if err != nil {
+		return nil, err
+	}
+
+	if err = s.auth.CheckMembership(membershipRegistry, user.Username); err != nil {
 		return nil, err
 	}
 
