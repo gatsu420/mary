@@ -7,7 +7,7 @@ import (
 
 func (a *authImpl) ValidateToken(signedToken string) (string, error) {
 	token, err := jwt.Parse(signedToken, func(t *jwt.Token) (interface{}, error) {
-		return []byte(a.secret), nil
+		return []byte(a.config.JWTSecret), nil
 	})
 	if err != nil {
 		return "", errors.New(errors.AuthError, "unable to parse or verify token")

@@ -16,6 +16,6 @@ func (a *authImpl) IssueToken(username string) (string, error) {
 	// SignedString returns token even when secret is empty string.
 	// Since we explicitly put the key as []byte to HS256 signing
 	// method, we can ignore the error.
-	signedToken, _ := token.SignedString([]byte(a.secret))
+	signedToken, _ := token.SignedString([]byte(a.config.JWTSecret))
 	return signedToken, nil
 }

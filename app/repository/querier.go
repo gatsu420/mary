@@ -16,6 +16,7 @@ type Querier interface {
 	DeleteFood(ctx context.Context, id int32) (int64, error)
 	GetFood(ctx context.Context, id int32) (GetFoodRow, error)
 	ListFood(ctx context.Context, arg ListFoodParams) ([]ListFoodRow, error)
+	ListUsers(ctx context.Context) ([]string, error)
 	UpdateFood(ctx context.Context, arg UpdateFoodParams) (int64, error)
 }
 

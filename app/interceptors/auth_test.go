@@ -6,14 +6,18 @@ import (
 
 	"github.com/gatsu420/mary/app/auth"
 	"github.com/gatsu420/mary/app/interceptors"
+	"github.com/gatsu420/mary/common/config"
 	"github.com/gatsu420/mary/common/errors"
+	mockrepository "github.com/gatsu420/mary/mocks/app/repository"
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 )
 
 func Test_ValidateToken(t *testing.T) {
-	auth := auth.NewAuth("some secret")
+	config, _ := config.New("../../.env.example")
+	query := mockrepository.NewMockQuerier(t)
+	auth := auth.NewAuth(config, query)
 	signedToken, _ := auth.IssueToken("testuser")
 
 	testCases := []struct {
