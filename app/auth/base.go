@@ -8,7 +8,7 @@ import (
 type Auth interface {
 	IssueToken(username string) (string, error)
 	ValidateToken(signedToken string) (string, error)
-	CreateMembershipRegistry() ([]int, error)
+	CreateMembershipRegistry(users []string) []string
 	CheckMembership(registry []int, username string) error
 }
 

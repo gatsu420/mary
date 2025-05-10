@@ -4,21 +4,25 @@ import (
 	"context"
 	"time"
 
+	"github.com/gatsu420/mary/app/usecases/authn"
 	"github.com/gatsu420/mary/app/usecases/events"
 )
 
 type Worker interface {
 	Create(ctx context.Context, ticker <-chan time.Time)
+	CreateMembershipRegistry(ctx context.Context)
 }
 
 type workerImpl struct {
-	usecase events.Usecase
+	authnUsecase authn.Usecase
+	usecase      events.Usecase
 }
 
 var _ Worker = (*workerImpl)(nil)
 
-func New(usecase events.Usecase) Worker {
+func New(authnUsecase authn.Usecase, usecase events.Usecase) Worker {
 	return &workerImpl{
-		usecase: usecase,
+		authnUsecase: authnUsecase,
+		usecase:      usecase,
 	}
 }

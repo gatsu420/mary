@@ -10,6 +10,7 @@ type Storer interface {
 	CreateEvent(ctx context.Context, arg CreateEventParams) error
 	GetEvents(ctx context.Context, arg GetEventParams) ([]GetEventResponse, error)
 	DeleteEvents(ctx context.Context, arg DeleteEventParams) error
+	CreateMembershipRegistry(ctx context.Context, arg CreateMembershipRegistryParams) error
 }
 
 type Store struct {
