@@ -13,6 +13,11 @@ packages:
       include-regex: "Storer"
       dir: "./mocks/app/cache"
 
+  github.com/gatsu420/mary/app/usecases/authn:
+    config:
+      include-regex: "Usecase"
+      dir: "./mocks/app/usecases/authn"
+
   github.com/gatsu420/mary/app/usecases/food:
     config:
       include-regex: "Usecase"
