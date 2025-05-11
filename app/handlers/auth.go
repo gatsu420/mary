@@ -7,12 +7,12 @@ import (
 )
 
 func (s *AuthServer) IssueToken(ctx context.Context, user *apiauthv1.IssueTokenRequest) (*apiauthv1.IssueTokenResponse, error) {
-	membershipRegistry, err := s.auth.CreateMembershipRegistry()
+	registry, err := s.authn.GetMembershipRegistry(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	if err = s.auth.CheckMembership(membershipRegistry, user.Username); err != nil {
+	if err = s.auth.CheckMembership(registry, user.Username); err != nil {
 		return nil, err
 	}
 

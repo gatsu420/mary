@@ -5,14 +5,16 @@ import (
 	"testing"
 
 	"github.com/gatsu420/mary/app/workers"
+	mockauthn "github.com/gatsu420/mary/mocks/app/usecases/authn"
 	mockevents "github.com/gatsu420/mary/mocks/app/usecases/events"
 	"github.com/stretchr/testify/suite"
 )
 
 type testSuite struct {
 	suite.Suite
-	mockUsecase *mockevents.MockUsecase
-	worker      workers.Worker
+	mockAuthnUsecase *mockauthn.MockUsecase
+	mockUsecase      *mockevents.MockUsecase
+	worker           workers.Worker
 
 	ctx context.Context
 }
@@ -28,8 +30,9 @@ func (s *testSuite) SetupSuite() {
 }
 
 func (s *testSuite) SetupTest() {
+	s.mockAuthnUsecase = mockauthn.NewMockUsecase(s.T())
 	s.mockUsecase = mockevents.NewMockUsecase(s.T())
-	s.worker = workers.New(s.mockUsecase)
+	s.worker = workers.New(s.mockAuthnUsecase, s.mockUsecase)
 }
 
 func Test(t *testing.T) {

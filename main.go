@@ -13,6 +13,7 @@ func main() {
 		Name: "mary",
 		Commands: []*cli.Command{
 			cmd.ServeCmd,
+			cmd.CreateMembershipRegistryCmd,
 		},
 	}
 

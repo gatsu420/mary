@@ -70,6 +70,53 @@ func (_c *MockStorer_CreateEvent_Call) RunAndReturn(run func(context.Context, ca
 	return _c
 }
 
+// CreateMembershipRegistry provides a mock function with given fields: ctx, arg
+func (_m *MockStorer) CreateMembershipRegistry(ctx context.Context, arg cache.CreateMembershipRegistryParams) error {
+	ret := _m.Called(ctx, arg)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateMembershipRegistry")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, cache.CreateMembershipRegistryParams) error); ok {
+		r0 = rf(ctx, arg)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// MockStorer_CreateMembershipRegistry_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateMembershipRegistry'
+type MockStorer_CreateMembershipRegistry_Call struct {
+	*mock.Call
+}
+
+// CreateMembershipRegistry is a helper method to define mock.On call
+//   - ctx context.Context
+//   - arg cache.CreateMembershipRegistryParams
+func (_e *MockStorer_Expecter) CreateMembershipRegistry(ctx interface{}, arg interface{}) *MockStorer_CreateMembershipRegistry_Call {
+	return &MockStorer_CreateMembershipRegistry_Call{Call: _e.mock.On("CreateMembershipRegistry", ctx, arg)}
+}
+
+func (_c *MockStorer_CreateMembershipRegistry_Call) Run(run func(ctx context.Context, arg cache.CreateMembershipRegistryParams)) *MockStorer_CreateMembershipRegistry_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(context.Context), args[1].(cache.CreateMembershipRegistryParams))
+	})
+	return _c
+}
+
+func (_c *MockStorer_CreateMembershipRegistry_Call) Return(_a0 error) *MockStorer_CreateMembershipRegistry_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *MockStorer_CreateMembershipRegistry_Call) RunAndReturn(run func(context.Context, cache.CreateMembershipRegistryParams) error) *MockStorer_CreateMembershipRegistry_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DeleteEvents provides a mock function with given fields: ctx, arg
 func (_m *MockStorer) DeleteEvents(ctx context.Context, arg cache.DeleteEventParams) error {
 	ret := _m.Called(ctx, arg)
@@ -172,6 +219,64 @@ func (_c *MockStorer_GetEvents_Call) Return(_a0 []cache.GetEventResponse, _a1 er
 }
 
 func (_c *MockStorer_GetEvents_Call) RunAndReturn(run func(context.Context, cache.GetEventParams) ([]cache.GetEventResponse, error)) *MockStorer_GetEvents_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetMembershipRegistry provides a mock function with given fields: ctx
+func (_m *MockStorer) GetMembershipRegistry(ctx context.Context) ([]string, error) {
+	ret := _m.Called(ctx)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetMembershipRegistry")
+	}
+
+	var r0 []string
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context) ([]string, error)); ok {
+		return rf(ctx)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context) []string); ok {
+		r0 = rf(ctx)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]string)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
+		r1 = rf(ctx)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockStorer_GetMembershipRegistry_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetMembershipRegistry'
+type MockStorer_GetMembershipRegistry_Call struct {
+	*mock.Call
+}
+
+// GetMembershipRegistry is a helper method to define mock.On call
+//   - ctx context.Context
+func (_e *MockStorer_Expecter) GetMembershipRegistry(ctx interface{}) *MockStorer_GetMembershipRegistry_Call {
+	return &MockStorer_GetMembershipRegistry_Call{Call: _e.mock.On("GetMembershipRegistry", ctx)}
+}
+
+func (_c *MockStorer_GetMembershipRegistry_Call) Run(run func(ctx context.Context)) *MockStorer_GetMembershipRegistry_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(context.Context))
+	})
+	return _c
+}
+
+func (_c *MockStorer_GetMembershipRegistry_Call) Return(_a0 []string, _a1 error) *MockStorer_GetMembershipRegistry_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockStorer_GetMembershipRegistry_Call) RunAndReturn(run func(context.Context) ([]string, error)) *MockStorer_GetMembershipRegistry_Call {
 	_c.Call.Return(run)
 	return _c
 }

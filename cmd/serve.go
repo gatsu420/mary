@@ -13,6 +13,7 @@ import (
 	"github.com/gatsu420/mary/app/handlers"
 	"github.com/gatsu420/mary/app/interceptors"
 	"github.com/gatsu420/mary/app/repository"
+	"github.com/gatsu420/mary/app/usecases/authn"
 	"github.com/gatsu420/mary/app/usecases/events"
 	"github.com/gatsu420/mary/app/usecases/food"
 	"github.com/gatsu420/mary/app/usecases/users"
@@ -27,7 +28,8 @@ import (
 )
 
 var ServeCmd = &cli.Command{
-	Name: "serve",
+	Name:  "serve",
+	Usage: "Serve API",
 	Action: func(ctx *cli.Context) error {
 		// Filepath for config loading is in root because working directory of
 		// the runtime is root
@@ -53,8 +55,9 @@ var ServeCmd = &cli.Command{
 		defer valkeyClient.Close()
 		cacheStorer := cache.New(valkeyClient)
 
-		auth := auth.NewAuth(cfg, dbQuerier)
+		auth := auth.NewAuth(cfg)
 
+		authnUsecase := authn.NewUsecase(auth, dbQuerier, cacheStorer)
 		foodUsecase := food.NewUsecase(dbQuerier, cacheStorer)
 		usersUsecase := users.NewUsecase(dbQuerier)
 		eventsUsecase := events.NewUsecase(dbQuerier, cacheStorer)
@@ -67,13 +70,14 @@ var ServeCmd = &cli.Command{
 				interceptors.ValidateToken(auth),
 			),
 		)
-		apiauthv1.RegisterAuthServiceServer(grpcServer, handlers.NewAuthServer(auth, usersUsecase))
+		apiauthv1.RegisterAuthServiceServer(grpcServer, handlers.NewAuthServer(auth, authnUsecase, usersUsecase))
 		apifoodv1.RegisterFoodServiceServer(grpcServer, handlers.NewFoodServer(foodUsecase))
 
-		worker := workers.New(eventsUsecase)
+		worker := workers.New(authnUsecase, eventsUsecase)
 		workerCtx := context.Background()
 		workerTicker := time.NewTicker(10 * time.Second)
 		defer workerTicker.Stop()
+
 		go worker.Create(workerCtx, workerTicker.C)
 
 		port := fmt.Sprintf(":%v", cfg.GRPCServerPort)

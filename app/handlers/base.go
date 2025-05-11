@@ -4,6 +4,7 @@ import (
 	apiauthv1 "github.com/gatsu420/mary/api/gen/go/auth/v1"
 	apifoodv1 "github.com/gatsu420/mary/api/gen/go/food/v1"
 	"github.com/gatsu420/mary/app/auth"
+	"github.com/gatsu420/mary/app/usecases/authn"
 	"github.com/gatsu420/mary/app/usecases/food"
 	"github.com/gatsu420/mary/app/usecases/users"
 )
@@ -11,12 +12,14 @@ import (
 type AuthServer struct {
 	apiauthv1.UnimplementedAuthServiceServer
 	auth         auth.Auth
+	authn        authn.Usecase
 	usersUsecase users.Usecase
 }
 
-func NewAuthServer(auth auth.Auth, usersUsecase users.Usecase) *AuthServer {
+func NewAuthServer(auth auth.Auth, authn authn.Usecase, usersUsecase users.Usecase) *AuthServer {
 	return &AuthServer{
 		auth:         auth,
+		authn:        authn,
 		usersUsecase: usersUsecase,
 	}
 }

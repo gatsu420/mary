@@ -8,7 +8,6 @@ import (
 	"github.com/gatsu420/mary/app/interceptors"
 	"github.com/gatsu420/mary/common/config"
 	"github.com/gatsu420/mary/common/errors"
-	mockrepository "github.com/gatsu420/mary/mocks/app/repository"
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
@@ -16,8 +15,7 @@ import (
 
 func Test_ValidateToken(t *testing.T) {
 	config, _ := config.New("../../.env.example")
-	query := mockrepository.NewMockQuerier(t)
-	auth := auth.NewAuth(config, query)
+	auth := auth.NewAuth(config)
 	signedToken, _ := auth.IssueToken("testuser")
 
 	testCases := []struct {
