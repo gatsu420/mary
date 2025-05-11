@@ -70,7 +70,7 @@ var ServeCmd = &cli.Command{
 				interceptors.ValidateToken(auth),
 			),
 		)
-		apiauthv1.RegisterAuthServiceServer(grpcServer, handlers.NewAuthServer(auth, usersUsecase))
+		apiauthv1.RegisterAuthServiceServer(grpcServer, handlers.NewAuthServer(cacheStorer, auth, usersUsecase))
 		apifoodv1.RegisterFoodServiceServer(grpcServer, handlers.NewFoodServer(foodUsecase))
 
 		worker := workers.New(authnUsecase, eventsUsecase)

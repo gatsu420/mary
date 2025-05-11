@@ -14,8 +14,9 @@ func (u *usecaseImpl) CreateMembershipRegistry(ctx context.Context) error {
 		return errors.New(errors.InternalServerError, "DB failed to list users")
 	}
 
+	fmt.Println(users)
 	registry := u.auth.CreateMembershipRegistry(users)
-	fmt.Println("ss")
+	fmt.Println(registry[52])
 
 	params := cache.CreateMembershipRegistryParams{
 		Registry: registry,

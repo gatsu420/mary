@@ -9,7 +9,7 @@ type Auth interface {
 	IssueToken(username string) (string, error)
 	ValidateToken(signedToken string) (string, error)
 	CreateMembershipRegistry(users []string) []string
-	CheckMembership(registry []int, username string) error
+	CheckMembership(registry []string, username string) error
 }
 
 type authImpl struct {
