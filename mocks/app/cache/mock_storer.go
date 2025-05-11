@@ -223,6 +223,64 @@ func (_c *MockStorer_GetEvents_Call) RunAndReturn(run func(context.Context, cach
 	return _c
 }
 
+// GetMembershipRegistry provides a mock function with given fields: ctx
+func (_m *MockStorer) GetMembershipRegistry(ctx context.Context) ([]string, error) {
+	ret := _m.Called(ctx)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetMembershipRegistry")
+	}
+
+	var r0 []string
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context) ([]string, error)); ok {
+		return rf(ctx)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context) []string); ok {
+		r0 = rf(ctx)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]string)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
+		r1 = rf(ctx)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockStorer_GetMembershipRegistry_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetMembershipRegistry'
+type MockStorer_GetMembershipRegistry_Call struct {
+	*mock.Call
+}
+
+// GetMembershipRegistry is a helper method to define mock.On call
+//   - ctx context.Context
+func (_e *MockStorer_Expecter) GetMembershipRegistry(ctx interface{}) *MockStorer_GetMembershipRegistry_Call {
+	return &MockStorer_GetMembershipRegistry_Call{Call: _e.mock.On("GetMembershipRegistry", ctx)}
+}
+
+func (_c *MockStorer_GetMembershipRegistry_Call) Run(run func(ctx context.Context)) *MockStorer_GetMembershipRegistry_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(context.Context))
+	})
+	return _c
+}
+
+func (_c *MockStorer_GetMembershipRegistry_Call) Return(_a0 []string, _a1 error) *MockStorer_GetMembershipRegistry_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockStorer_GetMembershipRegistry_Call) RunAndReturn(run func(context.Context) ([]string, error)) *MockStorer_GetMembershipRegistry_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // NewMockStorer creates a new instance of MockStorer. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.
 // The first argument is typically a *testing.T value.
 func NewMockStorer(t interface {

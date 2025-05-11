@@ -18,7 +18,7 @@ func (_m *MockAuth) EXPECT() *MockAuth_Expecter {
 }
 
 // CheckMembership provides a mock function with given fields: registry, username
-func (_m *MockAuth) CheckMembership(registry []int, username string) error {
+func (_m *MockAuth) CheckMembership(registry []string, username string) error {
 	ret := _m.Called(registry, username)
 
 	if len(ret) == 0 {
@@ -26,7 +26,7 @@ func (_m *MockAuth) CheckMembership(registry []int, username string) error {
 	}
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func([]int, string) error); ok {
+	if rf, ok := ret.Get(0).(func([]string, string) error); ok {
 		r0 = rf(registry, username)
 	} else {
 		r0 = ret.Error(0)
@@ -41,15 +41,15 @@ type MockAuth_CheckMembership_Call struct {
 }
 
 // CheckMembership is a helper method to define mock.On call
-//   - registry []int
+//   - registry []string
 //   - username string
 func (_e *MockAuth_Expecter) CheckMembership(registry interface{}, username interface{}) *MockAuth_CheckMembership_Call {
 	return &MockAuth_CheckMembership_Call{Call: _e.mock.On("CheckMembership", registry, username)}
 }
 
-func (_c *MockAuth_CheckMembership_Call) Run(run func(registry []int, username string)) *MockAuth_CheckMembership_Call {
+func (_c *MockAuth_CheckMembership_Call) Run(run func(registry []string, username string)) *MockAuth_CheckMembership_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].([]int), args[1].(string))
+		run(args[0].([]string), args[1].(string))
 	})
 	return _c
 }
@@ -59,7 +59,7 @@ func (_c *MockAuth_CheckMembership_Call) Return(_a0 error) *MockAuth_CheckMember
 	return _c
 }
 
-func (_c *MockAuth_CheckMembership_Call) RunAndReturn(run func([]int, string) error) *MockAuth_CheckMembership_Call {
+func (_c *MockAuth_CheckMembership_Call) RunAndReturn(run func([]string, string) error) *MockAuth_CheckMembership_Call {
 	_c.Call.Return(run)
 	return _c
 }

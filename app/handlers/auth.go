@@ -10,7 +10,6 @@ import (
 func (s *AuthServer) IssueToken(ctx context.Context, user *apiauthv1.IssueTokenRequest) (*apiauthv1.IssueTokenResponse, error) {
 	registry, err := s.cache.GetMembershipRegistry(ctx)
 	if err != nil {
-		fmt.Println("err")
 		return nil, err
 	}
 
