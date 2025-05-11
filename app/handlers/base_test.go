@@ -7,6 +7,7 @@ import (
 
 	"github.com/gatsu420/mary/app/handlers"
 	mockauth "github.com/gatsu420/mary/mocks/app/auth"
+	mockauthn "github.com/gatsu420/mary/mocks/app/usecases/authn"
 	mockfood "github.com/gatsu420/mary/mocks/app/usecases/food"
 	mockusers "github.com/gatsu420/mary/mocks/app/usecases/users"
 	"github.com/jackc/pgx/v5/pgtype"
@@ -18,6 +19,7 @@ import (
 type testSuite struct {
 	suite.Suite
 	mockAuth         *mockauth.MockAuth
+	mockAuthnUsecase *mockauthn.MockUsecase
 	mockUsersUsecase *mockusers.MockUsecase
 	mockFoodUsecase  *mockfood.MockUsecase
 	authServer       *handlers.AuthServer
@@ -66,9 +68,10 @@ func (s *testSuite) SetupSuite() {
 
 func (s *testSuite) SetupTest() {
 	s.mockAuth = mockauth.NewMockAuth(s.T())
+	s.mockAuthnUsecase = mockauthn.NewMockUsecase(s.T())
 	s.mockUsersUsecase = mockusers.NewMockUsecase(s.T())
 	s.mockFoodUsecase = mockfood.NewMockUsecase(s.T())
-	s.authServer = handlers.NewAuthServer(s.mockAuth, s.mockUsersUsecase)
+	s.authServer = handlers.NewAuthServer(s.mockAuth, s.mockAuthnUsecase, s.mockUsersUsecase)
 	s.foodServer = handlers.NewFoodServer(s.mockFoodUsecase)
 }
 
