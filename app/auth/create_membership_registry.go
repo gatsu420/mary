@@ -3,6 +3,7 @@ package auth
 import (
 	"fmt"
 	"hash/fnv"
+	"math"
 	"strconv"
 )
 
@@ -14,10 +15,12 @@ func (a *authImpl) CreateMembershipRegistry(users []string) []string {
 
 	hash := fnv.New64()
 	var bitIdx int
+	var hashedVal uint64
 	for _, u := range users {
 		for _, s := range salts {
 			hash.Write([]byte(fmt.Sprintf("%v %v %v", s, u, s)))
-			bitIdx = abs(int(hash.Sum64()) % sliceLen)
+			hashedVal = hash.Sum64()
+			bitIdx = int(math.Abs(float64(hashedVal))) % sliceLen
 			bits[bitIdx] = 1
 			hash.Reset()
 		}
