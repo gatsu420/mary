@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"github.com/gatsu420/mary/app/repository"
 	"github.com/gatsu420/mary/common/config"
 )
 
@@ -14,14 +13,12 @@ type Auth interface {
 
 type authImpl struct {
 	config *config.Config
-	query  repository.Querier
 }
 
 var _ Auth = &authImpl{}
 
-func NewAuth(config *config.Config, query repository.Querier) Auth {
+func NewAuth(config *config.Config) Auth {
 	return &authImpl{
 		config: config,
-		query:  query,
 	}
 }

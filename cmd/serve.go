@@ -55,7 +55,7 @@ var ServeCmd = &cli.Command{
 		defer valkeyClient.Close()
 		cacheStorer := cache.New(valkeyClient)
 
-		auth := auth.NewAuth(cfg, dbQuerier)
+		auth := auth.NewAuth(cfg)
 
 		authnUsecase := authn.NewUsecase(auth, dbQuerier, cacheStorer)
 		foodUsecase := food.NewUsecase(dbQuerier, cacheStorer)
