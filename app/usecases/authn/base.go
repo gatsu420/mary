@@ -10,6 +10,7 @@ import (
 
 type Usecase interface {
 	CreateMembershipRegistry(ctx context.Context) error
+	GetMembershipRegistry(ctx context.Context) ([]string, error)
 }
 
 type usecaseImpl struct {
