@@ -48,6 +48,10 @@ var CreateMembershipRegistryCmd = &cli.Command{
 		cacheStorer := cache.New(valkeyClient)
 
 		auth := auth.NewAuth(cfg)
+		qq := auth.CreateMembershipRegistry([]string{"testUserA", "testUserB"})
+		fmt.Println(qq)
+		fmt.Println(qq[6], qq[13], qq[14], qq[15])
+		fmt.Println(6, 13, 14, 15)
 
 		authnUsecase := authn.NewUsecase(auth, dbQuerier, cacheStorer)
 		eventsUsecase := events.NewUsecase(dbQuerier, cacheStorer)
