@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"hash/fnv"
 	"strconv"
+
+	"github.com/gatsu420/mary/common/mathint"
 )
 
 func (a *authImpl) CreateMembershipRegistry(users []string) []string {
@@ -17,7 +19,7 @@ func (a *authImpl) CreateMembershipRegistry(users []string) []string {
 	for _, u := range users {
 		for _, s := range salts {
 			hash.Write([]byte(fmt.Sprintf("%v %v %v", s, u, s)))
-			bitIdx = abs(int(hash.Sum64()) % sliceLen)
+			bitIdx = mathint.Abs(int(hash.Sum64()) % sliceLen)
 			bits[bitIdx] = 1
 			hash.Reset()
 		}
