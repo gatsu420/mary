@@ -9,7 +9,7 @@ mary is gRPC server for logging toddler activity.
 ## Usage
 ### Start server
 ```bash
-./mary server
+./mary serve
 ```
 ### Create membership registry
 Create bloom filter in cache based on existing users. It will check whether hashed username exists on cache without calling DB.
