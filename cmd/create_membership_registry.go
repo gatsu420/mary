@@ -19,7 +19,6 @@ import (
 
 var CreateMembershipRegistryCmd = &cli.Command{
 	Name: "create-membership-registry",
-	// Usage: "Create membership registry that should be run only once ",
 	Usage: `Create membership registry that enables app to check if a username exists.
 	It uses bloom filter stored as list in cache instead of calling DB. This command
 	should be run only once to bootstrap the registry.
