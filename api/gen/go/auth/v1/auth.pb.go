@@ -7,6 +7,7 @@
 package apiauthv1
 
 import (
+	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -113,14 +114,14 @@ var File_auth_v1_auth_proto protoreflect.FileDescriptor
 
 const file_auth_v1_auth_proto_rawDesc = "" +
 	"\n" +
-	"\x12auth/v1/auth.proto\x12\aauth.v1\"/\n" +
+	"\x12auth/v1/auth.proto\x12\aauth.v1\x1a\x1cgoogle/api/annotations.proto\"/\n" +
 	"\x11IssueTokenRequest\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\"7\n" +
 	"\x12IssueTokenResponse\x12!\n" +
-	"\fsigned_token\x18\x01 \x01(\tR\vsignedToken2V\n" +
-	"\vAuthService\x12G\n" +
+	"\fsigned_token\x18\x01 \x01(\tR\vsignedToken2i\n" +
+	"\vAuthService\x12Z\n" +
 	"\n" +
-	"IssueToken\x12\x1a.auth.v1.IssueTokenRequest\x1a\x1b.auth.v1.IssueTokenResponse\"\x00B\x13Z\x11auth/v1;apiauthv1b\x06proto3"
+	"IssueToken\x12\x1a.auth.v1.IssueTokenRequest\x1a\x1b.auth.v1.IssueTokenResponse\"\x13\x82\xd3\xe4\x93\x02\r:\x01*\"\b/v1/authB\x13Z\x11auth/v1;apiauthv1b\x06proto3"
 
 var (
 	file_auth_v1_auth_proto_rawDescOnce sync.Once

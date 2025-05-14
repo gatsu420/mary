@@ -7,6 +7,7 @@
 package apifoodv1
 
 import (
+	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -743,7 +744,7 @@ var File_food_v1_food_proto protoreflect.FileDescriptor
 
 const file_food_v1_food_proto_rawDesc = "" +
 	"\n" +
-	"\x12food/v1/food.proto\x12\afood.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1egoogle/protobuf/wrappers.proto\"\xdc\x01\n" +
+	"\x12food/v1/food.proto\x12\afood.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1egoogle/protobuf/wrappers.proto\"\xdc\x01\n" +
 	"\rCreateRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x17\n" +
 	"\atype_id\x18\x02 \x01(\x05R\x06typeId\x12(\n" +
@@ -801,13 +802,15 @@ const file_food_v1_food_proto_rawDesc = "" +
 	"\x0eUpdateResponse\"\x1f\n" +
 	"\rDeleteRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\"\x10\n" +
-	"\x0eDeleteResponse2\xaf\x02\n" +
-	"\vFoodService\x12;\n" +
-	"\x06Create\x12\x16.food.v1.CreateRequest\x1a\x17.food.v1.CreateResponse\"\x00\x125\n" +
-	"\x04List\x12\x14.food.v1.ListRequest\x1a\x15.food.v1.ListResponse\"\x00\x122\n" +
-	"\x03Get\x12\x13.food.v1.GetRequest\x1a\x14.food.v1.GetResponse\"\x00\x12;\n" +
-	"\x06Update\x12\x16.food.v1.UpdateRequest\x1a\x17.food.v1.UpdateResponse\"\x00\x12;\n" +
-	"\x06Delete\x12\x16.food.v1.DeleteRequest\x1a\x17.food.v1.DeleteResponse\"\x00B\x13Z\x11food/v1;apifoodv1b\x06proto3"
+	"\x0eDeleteResponse2\x8a\x03\n" +
+	"\vFoodService\x12N\n" +
+	"\x06Create\x12\x16.food.v1.CreateRequest\x1a\x17.food.v1.CreateResponse\"\x13\x82\xd3\xe4\x93\x02\r:\x01*\"\b/v1/food\x12J\n" +
+	"\x04List\x12\x14.food.v1.ListRequest\x1a\x15.food.v1.ListResponse\"\x15\x82\xd3\xe4\x93\x02\x0f\x12\r/v1/food-list\x12B\n" +
+	"\x03Get\x12\x13.food.v1.GetRequest\x1a\x14.food.v1.GetResponse\"\x10\x82\xd3\xe4\x93\x02\n" +
+	"\x12\b/v1/food\x12N\n" +
+	"\x06Update\x12\x16.food.v1.UpdateRequest\x1a\x17.food.v1.UpdateResponse\"\x13\x82\xd3\xe4\x93\x02\r:\x01*2\b/v1/food\x12K\n" +
+	"\x06Delete\x12\x16.food.v1.DeleteRequest\x1a\x17.food.v1.DeleteResponse\"\x10\x82\xd3\xe4\x93\x02\n" +
+	"*\b/v1/foodB\x13Z\x11food/v1;apifoodv1b\x06proto3"
 
 var (
 	file_food_v1_food_proto_rawDescOnce sync.Once
