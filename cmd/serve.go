@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net"
+	"net/http"
 	"time"
 
 	apiauthv1 "github.com/gatsu420/mary/api/gen/go/auth/v1"
@@ -22,9 +23,11 @@ import (
 	"github.com/gatsu420/mary/common/errors"
 	"github.com/gatsu420/mary/dependency/pgdep"
 	"github.com/gatsu420/mary/dependency/valkeydep"
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/rs/zerolog/log"
 	"github.com/urfave/cli/v2"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 var ServeCmd = &cli.Command{
@@ -80,6 +83,16 @@ var ServeCmd = &cli.Command{
 
 		go worker.Create(workerCtx, workerTicker.C)
 
+		// This is not really idiomatic because
+		// 	1.	Error should be returned instead of logged
+		// 	2.	REST server can possibly start a split second before gRPC one does
+		// 		and no mechanism to "delay" it
+		go func() {
+			if err := serveREST(cfg); err != nil {
+				log.Fatal().Msg(err.Error())
+			}
+		}()
+
 		port := fmt.Sprintf(":%v", cfg.GRPCServerPort)
 		listener, _ := net.Listen("tcp", port)
 		log.Info().Msgf("starting gRPC server at port %v", port)
@@ -89,4 +102,36 @@ var ServeCmd = &cli.Command{
 
 		return nil
 	},
+}
+
+func serveREST(cfg *config.Config) error {
+	grpcClient, err := grpc.NewClient(
+		fmt.Sprintf("0.0.0.0:%v", cfg.GRPCServerPort),
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+	)
+	if err != nil {
+		return errors.New(errors.InternalServerError,
+			fmt.Sprintf("unable to create new gRPC client: %v", err))
+	}
+
+	gwMux := runtime.NewServeMux()
+	if err = apiauthv1.RegisterAuthServiceHandler(context.Background(),
+		gwMux, grpcClient); err != nil {
+		return errors.New(errors.InternalServerError,
+			fmt.Sprintf("unable to register auth handler to REST endpoint: %v", err))
+	}
+	if err = apifoodv1.RegisterFoodServiceHandler(context.Background(),
+		gwMux, grpcClient); err != nil {
+		return errors.New(errors.InternalServerError,
+			fmt.Sprintf("unable to register food handler to REST endpoint: %v", err))
+	}
+
+	gwServer := &http.Server{
+		Addr:    fmt.Sprintf(":%v", cfg.RESTServerPort),
+		Handler: gwMux,
+	}
+	if err = gwServer.ListenAndServe(); err != nil {
+		return errors.New(errors.InternalServerError, "REST server failed to start")
+	}
+	return nil
 }

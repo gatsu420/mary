@@ -1,6 +1,8 @@
 syntax = "proto3";
 package auth.v1;
 
+import "google/api/annotations.proto";
+
 option go_package = "auth/v1;apiauthv1";
 
 message IssueTokenRequest {
@@ -12,5 +14,10 @@ message IssueTokenResponse {
 }
 
 service AuthService {
-  rpc IssueToken(IssueTokenRequest) returns (IssueTokenResponse) {}
+  rpc IssueToken(IssueTokenRequest) returns (IssueTokenResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth"
+      body: "*"
+    };
+  }
 }

@@ -7,9 +7,11 @@ import (
 )
 
 type Config struct {
-	PostgresDSN     string
-	CacheAddress    string
-	GRPCServerPort  string
+	PostgresDSN    string
+	CacheAddress   string
+	GRPCServerPort string
+	RESTServerPort string
+
 	JWTSecret       string
 	MembershipSalt1 string
 	MembershipSalt2 string
@@ -22,9 +24,11 @@ func New(filePath string) (*Config, error) {
 	}
 
 	return &Config{
-		PostgresDSN:     os.Getenv("MARY_POSTGRES_DSN"),
-		CacheAddress:    os.Getenv("MARY_CACHE_ADDRESS"),
-		GRPCServerPort:  os.Getenv("MARY_GRPC_SERVER_PORT"),
+		PostgresDSN:    os.Getenv("MARY_POSTGRES_DSN"),
+		CacheAddress:   os.Getenv("MARY_CACHE_ADDRESS"),
+		GRPCServerPort: os.Getenv("MARY_GRPC_SERVER_PORT"),
+		RESTServerPort: os.Getenv("MARY_REST_SERVER_PORT"),
+
 		JWTSecret:       os.Getenv("MARY_JWT_SECRET"),
 		MembershipSalt1: os.Getenv("MARY_MEMBERSHIP_REGISTRY_SALT_1"),
 		MembershipSalt2: os.Getenv("MARY_MEMBERSHIP_REGISTRY_SALT_2"),
