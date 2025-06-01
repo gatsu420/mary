@@ -83,10 +83,7 @@ var ServeCmd = &cli.Command{
 
 		go worker.Create(workerCtx, workerTicker.C)
 
-		// This is not really idiomatic because
-		// 	1.	Error should be returned instead of logged
-		// 	2.	REST server can possibly start a split second before gRPC one does
-		// 		and no mechanism to "delay" it
+		// Error should be returned instead of logged
 		go func() {
 			if err := serveREST(cfg); err != nil {
 				log.Fatal().Msg(err.Error())
@@ -105,6 +102,7 @@ var ServeCmd = &cli.Command{
 }
 
 func serveREST(cfg *config.Config) error {
+	time.Sleep(100 * time.Millisecond)
 	grpcClient, err := grpc.NewClient(
 		fmt.Sprintf("0.0.0.0:%v", cfg.GRPCServerPort),
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
