@@ -83,21 +83,29 @@ var ServeCmd = &cli.Command{
 
 		go worker.Create(workerCtx, workerTicker.C)
 
-		// Error should be returned instead of logged
+		grpcSrvErr := make(chan error, 1)
 		go func() {
-			if err := serveREST(cfg); err != nil {
-				log.Fatal().Msg(err.Error())
+			port := fmt.Sprintf(":%v", cfg.GRPCServerPort)
+			listener, _ := net.Listen("tcp", port)
+			log.Info().Msgf("starting gRPC server at port %v", port)
+			if err := grpcServer.Serve(listener); err != nil {
+				grpcSrvErr <- errors.New(errors.InternalServerError, "gRPC server failed to start")
 			}
 		}()
 
-		port := fmt.Sprintf(":%v", cfg.GRPCServerPort)
-		listener, _ := net.Listen("tcp", port)
-		log.Info().Msgf("starting gRPC server at port %v", port)
-		if err := grpcServer.Serve(listener); err != nil {
-			return errors.New(errors.InternalServerError, "gRPC server failed to start")
-		}
+		restSrvErr := make(chan error, 1)
+		go func() {
+			if err := serveREST(cfg); err != nil {
+				restSrvErr <- err
+			}
+		}()
 
-		return nil
+		select {
+		case err := <-grpcSrvErr:
+			return err
+		case err := <-restSrvErr:
+			return err
+		}
 	},
 }
 
